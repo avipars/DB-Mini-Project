@@ -1,25 +1,38 @@
 import random
 import json
-from faker import Faker
+import wonderwords
 
+r = wonderwords.RandomWord()
+s = wonderwords.RandomSentence()
 # function to generate if the book is been fixed or not
 def generate_condition_occurance_time(occurance_time):
-    is_fixed = faker.boolean(chance_of_getting_true=50)
+    is_fixed = random.choice([True, False])
     if is_fixed:
         occur_year = occurance_time.split('/')[1]
+        print(occur_year)
         fixed_year = random.randint(int(occur_year)+1, 2024)
         return f"{random.randint(1, 12)}/{fixed_year}"
-    return null
+    return None
 
 # function to generate if the book is in condition or not
-def generate_if_condition():
-    is_broken = faker.boolean(chance_of_getting_true=50)
+def generate_if_condition(data):
+    is_broken = random.choice([True, False])
     if is_broken:
         return random.choice(data["conditions"])["cond_id"]
-    return null
+    return None
 
-# Initialize Faker for random realistic data
-faker = Faker()
+def generate_number(count):
+    num = ""
+    for i in range(count):
+        num += str(random.randint(0, 9))
+    return num
+
+# generate random address
+def generate_address():
+    return f"{random.randint(1, 9999)} {r.random_words(1)} {r.random_words(1)}"
+# generate random url
+def generate_url():
+    return f"https://{r.random_words(1)}.com"
 
 num_books = 10
 num_authors = 5
@@ -99,7 +112,7 @@ def generate_data(num_books=10, num_authors=5, num_publishers=3):
     for i in range(num_books):
         data["book_descriptions"].append({
             "description_id": i,
-            "description": faker.text(max_nb_chars=500)
+            "description": s.sentence()
         })
         
     # Generate locations
@@ -111,42 +124,44 @@ def generate_data(num_books=10, num_authors=5, num_publishers=3):
 
     # Generate conditions
     for i in range(10):
+        condition_occurance_time = f"{random.randint(1, 12)}/{random.randint(1990, 2022)}"
         data["conditions"].append({
-            "cond_id": faker.uuid4(),
-            "condition_occurance_time": f"{random.randint(1, 12)}/{random.randint(1990, 2024)}",
-            "time_fixed": generate_condition_occurance_time(data["conditions"][i]["condition_occurance_time"]),
+            "cond_id": generate_number(random.randint(1,100)), # needs to have a better way to generate this
+            "condition_occurance_time": condition_occurance_time,
+            "time_fixed": generate_condition_occurance_time(condition_occurance_time),
             "location": random.choice(data["condition_locations"])["conloc_id"],
             "type": random.choice(data["condition_types"])["cond_id"],
         })
 
     # Generate publishers
     for _ in range(num_publishers):
-        publisher_id = faker.uuid4() # might no need this
+        publisher_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
         data["publishers"].append({
             "publisher_id": publisher_id,
-            "name": faker.company(),
-            "address": faker.address(),
-            "phone": faker.phone_number(),
-            "website": faker.url(),
+            "name": r.random_words(2),
+            "address": generate_address(),
+            "phone": generate_number(9),
+            "website": generate_url()
         })
 
     # Generate authors
     for _ in range(num_authors):
-        author_id = faker.uuid4()
+        author_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
         data["authors"].append({
             "author_id": author_id, # might no need this
-            "name": faker.name(),
-            "biography": faker.text(max_nb_chars=200),
-            "date_of_birth": faker.date_of_birth(minimum_age=25, maximum_age=75).isoformat()
+            "name": f"{r.word()} {r.word()}",
+            "biography": s.sentence(),
+            "date_of_birth": f"{random.randint(1, 12)}/{random.randint(1600, 2000)}",
         })
 
     # Generate books
     for _ in range(num_books):
-        book_id = faker.uuid4()
+        book_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
+        condition = generate_if_condition(data)
         data["books"].append({
             "book_id": book_id, # might no need this
-            "title": faker.catch_phrase(),
-            "isbn": faker.isbn13(), # this is a good point to think, we might want the isbn id to be in books instead of all other ids's we put there
+            "title": r.random_words(random.randint(1, 5)),
+            "isbn": generate_number(9),# this is a good point to think, we might want the isbn id to be in books instead of all other ids's we put there
             "publication": f"({random.randint(1,12)}/{random.randint(1990, 2024)})",
             "number_of_pages": random.randint(50, 1000),
             "chapter_count": random.randint(2, 50),
@@ -155,7 +170,7 @@ def generate_data(num_books=10, num_authors=5, num_publishers=3):
             "description": random.choice(data["book_descriptions"])["description_id"],
             "publisher_id": random.choice(data["publishers"])["publisher_id"],
             "author_ids": random.sample([author["author_id"] for author in data["authors"]], random.randint(1, num_authors)),
-            "condition": generate_if_condition(),
+            "condition": condition,
         })
 
     return data
