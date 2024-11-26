@@ -10,10 +10,9 @@ BOOK_SCRIPT = 'INSERT INTO Book (BookID, Title, ISBNID, PublisherID, Pages, Form
 LOCATION_SCRIPT = 'INSERT INTO Location (LocationID, Shelf, Floor, Quantity, Condition) VALUES'
 AUTHOR_SCRIPT = 'INSERT INTO Author (AuthorID, Firstname, Lastname, Bio, DOB) VALUES'
 PUBLISHER_SCRIPT = 'INSERT INTO Publisher (PublisherID, Name, CountryID, Phone, Website) VALUES'
-ISBN_SCRIPT = 'INSERT INTO ISBN (ISBNID, CountryID, GenreID, LanguageID, BookID, PublisherID) VALUES'
-COUNTRY_SCRIPT = 'INSERT INTO Country (CountryID, Country) VALUES'
-GENRE_SCRIPT = 'INSERT INTO Genre (GenreID, Genre) VALUES'
-LANGUAGE_SCRIPT = 'INSERT INTO Language (LanguageID, Language) VALUES'
+COUNTRY_SCRIPT = 'INSERT INTO Country (CountryID, Name) VALUES'
+GENRE_SCRIPT = 'INSERT INTO Genre (GenreID, Name) VALUES'
+LANGUAGE_SCRIPT = 'INSERT INTO Language (LanguageID, Name) VALUES'
 
 
 def generate_number(count):
@@ -235,10 +234,77 @@ def save_to_json_file():
         file.write(f"\"TotalPublishers:\":" + str(NUM_PUBLISHERS) + ",\n")
         file.write(f"\"TotalLocations:\":" + str(NUM_LOCATIONS) + "\n")
         file.write("}")
+
+
+# Save each data into a PostgreSQL script
+def save_to_sql_script():
+    with open("random_data.sql", "w") as file:
+        file.write(BOOK_SCRIPT)
+        for i in range(NUM_BOOKS):
+            file.write(f"({BOOKS['BookID'][i]}, '{BOOKS['Title'][i]}', {BOOKS['ISBNID'][i]}, {BOOKS['PublisherID'][i]}, {BOOKS['Pages'][i]}, '{BOOKS['Format'][i]}', {BOOKS['GenreID'][i]}, {BOOKS['LanguageID'][i]}, '{BOOKS['Description'][i]}', {BOOKS['AuthorsID'][i]}, {BOOKS['LocationID'][i]}, '{BOOKS['ReleaseDate'][i]}')")
+            if i != NUM_BOOKS - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(LOCATION_SCRIPT)
+        for i in range(NUM_LOCATIONS):
+            file.write(f"({LOCATIONS['LocationID'][i]}, '{LOCATIONS['Shelf'][i]}', '{LOCATIONS['Floor'][i]}', {LOCATIONS['Quantity'][i]}, '{LOCATIONS['Condition'][i]}')")
+            if i != NUM_LOCATIONS - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(AUTHOR_SCRIPT)
+        for i in range(NUM_AUTHORS):
+            file.write(f"({AUTHORS['AuthorID'][i]}, '{AUTHORS['Firstname'][i]}', '{AUTHORS['Lastname'][i]}', '{AUTHORS['Bio'][i]}', '{AUTHORS['DOB'][i]}')")
+            if i != NUM_AUTHORS - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(PUBLISHER_SCRIPT)
+        for i in range(NUM_PUBLISHERS):
+            file.write(f"({PUBLISHERS['PublisherID'][i]}, '{PUBLISHERS['Name'][i]}', {PUBLISHERS['CountryID'][i]}, '{PUBLISHERS['Phone'][i]}', '{PUBLISHERS['Website'][i]}')")
+            if i != NUM_PUBLISHERS - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(COUNTRY_SCRIPT)
+        for i in range(len(COUNTRIES_LIST)):
+            file.write(f"({COUNTRIES['CountryID'][i]}, '{COUNTRIES['CountryName'][i]}')")
+            if i != len(COUNTRIES_LIST) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(GENRE_SCRIPT)
+        for i in range(len(GENRES_LIST)):
+            file.write(f"({GENRES['GenreID'][i]}, '{GENRES['GenreName'][i]}')")
+            if i != len(GENRES_LIST) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+        file.write(LANGUAGE_SCRIPT)
+        for i in range(len(LANGUAGE_LIST)):
+            file.write(f"({LANGUAGES['LanguageID'][i]}, '{LANGUAGES['LanguageName'][i]}')")
+            if i != len(LANGUAGE_LIST) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+
+
+
+
+
 # Main function to generate and save data
 def main():
     generate_data()
     save_to_json_file()
+    save_to_sql_script()
 
 if __name__ == "__main__":
     main()
