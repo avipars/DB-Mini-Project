@@ -24,18 +24,56 @@ Build a database system to manage books in a library.
 4. **Copies Management**  
    - Total copies available per title.  
 
-### Schema and Diagrams
+### Design 
+
    * ERD
    ![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookERDMap.png?raw=true)
 
    * DSD
    ![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookDSDMap.png?raw=true)
 
-   * [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/CreateTables.sql) is the script used to create the tables with the required schema. 
+
+   Main Entities: 
+
+      1. Book
+
+      2. Genre
+
+      3. Location
+
+      4. Language
+
+      5. Author
+
+      6. Publisher
+
+      7. Country
 
 ### Data Generation
 
-   * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data Samples/sampleDataCreation.py) we created 20,000 Books, 5,000 Authors, 3,000 Publishers, and 10,000 Locations. 
+   * Schema Definition [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/CreateTables.sql) is the script used to create the tables with the required schema.
 
-   Each SQL file can be found in the Data Samples Directory
+   * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/sampleDataCreation.py) we created SQL insert statements that deal with 20.000 Books, 5.000 Authors, 3.000 Publishers, and 10.000 Locations. 
+
+   Each SQL file can be found in the [Data Samples Directory](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/)
+   
+   Run the SQL files in the following order: 
+
+      1. Schema definition **CreateTables.sql**
+
+      2. Data for tables
+
+         * random_countries.sql
+
+         * random_publishers.sql
+
+         * random_authors.sql
+
+         * random_languages.sql
+
+         * random_genres.sql
+
+         * random_locations.sql
+
+         * random_books.sql
 
