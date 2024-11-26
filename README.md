@@ -32,7 +32,7 @@ Build a database system to manage books in a library.
 
 
 ERD
-![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookERPMap.png?raw=true)
+![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookERDMap.png?raw=true)
 
 DSD
-![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookRELMap.png?raw=true)
+![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookDSDMap.png?raw=true)
