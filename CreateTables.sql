@@ -1,20 +1,22 @@
 -- Creating book table
-CREATE TABLE Book
+CREATE TABLE B-- Creating book tableook
 (
   Title VARCHAR(1000) NOT NULL,
   ID INT NOT NULL,
   Release_Date DATE NOT NULL,
   Page_Count INT NOT NULL,
-  Format VARCHAR(255) NOT NULL,
+  Format VARCHAR(1000) NOT NULL,
   Description VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (ID)
+  ISBN INT NOT NULL,
+  PRIMARY KEY (ID),
+  UNIQUE (ISBN)
 );
 
 -- Creating language (of book) table
 CREATE TABLE Language
 (
   Language_ID INT NOT NULL,
-  Name VARCHAR(100) NOT NULL,
+  Name VARCHAR(1000) NOT NULL,
   PRIMARY KEY (Language_ID)
 );
 
@@ -22,10 +24,10 @@ CREATE TABLE Language
 CREATE TABLE Location
 (
   Quantity INT NOT NULL,
-  Floor VARCHAR(255) NOT NULL,
+  Floor VARCHAR(1000) NOT NULL,
   Shelf INT NOT NULL,
   Location_ID INT NOT NULL,
-  Condition VARCHAR(255) NOT NULL,
+  Condition VARCHAR(1000) NOT NULL,
   ID INT NOT NULL,
   PRIMARY KEY (Location_ID),
   FOREIGN KEY (ID) REFERENCES Book(ID)
@@ -34,9 +36,9 @@ CREATE TABLE Location
 -- Creating publisher (of book) table
 CREATE TABLE Publisher
 (
-  Name VARCHAR(100) NOT NULL,
-  Phone_Number NUMERIC NOT NULL,
-  Website VARCHAR(255),
+  Name VARCHAR(1000) NOT NULL,
+  Phone_Number INT NOT NULL,
+  Website VARCHAR(1000),
   Publisher_ID INT NOT NULL,
   PRIMARY KEY (Publisher_ID),
   UNIQUE (Phone_Number)
@@ -45,8 +47,8 @@ CREATE TABLE Publisher
 -- Creating author (of book) table
 CREATE TABLE Author
 (
-  First_Name VARCHAR(100) NOT NULL,
-  Last_Name VARCHAR(100) NOT NULL,
+  First_Name VARCHAR(1000) NOT NULL,
+  Last_Name VARCHAR(1000) NOT NULL,
   Date_of_Birth DATE NOT NULL,
   Author_ID INT NOT NULL,
   Biography VARCHAR(1000) NOT NULL,
@@ -54,39 +56,18 @@ CREATE TABLE Author
 );
 
 -- Creating genre/category (of book) table
--- Room for long names (i.e. hyphenated name with titles)
 CREATE TABLE Genre
 (
-  Name VARCHAR(100) NOT NULL,
+  Name VARCHAR(1000) NOT NULL,
   Description VARCHAR(1000),
   Genre_ID INT NOT NULL,
   PRIMARY KEY (Genre_ID)
 );
 
--- Creating ISBN classifier table
-CREATE TABLE ISBN
-(
-  ISBN_ID INT NOT NULL,
-  Country_ID INT NOT NULL,
-  Genre_ID INT NOT NULL,
-  Language_ID INT NOT NULL,
-  Book_ID INT NOT NULL,
-  Publisher_ID INT NOT NULL,
-  ID INT NOT NULL,
-  PRIMARY KEY (ISBN_ID),
-  FOREIGN KEY (ID) REFERENCES Book(ID),
-  UNIQUE (Country_ID),
-  UNIQUE (Genre_ID),
-  UNIQUE (Language_ID),
-  UNIQUE (Book_ID),
-  UNIQUE (Publisher_ID)
-);
-
 -- Creating country (of publisher)
--- Longest country name in english is 56 characters, this will give breathing room
 CREATE TABLE Country
 (
-  Name VARCHAR(100) NOT NULL,
+  Name VARCHAR(1000) NOT NULL,
   Country_ID INT NOT NULL,
   PRIMARY KEY (Country_ID)
 );
@@ -111,7 +92,7 @@ CREATE TABLE Published_By
   FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID)
 );
 
--- Creating written of book table (book written in language)
+-- Creating written in book table (book written in language)
 CREATE TABLE Written_In
 (
   ID INT NOT NULL,
@@ -131,7 +112,7 @@ CREATE TABLE Type_of
   FOREIGN KEY (Genre_ID) REFERENCES Genre(Genre_ID)
 );
 
--- Creating is in table (publisher is situated in Country e.g. Random House is in the USofA)
+-- Creating is in table (publisher is situated in Country e.g. Random House is in the US)
 CREATE TABLE Is_In
 (
   Publisher_ID INT NOT NULL,
