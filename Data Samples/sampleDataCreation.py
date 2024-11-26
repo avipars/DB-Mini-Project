@@ -1,25 +1,20 @@
 import random
 import json
-import wonderwords
+from faker import Faker
 
-r = wonderwords.RandomWord()
-s = wonderwords.RandomSentence()
-# function to generate if the book is been fixed or not
-def generate_condition_occurance_time(occurance_time):
-    is_fixed = random.choice([True, False])
-    if is_fixed:
-        occur_year = occurance_time.split('/')[1]
-        print(occur_year)
-        fixed_year = random.randint(int(occur_year)+1, 2024)
-        return f"{random.randint(1, 12)}/{fixed_year}"
-    return None
+# Initialize Faker for random realistic data
+faker = Faker()
 
-# function to generate if the book is in condition or not
-def generate_if_condition(data):
-    is_broken = random.choice([True, False])
-    if is_broken:
-        return random.choice(data["conditions"])["cond_id"]
-    return None
+
+BOOK_SCRIPT = 'INSERT INTO Book (BookID, Title, ISBNID, PublisherID, Pages, Format, GenreID, LanguageID, Description, AuthorsID, LocationID, ReleaseDate) VALUES'
+LOCATION_SCRIPT = 'INSERT INTO Location (LocationID, Shelf, Floor, Quantity, Condition) VALUES'
+AUTHOR_SCRIPT = 'INSERT INTO Author (AuthorID, Firstname, Lastname, Bio, DOB) VALUES'
+PUBLISHER_SCRIPT = 'INSERT INTO Publisher (PublisherID, Name, CountryID, Phone, Website) VALUES'
+ISBN_SCRIPT = 'INSERT INTO ISBN (ISBNID, CountryID, GenreID, LanguageID, BookID, PublisherID) VALUES'
+COUNTRY_SCRIPT = 'INSERT INTO Country (CountryID, Country) VALUES'
+GENRE_SCRIPT = 'INSERT INTO Genre (GenreID, Genre) VALUES'
+LANGUAGE_SCRIPT = 'INSERT INTO Language (LanguageID, Language) VALUES'
+
 
 def generate_number(count):
     num = ""
@@ -28,160 +23,222 @@ def generate_number(count):
     return num
 
 # generate random address
-def generate_address():
-    return f"{random.randint(1, 9999)} {r.random_words(1)} {r.random_words(1)}"
-# generate random url
-def generate_url():
-    return f"https://{r.random_words(1)}.com"
+# def generate_address():
+#     return f"{random.randint(1, 9999)} {r.random_words(1)} {r.random_words(1)}"
+# # generate random url
+# def generate_url():
+#     return f"https://{r.random_words(1)}.com"
 
-num_books = 10
-num_authors = 5
-num_publishers = 3
+NUM_BOOKS = 10
+NUM_AUTHORS = 5
+NUM_PUBLISHERS = 3
+NUM_LOCATIONS = 10
 
 # List of random data
-cond_location_list = ["on top", "on the bottom", "on the side", "in the middle", "in the right corner", "in the left corner", "in the front", "in the back", "in the center", "on the edge"] 
-countries_list = ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "UK", "Germany", "France", "Italy", "Spain", "Russia", "China", "Japan", "India", "Australia", "South Africa", "Nigeria", "Egypt", "Saudi Arabia", "Iran", "South Korea", "North Korea", "Uzbekistan"]
-genres_list = ["Fiction", "Non-Fiction", "Science", "History", "Romance", "Mystery", "Thriller", "Horror", "Fantasy", "Biography", "Autobiography", "Self-Help", "Cooking", "Travel", "Poetry", "Drama", "Comics", "Graphic Novel", "Science Fiction", "Young Adult", "Children's", "Art", "Music", "Sports", "Health", "Fitness", "Business", "Finance", "Economics", "Politics", "Philosophy", "Religion", "Spirituality", "Psychology", "Sociology", "Anthropology", "Education", "Technology", "Engineering", "Mathematics", "Physics", "Chemistry", "Biology", "Medicine", "Nursing", "Psychiatry", "Dentistry", "Pharmacy", "Veterinary", "Law", "Criminal Justice", "History", "Geography", "Economics", "Political Science", "Sociology", "Psychology", "Anthropology", "Philosophy", "Religion", "Theology", "Art", "Music", "Theatre", "Dance", "Film", "Television", "Radio", "Journalism", "Literature", "Poetry", "Fiction", "Non-Fiction", "Science Fiction", "Fantasy", "Mystery", "Thriller", "Horror", "Romance", "Young Adult", "Children's", "Biography", "Autobiography", "Self-Help", "Cooking", "Travel", "History", "Science", "Mathematics", "Physics", "Chemistry", "Biology", "Medicine", "Nursing", "Psychiatry", "Dentistry", "Pharmacy", "Veterinary", "Engineering", "Technology", "Computer Science", "Information Technology", "Business", "Finance", "Economics", "Marketing", "Management", "Accounting", "Human Resources", "Operations", "Supply Chain", "Logistics", "Sales", "Customer Service", "Entrepreneurship", "Innovation", "Leadership", "Strategy", "Consulting", "Law", "Criminal Justice", "Political Science", "Sociology", "Psychology", "Anthropology", "Philosophy", "Religion"]
-languages_list = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian","Amharic","Aramaic", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Bengali", "Urdu", "Punjabi", "Telugu", "Marathi", "Tamil", "Gujarati", "Kannada", "Odia", "Malayalam", "Sindhi", "Sanskrit", "Persian", "Turkish", "Greek", "Swedish", "Norwegian", "Danish", "Finnish", "Icelandic", "Polish", "Czech", "Slovak", "Hungarian", "Romanian", "Bulgarian", "Serbian", "Croatian", "Bosnian", "Slovenian", "Macedonian", "Albanian", "Greek", "Armenian", "Georgian", "Azerbaijani", "Kazakh", "Uzbek", "Turkmen", "Kyrgyz", "Tajik", "Pashto", "Balochi", "Kurdish", "Arabic", "Hebrew", "Yiddish"]
-cond_type_list = ["New", "Like New", "Very Good", "Good", "Acceptable", "Poor", "Damaged", "Worn", "Torn", "Stained", "Faded", "Yellowed", "Aged", "Moldy", "Musty", "Dusty", "Dirty", "Scratched", "Cracked", "Chipped", "Broken", "Missing", "Incomplete", "Defective", "Faulty", "Expired", "Outdated", "Obsolete", "Discontinued", "Rare", "Limited Edition", "First Edition", "Signed", "Autographed", "Dedicated", "Inscribed", "Personalized", "Gifted", "Donated", "Borrowed", "Stolen", "Lost", "Found", "Recovered", "Returned", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent"]
-book_format_list = ["Hardcover", "Paperback", "Ebook", "Audiobook", "Large Print", "Pocket", "Mass Market", "Trade", "Library", "Reference", "Textbook", "Workbook", "Guide", "Manual", "Handbook", "Dictionary", "Encyclopedia", "Atlas", "Almanac", "Yearbook", "Journal", "Magazine", "Newspaper", "Newsletter", "Brochure", "Pamphlet", "Leaflet", "Flyer", "Poster", "Postcard", "Bookmark", "Calendar", "Planner", "Diary", "Journal", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook"]
-location_list = ["On bottom shelf", "On top shelf", "On middle shelf", "On left shelf", "On right shelf", "On front shelf", "On back shelf", "On side shelf", "On corner shelf", "On edge shelf", "On center shelf", "On top of stack", "On bottom of stack", "In front of stack", "Behind stack", "Beside stack", "Between stacks", "On top of pile", "On bottom of pile", "In front of pile", "Behind pile", "Beside pile", "Between piles", "On top of row", "On bottom of row", "In front of row", "Behind row", "Beside row", "Between rows", "On top of column", "On bottom of column", "In front of column", "Behind column", "Beside column", "Between columns", "On top of stack", "On bottom of stack", "In front of stack", "Behind stack", "Beside stack", "Between stacks", "On top of pile", "On bottom of pile", "In front of pile", "Behind pile", "Beside pile", "Between piles", "On top of row", "On bottom of row", "In front of row", "Behind row", "Beside row", "Between rows", "On top of column", "On bottom of column", "In front of column", "Behind column", "Beside column", "Between columns", "On top of stack", "On bottom of stack", "In front of stack", "Behind stack", "Beside stack", "Between stacks", "On top of pile", "On bottom of pile", "In front of pile", "Behind pile", "Beside pile", "Between piles", "On top of row", "On bottom of row", "In front of row", "Behind row", "Beside row", "Between rows", "On top of column", "On bottom of column", "In front of column", "Behind column", "Beside column", "Between columns", "On top of stack", "On bottom of stack", "In front of stack", "Behind stack", "Beside stack", "Between stacks", "On top of pile", "On bottom of pile", "In front of pile", "Behind pile", "Beside pile", "Between piles", "On top of row", "On bottom of row", "In front of"]
+COUNTRIES_LIST = ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "UK", "Germany", "France", "Italy", "Spain", "Russia", "China", "Japan", "India", "Australia", "South Africa", "Nigeria", "Egypt", "Saudi Arabia", "Iran", "South Korea", "North Korea", "Uzbekistan"]
+GENRES_LIST = ['Accounting', 'Anthropology', 'Art', 'Autobiography', 'Biography', 'Biology', 'Business', 'Chemistry', "Children's", 'Comics', 'Computer Science', 'Consulting', 'Cooking', 'Criminal Justice', 'Customer Service', 'Dance', 'Dentistry', 'Drama', 'Economics', 'Education', 'Engineering', 'Entrepreneurship', 'Fantasy', 'Fiction', 'Film', 'Finance', 'Fitness', 'Geography', 'Graphic Novel', 'Health', 'History', 'Horror', 'Human Resources', 'Information Technology', 'Innovation', 'Journalism', 'Law', 'Leadership', 'Literature', 'Logistics', 'Management', 'Marketing', 'Mathematics', 'Medicine', 'Music', 'Mystery', 'Non-Fiction', 'Nursing', 'Operations', 'Pharmacy', 'Philosophy', 'Physics', 'Poetry', 'Political Science', 'Politics', 'Psychiatry', 'Psychology', 'Radio', 'Religion', 'Romance', 'Sales', 'Science', 'Science Fiction', 'Self-Help', 'Sociology', 'Spirituality', 'Sports', 'Strategy', 'Supply Chain', 'Technology', 'Television', 'Theatre', 'Theology', 'Thriller', 'Travel', 'Veterinary', 'Young Adult']
+LANGUAGE_LIST = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian","Amharic","Aramaic", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Bengali", "Urdu", "Punjabi", "Telugu", "Marathi", "Tamil", "Gujarati", "Kannada", "Odia", "Malayalam", "Sindhi", "Sanskrit", "Persian", "Turkish", "Greek", "Swedish", "Norwegian", "Danish", "Finnish", "Icelandic", "Polish", "Czech", "Slovak", "Hungarian", "Romanian", "Bulgarian", "Serbian", "Croatian", "Bosnian", "Slovenian", "Macedonian", "Albanian", "Greek", "Armenian", "Georgian", "Azerbaijani", "Kazakh", "Uzbek", "Turkmen", "Kyrgyz", "Tajik", "Pashto", "Balochi", "Kurdish", "Arabic", "Hebrew", "Yiddish"]
+CONDITION_LIST = ["New", "Like New", "Very Good", "Good", "Acceptable", "Poor", "Damaged", "Worn", "Torn", "Stained", "Faded", "Yellowed", "Aged", "Moldy", "Musty", "Dusty", "Dirty", "Scratched", "Cracked", "Chipped", "Broken", "Missing", "Incomplete", "Defective", "Faulty", "Expired", "Outdated", "Obsolete", "Discontinued", "Rare", "Limited Edition", "First Edition", "Signed", "Autographed", "Dedicated", "Inscribed", "Personalized", "Gifted", "Donated", "Borrowed", "Stolen", "Lost", "Found", "Recovered", "Returned", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent"]
+BOOKFORMAT_LIST = ["Hardcover", "Paperback", "Ebook", "Audiobook", "Large Print", "Pocket", "Mass Market", "Trade", "Library", "Reference", "Textbook", "Workbook", "Guide", "Manual", "Handbook", "Dictionary", "Encyclopedia", "Atlas", "Almanac", "Yearbook", "Journal", "Magazine", "Newspaper", "Newsletter", "Brochure", "Pamphlet", "Leaflet", "Flyer", "Poster", "Postcard", "Bookmark", "Calendar", "Planner", "Diary", "Journal", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook"]
+FLOOR = ["Archive", "Storage", "Returns", "Kids Corner", "Young Adult Section", "Adult Section", "Reference Section", "Study Area", "Computer Lab", "History Section"]
 
+BOOKS = {
+    "BookID": [],
+    "Title": [],
+    "ISBNID": [],
+    "PublisherID": [],
+    "Pages": [],
+    "Format": [],
+    "GenreID": [],
+    "LanguageID": [],
+    "Description": [],
+    "AuthorsID": [],
+    "LocationID": [],
+    "ReleaseDate": []
+}
+AUTHORS = {
+    "AuthorID": [],
+    "Firstname": [],
+    "Lastname": [],
+    "Bio": [],
+    "DOB": []
+}
+PUBLISHERS = {
+    "PublisherID": [],
+    "Name": [],
+    "CountryID": [],
+    "Phone": [],
+    "Website": []
+}
+LOCATIONS = {
+    "LocationID": [],
+    "Shelf": [],
+    "Floor": [],
+    "Quantity": [],
+    "Condition": []
+}
+LANGUAGES = {
+    "LanguageID": [],
+    "LanguageName": []
+}
+COUNTRIES = {
+    "CountryID": [],
+    "CountryName": []
+}
+GENRES = {
+    "GenreID": [],
+    "GenreName": [],
+    "Description": []
+}
 
 # Generate random data
-def generate_data(num_books=10, num_authors=5, num_publishers=3):
-    data = {
-        "books": [],
-        "authors": [],
-        "publishers": [],
-        "book_descriptions": [],
-        "conditions": [],
-        "country_of_origin": [],
-        "genres": [],
-        "languages": [],
-        "condition_locations": [],
-        "condition_types": [],
-        "book_formats": [],
-        "locations": [],
-    }
-
-    # generate conditions_locations
-    for i, location in enumerate(cond_location_list):
-        data["condition_locations"].append({
-            "conloc_id": i,
-            "location": location
-        })
-
-    # generate condition_types
-    for i, condition in enumerate(cond_type_list):
-        data["condition_types"].append({
-            "cond_id": i,
-            "condition": condition
-        })
-
-    # generate book_formats
-    for i, format in enumerate(book_format_list):
-        data["book_formats"].append({
-            "format_id": i,
-            "format": format
-        })
-
+def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=NUM_PUBLISHERS, num_locations=NUM_LOCATIONS):
+    
     # generate countries
-    for i, country in enumerate(countries_list):
-        data["country_of_origin"].append({
-            "country_id": i,
-            "country": country
-        })
-
-
-    # generate genres
-    for i, genre in enumerate(genres_list):
-        data["genres"].append({
-            "cat_id": i,
-            "category": genre
-        })
-
-    # generate languages
-    for i, language in enumerate(languages_list):
-        data["languages"].append({
-            "lang_id": i,
-            "language": language
-        })
-
-    # generate book_descriptions
-    for i in range(num_books):
-        data["book_descriptions"].append({
-            "description_id": i,
-            "description": s.sentence()
-        })
-        
-    # Generate locations
-    for i, location in enumerate(location_list):
-        data["locations"].append({
-            "loc_id": i,
-            "location": location
-        })
-
-    # Generate conditions
-    for i in range(10):
-        condition_occurance_time = f"{random.randint(1, 12)}/{random.randint(1990, 2022)}"
-        data["conditions"].append({
-            "cond_id": generate_number(random.randint(1,100)), # needs to have a better way to generate this
-            "condition_occurance_time": condition_occurance_time,
-            "time_fixed": generate_condition_occurance_time(condition_occurance_time),
-            "location": random.choice(data["condition_locations"])["conloc_id"],
-            "type": random.choice(data["condition_types"])["cond_id"],
-        })
+    for i in range(len(COUNTRIES_LIST)):
+        COUNTRIES["CountryID"].append(i)
+        COUNTRIES["CountryName"].append(COUNTRIES_LIST[i])
 
     # Generate publishers
     for _ in range(num_publishers):
-        publisher_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
-        data["publishers"].append({
-            "publisher_id": publisher_id,
-            "name": r.random_words(2),
-            "address": generate_address(),
-            "phone": generate_number(9),
-            "website": generate_url()
-        })
+        PUBLISHERS["PublisherID"].append(faker.random_number(digits=5))
+        PUBLISHERS["Name"].append(faker.company())
+        PUBLISHERS["CountryID"].append(random.choice(COUNTRIES["CountryID"]))
+        PUBLISHERS["Phone"].append(faker.phone_number())
+        PUBLISHERS["Website"].append(faker.url())
 
+    # generate genres
+    for i in range(len(GENRES_LIST)):
+        GENRES["GenreID"].append(i)
+        GENRES["GenreName"].append(GENRES_LIST[i])
+        GENRES["Description"].append(faker.sentence())
+
+    # generate languages
+    for i in range(len(LANGUAGE_LIST)):
+        LANGUAGES["LanguageID"].append(i)
+        LANGUAGES["LanguageName"].append(LANGUAGE_LIST[i])
     # Generate authors
     for _ in range(num_authors):
-        author_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
-        data["authors"].append({
-            "author_id": author_id, # might no need this
-            "name": f"{r.word()} {r.word()}",
-            "biography": s.sentence(),
-            "date_of_birth": f"{random.randint(1, 12)}/{random.randint(1600, 2000)}",
-        })
+        AUTHORS["AuthorID"].append(faker.random_number(digits=9))
+        AUTHORS["Firstname"].append(faker.first_name())
+        AUTHORS["Lastname"].append(faker.last_name())
+        AUTHORS["Bio"].append(faker.paragraph())
+        AUTHORS["DOB"].append(f"{random.randint(1900, 2021)}/{random.randint(1, 12)}/{random.randint(1, 28)}")
+
+    # generate locations
+    for i in range(num_locations):
+        LOCATIONS["LocationID"].append(i)
+        LOCATIONS["Shelf"].append(faker.random_number(digits=2))
+        LOCATIONS["Floor"].append(random.choice(FLOOR))
+        LOCATIONS["Quantity"].append(faker.random_number(digits=2))
+        LOCATIONS["Condition"].append(random.choice(CONDITION_LIST))
 
     # Generate books
     for _ in range(num_books):
-        book_id = generate_number(random.randint(1,100)) # needs to have a better way to generate this
-        condition = generate_if_condition(data)
-        data["books"].append({
-            "book_id": book_id, # might no need this
-            "title": r.random_words(random.randint(1, 5)),
-            "isbn": generate_number(9),# this is a good point to think, we might want the isbn id to be in books instead of all other ids's we put there
-            "publication": f"({random.randint(1,12)}/{random.randint(1990, 2024)})",
-            "number_of_pages": random.randint(50, 1000),
-            "chapter_count": random.randint(2, 50),
-            "category": random.choice(data["genres"])["cat_id"],
-            "language": random.choice(data["languages"])["lang_id"],
-            "description": random.choice(data["book_descriptions"])["description_id"],
-            "publisher_id": random.choice(data["publishers"])["publisher_id"],
-            "author_ids": random.sample([author["author_id"] for author in data["authors"]], random.randint(1, num_authors)),
-            "condition": condition,
-        })
+        BOOKS["BookID"].append(faker.random_number(digits=5))
+        BOOKS["Title"].append(faker.sentence())
+        BOOKS["PublisherID"].append(random.choice(PUBLISHERS["PublisherID"]))
+        BOOKS["ISBNID"].append(faker.random_number(digits=13))
+        BOOKS["Pages"].append(faker.random_number(digits=3))
+        BOOKS["Format"].append(random.choice(BOOKFORMAT_LIST))
+        BOOKS["GenreID"].append(random.choice(GENRES["GenreID"]))
+        BOOKS["LanguageID"].append(random.choice(LANGUAGES["LanguageID"]))
+        BOOKS["Description"].append(faker.paragraph())
+        BOOKS["AuthorsID"].append(random.choice(AUTHORS["AuthorID"]))
+        BOOKS["LocationID"].append(random.choice(LOCATIONS["LocationID"]))
+        BOOKS["ReleaseDate"].append(faker.date())
 
-    return data
 
 # Save data to a JSON file
-def save_to_json_file(data, filename="sample_data.json"):
-    with open(filename, "w") as file:
-        json.dump(data, file, indent=4)
-    print(f"Data successfully saved to {filename}")
+def save_to_json_file():
+    with open("random_data.json", "w") as file:
+        file.write("{")
+        for i in range(NUM_BOOKS):
+            book = {
+                "BookID": BOOKS["BookID"][i],
+                "Title": BOOKS["Title"][i],
+                "ISBNID": BOOKS["ISBNID"][i],
+                "PublisherID": BOOKS["PublisherID"][i],
+                "Pages": BOOKS["Pages"][i],
+                "Format": BOOKS["Format"][i],
+                "GenreID": BOOKS["GenreID"][i],
+                "LanguageID": BOOKS["LanguageID"][i],
+                "Description": BOOKS["Description"][i],
+                "AuthorsID": BOOKS["AuthorsID"][i],
+                "LocationID": BOOKS["LocationID"][i],
+                "ReleaseDate": BOOKS["ReleaseDate"][i]
+            }
+            file.write(f"\"Book #{i+1}\": {json.dumps(book)},")
+            file.write("\n")
 
-# Generate and save data
+        for i in range(NUM_AUTHORS):
+            author = {
+                "AuthorID": AUTHORS["AuthorID"][i],
+                "Firstname": AUTHORS["Firstname"][i],
+                "Lastname": AUTHORS["Lastname"][i],
+                "Bio": AUTHORS["Bio"][i],
+                "DOB": AUTHORS["DOB"][i]
+            }
+            file.write(f"\"Author #{i+1}\": {json.dumps(author)},")
+            file.write("\n")
+
+        for i in range(NUM_PUBLISHERS):
+            publisher = {
+                "PublisherID": PUBLISHERS["PublisherID"][i],
+                "Name": PUBLISHERS["Name"][i],
+                "CountryID": PUBLISHERS["CountryID"][i],
+                "Phone": PUBLISHERS["Phone"][i],
+                "Website": PUBLISHERS["Website"][i]
+            }
+            file.write(f"\"Publisher #{i+1}\": {json.dumps(publisher)},")
+            file.write("\n")
+            
+        for i in range(NUM_LOCATIONS):
+            location = {
+                "LocationID": LOCATIONS["LocationID"][i],
+                "Shelf": LOCATIONS["Shelf"][i],
+                "Floor": LOCATIONS["Floor"][i],
+                "Quantity": LOCATIONS["Quantity"][i],
+                "Condition": LOCATIONS["Condition"][i]
+            }
+            file.write(f"\"Location #{i+1}\": {json.dumps(location)},")
+            file.write("\n")
+
+        for i in range(len(COUNTRIES_LIST)):
+            country = {
+                "CountryID": COUNTRIES["CountryID"][i],
+                "CountryName": COUNTRIES["CountryName"][i]
+            }
+            file.write(f"\"Country #{i+1}\": {json.dumps(country)},")
+            file.write("\n")
+
+        for i in range(len(GENRES_LIST)):
+            genre = {
+                "GenreID": GENRES["GenreID"][i],
+                "GenreName": GENRES["GenreName"][i],
+                "Description": GENRES["Description"][i]
+            }
+            file.write(f"\"Genre #{i+1}\": {json.dumps(genre)},")
+            file.write("\n")
+
+        for i in range(len(LANGUAGE_LIST)):
+            language = {
+                "LanguageID": LANGUAGES["LanguageID"][i],
+                "LanguageName": LANGUAGES["LanguageName"][i]
+            }
+            file.write(f"\"Language #{i+1}\": {json.dumps(language)},")
+            file.write("\n")
+
+
+        file.write(f"\"TotalBooks\":" + str(NUM_BOOKS) + ",\n")
+        file.write(f"\"TotalAuthors\":" + str(NUM_AUTHORS) + ",\n")
+        file.write(f"\"TotalPublishers:\":" + str(NUM_PUBLISHERS) + ",\n")
+        file.write(f"\"TotalLocations:\":" + str(NUM_LOCATIONS) + "\n")
+        file.write("}")
+# Main function to generate and save data
+def main():
+    generate_data()
+    save_to_json_file()
+
 if __name__ == "__main__":
-    random_data = generate_data(num_books=20, num_authors=10, num_publishers=5)
-    save_to_json_file(random_data)
+    main()
