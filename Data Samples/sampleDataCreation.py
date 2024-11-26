@@ -28,14 +28,14 @@ def generate_number(count):
 # def generate_url():
 #     return f"https://{r.random_words(1)}.com"
 
-NUM_BOOKS = 10
-NUM_AUTHORS = 5
-NUM_PUBLISHERS = 3
-NUM_LOCATIONS = 10
+NUM_BOOKS = 20000
+NUM_AUTHORS = 5000
+NUM_PUBLISHERS = 3000
+NUM_LOCATIONS = 100000
 
 # List of random data
 COUNTRIES_LIST = ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "UK", "Germany", "France", "Italy", "Spain", "Russia", "China", "Japan", "India", "Australia", "South Africa", "Nigeria", "Egypt", "Saudi Arabia", "Iran", "South Korea", "North Korea", "Uzbekistan"]
-GENRES_LIST = ['Accounting', 'Anthropology', 'Art', 'Autobiography', 'Biography', 'Biology', 'Business', 'Chemistry', "Children's", 'Comics', 'Computer Science', 'Consulting', 'Cooking', 'Criminal Justice', 'Customer Service', 'Dance', 'Dentistry', 'Drama', 'Economics', 'Education', 'Engineering', 'Entrepreneurship', 'Fantasy', 'Fiction', 'Film', 'Finance', 'Fitness', 'Geography', 'Graphic Novel', 'Health', 'History', 'Horror', 'Human Resources', 'Information Technology', 'Innovation', 'Journalism', 'Law', 'Leadership', 'Literature', 'Logistics', 'Management', 'Marketing', 'Mathematics', 'Medicine', 'Music', 'Mystery', 'Non-Fiction', 'Nursing', 'Operations', 'Pharmacy', 'Philosophy', 'Physics', 'Poetry', 'Political Science', 'Politics', 'Psychiatry', 'Psychology', 'Radio', 'Religion', 'Romance', 'Sales', 'Science', 'Science Fiction', 'Self-Help', 'Sociology', 'Spirituality', 'Sports', 'Strategy', 'Supply Chain', 'Technology', 'Television', 'Theatre', 'Theology', 'Thriller', 'Travel', 'Veterinary', 'Young Adult']
+GENRES_LIST = ['Accounting', 'Anthropology', 'Art', 'Autobiography', 'Biography', 'Biology', 'Business', 'Chemistry', "Childrens", 'Comics', 'Computer Science', 'Consulting', 'Cooking', 'Criminal Justice', 'Customer Service', 'Dance', 'Dentistry', 'Drama', 'Economics', 'Education', 'Engineering', 'Entrepreneurship', 'Fantasy', 'Fiction', 'Film', 'Finance', 'Fitness', 'Geography', 'Graphic Novel', 'Health', 'History', 'Horror', 'Human Resources', 'Information Technology', 'Innovation', 'Journalism', 'Law', 'Leadership', 'Literature', 'Logistics', 'Management', 'Marketing', 'Mathematics', 'Medicine', 'Music', 'Mystery', 'Non-Fiction', 'Nursing', 'Operations', 'Pharmacy', 'Philosophy', 'Physics', 'Poetry', 'Political Science', 'Politics', 'Psychiatry', 'Psychology', 'Radio', 'Religion', 'Romance', 'Sales', 'Science', 'Science Fiction', 'Self-Help', 'Sociology', 'Spirituality', 'Sports', 'Strategy', 'Supply Chain', 'Technology', 'Television', 'Theatre', 'Theology', 'Thriller', 'Travel', 'Veterinary', 'Young Adult']
 LANGUAGE_LIST = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian","Amharic","Aramaic", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Bengali", "Urdu", "Punjabi", "Telugu", "Marathi", "Tamil", "Gujarati", "Kannada", "Odia", "Malayalam", "Sindhi", "Sanskrit", "Persian", "Turkish", "Greek", "Swedish", "Norwegian", "Danish", "Finnish", "Icelandic", "Polish", "Czech", "Slovak", "Hungarian", "Romanian", "Bulgarian", "Serbian", "Croatian", "Bosnian", "Slovenian", "Macedonian", "Albanian", "Greek", "Armenian", "Georgian", "Azerbaijani", "Kazakh", "Uzbek", "Turkmen", "Kyrgyz", "Tajik", "Pashto", "Balochi", "Kurdish", "Arabic", "Hebrew", "Yiddish"]
 CONDITION_LIST = ["New", "Like New", "Very Good", "Good", "Acceptable", "Poor", "Damaged", "Worn", "Torn", "Stained", "Faded", "Yellowed", "Aged", "Moldy", "Musty", "Dusty", "Dirty", "Scratched", "Cracked", "Chipped", "Broken", "Missing", "Incomplete", "Defective", "Faulty", "Expired", "Outdated", "Obsolete", "Discontinued", "Rare", "Limited Edition", "First Edition", "Signed", "Autographed", "Dedicated", "Inscribed", "Personalized", "Gifted", "Donated", "Borrowed", "Stolen", "Lost", "Found", "Recovered", "Returned", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent"]
 BOOKFORMAT_LIST = ["Hardcover", "Paperback", "Ebook", "Audiobook", "Large Print", "Pocket", "Mass Market", "Trade", "Library", "Reference", "Textbook", "Workbook", "Guide", "Manual", "Handbook", "Dictionary", "Encyclopedia", "Atlas", "Almanac", "Yearbook", "Journal", "Magazine", "Newspaper", "Newsletter", "Brochure", "Pamphlet", "Leaflet", "Flyer", "Poster", "Postcard", "Bookmark", "Calendar", "Planner", "Diary", "Journal", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook"]
@@ -150,7 +150,7 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
 
 # Save data to a JSON file
 def save_to_json_file():
-    with open("random_data.json", "w") as file:
+    with open("./Data Samples/random_data.json", "w") as file:
         file.write("{")
         for i in range(NUM_BOOKS):
             book = {
@@ -238,7 +238,7 @@ def save_to_json_file():
 
 # Save each data into a PostgreSQL script
 def save_to_sql_script():
-    with open("random_data.sql", "w") as file:
+    with open("./Data Samples/random_books.sql", "w") as file:
         file.write(BOOK_SCRIPT)
         for i in range(NUM_BOOKS):
             file.write(f"({BOOKS['BookID'][i]}, '{BOOKS['Title'][i]}', {BOOKS['ISBNID'][i]}, {BOOKS['PublisherID'][i]}, {BOOKS['Pages'][i]}, '{BOOKS['Format'][i]}', {BOOKS['GenreID'][i]}, {BOOKS['LanguageID'][i]}, '{BOOKS['Description'][i]}', {BOOKS['AuthorsID'][i]}, {BOOKS['LocationID'][i]}, '{BOOKS['ReleaseDate'][i]}')")
@@ -246,7 +246,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_locations.sql", "w") as file:
         file.write(LOCATION_SCRIPT)
         for i in range(NUM_LOCATIONS):
             file.write(f"({LOCATIONS['LocationID'][i]}, '{LOCATIONS['Shelf'][i]}', '{LOCATIONS['Floor'][i]}', {LOCATIONS['Quantity'][i]}, '{LOCATIONS['Condition'][i]}')")
@@ -254,7 +254,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_authors.sql", "w") as file:
         file.write(AUTHOR_SCRIPT)
         for i in range(NUM_AUTHORS):
             file.write(f"({AUTHORS['AuthorID'][i]}, '{AUTHORS['Firstname'][i]}', '{AUTHORS['Lastname'][i]}', '{AUTHORS['Bio'][i]}', '{AUTHORS['DOB'][i]}')")
@@ -262,7 +262,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_publishers.sql", "w") as file:
         file.write(PUBLISHER_SCRIPT)
         for i in range(NUM_PUBLISHERS):
             file.write(f"({PUBLISHERS['PublisherID'][i]}, '{PUBLISHERS['Name'][i]}', {PUBLISHERS['CountryID'][i]}, '{PUBLISHERS['Phone'][i]}', '{PUBLISHERS['Website'][i]}')")
@@ -270,7 +270,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_countries.sql", "w") as file:
         file.write(COUNTRY_SCRIPT)
         for i in range(len(COUNTRIES_LIST)):
             file.write(f"({COUNTRIES['CountryID'][i]}, '{COUNTRIES['CountryName'][i]}')")
@@ -278,7 +278,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_genres.sql", "w") as file:
         file.write(GENRE_SCRIPT)
         for i in range(len(GENRES_LIST)):
             file.write(f"({GENRES['GenreID'][i]}, '{GENRES['GenreName'][i]}')")
@@ -286,7 +286,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    with open("./Data Samples/random_languages.sql", "w") as file:
         file.write(LANGUAGE_SCRIPT)
         for i in range(len(LANGUAGE_LIST)):
             file.write(f"({LANGUAGES['LanguageID'][i]}, '{LANGUAGES['LanguageName'][i]}')")
