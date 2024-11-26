@@ -1,5 +1,5 @@
 -- Creating book table
-CREATE TABLE B-- Creating book tableook
+CREATE TABLE Book
 (
   Title VARCHAR(1000) NOT NULL,
   ID INT NOT NULL,
