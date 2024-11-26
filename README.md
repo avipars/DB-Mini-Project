@@ -16,23 +16,26 @@ Build a database system to manage books in a library.
    - International Code: Integration with global standards like ISBN.  
 
 2. **Location Tracking**  
-   - Shelf: For accessible books.  
-   - Storage: For rarely used or archived items.  
-   - Archive: For historical or delicate items.  
-   - Safe: For restricted or valuable materials.  
-   - Late-Night Returns: For after-hours book returns.  
-   - Binding/Rehabilitation: For books under repair.  
-   - Lost: For misplaced or unaccounted items.  
+   - Make it easier for librarians and patrons to find books based on floor and shelf. 
 
 3. **Condition Monitoring**  
-   - Track conditions: New, Good, Worn, Damaged.  
+   - Track each book's condition assists librarians with inventory management and overall quality. 
 
 4. **Copies Management**  
    - Total copies available per title.  
 
+### Schema and Diagrams
+   * ERD
+   ![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookERDMap.png?raw=true)
 
-ERD
-![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookERDMap.png?raw=true)
+   * DSD
+   ![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookDSDMap.png?raw=true)
 
-DSD
-![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Diagrams/BookDSDMap.png?raw=true)
+   * [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/CreateTables.sql) is the script used to create the tables with the required schema. 
+
+### Data Generation
+
+   * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data Samples/sampleDataCreation.py) we created 20,000 Books, 5,000 Authors, 3,000 Publishers, and 10,000 Locations. 
+
+   Each SQL file can be found in the Data Samples Directory
+
