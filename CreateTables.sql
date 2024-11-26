@@ -37,7 +37,7 @@ CREATE TABLE Location
 CREATE TABLE Publisher
 (
   Name VARCHAR(1000) NOT NULL,
-  Phone_Number INT NOT NULL,
+  Phone_Number VARCHAR(200) NOT NULL,
   Website VARCHAR(1000),
   Publisher_ID INT NOT NULL,
   PRIMARY KEY (Publisher_ID),
