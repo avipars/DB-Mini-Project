@@ -1,4 +1,4 @@
-INSERT INTO Language (LanguageID, Name) VALUES(0, 'English'),
+INSERT INTO Language (Language_ID, Name) VALUES(0, 'English'),
 (1, 'Spanish'),
 (2, 'French'),
 (3, 'German'),

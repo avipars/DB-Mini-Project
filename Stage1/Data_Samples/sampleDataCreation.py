@@ -49,10 +49,10 @@ def generate_date(start: str = "1800-01-01", end: str = "2006-01-01"):
 # def generate_url():
 #     return f"https://{r.random_words(1)}.com"
 
-NUM_BOOKS = 20000
+NUM_BOOKS = 100000
 NUM_AUTHORS = 5000
-NUM_PUBLISHERS = 3000
-NUM_LOCATIONS = 100000
+NUM_PUBLISHERS = 30000
+NUM_LOCATIONS = 70000
 
 # List of random data
 COUNTRIES_LIST = ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "UK", "Germany", "France", "Italy", "Spain", "Russia", "China", "Japan", "India", "Australia", "South Africa", "Nigeria", "Egypt", "Saudi Arabia", "Iran", "South Korea", "North Korea", "Uzbekistan"]
@@ -152,7 +152,6 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
     for _ in range(num_publishers):
         PUBLISHERS["Publisher_ID"].append(faker.random_number(digits=5))
         PUBLISHERS["Name"].append(faker.company())
-        # PUBLISHERS[""Country_ID].append(random.choice(COUNTRIES["Country_ID"]))
         PUBLISHERS["Phone_Number"].append(faker.phone_number())
         PUBLISHERS["Website"].append(faker.url())
 
@@ -175,6 +174,27 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         AUTHORS["Biography"].append(faker.paragraph())
         AUTHORS["Date_of_Birth"].append(generate_date())
 
+    # Generate books
+    for i in range(num_books):
+        BOOKS["ID"].append(faker.random_number(digits=5))
+        BOOKS["Title"].append(faker.sentence())
+        BOOKS["ISBN"].append(faker.random_number(digits=13))
+        BOOKS["Page_Count"].append(faker.random_number(digits=3))
+        BOOKS["Format"].append(random.choice(BOOKFORMAT_LIST))
+        BOOKS["Description"].append(faker.paragraph())
+
+        # author_index = AUTHORS["Author_ID"].index(author_id)
+        # author_dob_str = AUTHORS["Date_of_Birth"][author_index]
+        # author_dob = datetime.strptime(author_dob_str, '%Y-%m-%d')
+
+        # # Generate a release date after the author's date of birth
+        # min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
+        # max_release_date = datetime.now()
+        # release_date = generate_date(date_start=min_release_date)
+
+        # BOOKS["Release_Date"].append(release_date)
+        BOOKS["Release_Date"].append(generate_date(start="1850-01-01", end=datetime.now().strftime("%Y-%m-%d")))
+
     # generate locations
     for i in range(num_locations):
         LOCATIONS["Location_ID"].append(i)
@@ -182,122 +202,177 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         LOCATIONS["Floor"].append(random.choice(FLOOR))
         LOCATIONS["Quantity"].append(faker.random_number(digits=2))
         LOCATIONS["Condition"].append(random.choice(CONDITION_LIST))
+        LOCATIONS["ID"].append(BOOKS["ID"][random.randint(0, num_books - 1)])
 
-    # Generate books
-    for _ in range(num_books):
-        BOOKS["ID"].append(faker.random_number(digits=5))
-        BOOKS["Title"].append(faker.sentence())
-        BOOKS["Publisher_ID"].append(random.choice(PUBLISHERS["Publisher_ID"]))
-        BOOKS["ISBN"].append(faker.random_number(digits=13))
-        BOOKS["Page_Count"].append(faker.random_number(digits=3))
-        BOOKS["Format"].append(random.choice(BOOKFORMAT_LIST))
-        BOOKS["Genre_ID"].append(random.choice(GENRES["Genre_ID"]))
-        BOOKS["Language_ID"].append(random.choice(LANGUAGES["Language_ID"]))
-        BOOKS["Description"].append(faker.paragraph())
-        BOOKS["Author_ID"].append(random.choice(AUTHORS["Author_ID"]))
+    # generate relations for written_by
+    for book_index in range(num_books):
+        already_written_list = []
+        for author_amount in range(1, random.randint(1, 5)): # 1 to 5 authors for one book
+            author_index = random.randint(0, num_authors - 1) # random author
+            if AUTHORS["Date_of_Birth"][author_index] < BOOKS["Release_Date"][book_index] and AUTHORS["Author_ID"][author_index] not in already_written_list: # author must be born before the book is released and not already added
+                WRITTEN_BY["ID"].append(BOOKS["ID"][book_index])
+                WRITTEN_BY["Author_ID"].append(AUTHORS["Author_ID"][author_index])
+                already_written_list.append(AUTHORS["Author_ID"][author_index])
+        if WRITTEN_BY["ID"] == []: # if no author is found, add a random author
+            while True:
+                author_index = random.randint(0, num_authors - 1)
+                if AUTHORS["Date_of_Birth"][author_index] < BOOKS["Release_Date"][book_index]: # author must be born before the book is released
+                    WRITTEN_BY["ID"].append(BOOKS["ID"][book_index])
+                    WRITTEN_BY["Author_ID"].append(AUTHORS["Author_ID"][author_index])
+                    break # break the loop if a valid author is found
 
-        author_index = AUTHORS["Author_ID"].index(author_id)
-        author_dob_str = AUTHORS["Date_of_Birth"][author_index]
-        author_dob = datetime.strptime(author_dob_str, '%Y-%m-%d')
+    # generate relations for published_by
+    for i in range(num_books):
+        already_published_list = []
+        publisher_index = random.randint(0, num_publishers - 1) # random publisher
+        PUBLISHED_BY["ID"].append(BOOKS["ID"][i])
+        PUBLISHED_BY["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][publisher_index])
+        already_published_list.append(PUBLISHERS["Publisher_ID"][publisher_index])
+        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple publishers
+        while fake:
+            publisher_index = random.randint(0, num_publishers - 1)
+            if PUBLISHERS["Publisher_ID"][publisher_index] not in already_published_list:
+                PUBLISHED_BY["ID"].append(BOOKS["ID"][i])
+                PUBLISHED_BY["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][publisher_index])
+                already_published_list.append(PUBLISHERS["Publisher_ID"][publisher_index])
+                fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple publishers
 
-        # Generate a release date after the author's date of birth
-        min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
-        max_release_date = datetime.now()
-        release_date = generate_date(date_start=min_release_date)
 
-        BOOKS["Location_ID"].append(random.choice(LOCATIONS["Location_ID"]))
-        BOOKS["Release_Date"].append(release_date)
+    # generate relations for written_in
+    for i in range(num_books):
+        already_written_in_list = []
+        language_index = random.randint(0, len(LANGUAGE_LIST) - 1)
+        WRITTEN_IN["ID"].append(BOOKS["ID"][i])
+        WRITTEN_IN["Language_ID"].append(LANGUAGES["Language_ID"][language_index])
+        already_written_in_list.append(LANGUAGES["Language_ID"][language_index])
+        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple languages
+        while fake:
+            language_index = random.randint(0, len(LANGUAGE_LIST) - 1)
+            if LANGUAGES["Language_ID"][language_index] not in already_written_in_list:
+                WRITTEN_IN["ID"].append(BOOKS["ID"][i])
+                WRITTEN_IN["Language_ID"].append(LANGUAGES["Language_ID"][language_index])
+                already_written_in_list.append(LANGUAGES["Language_ID"][language_index])
+                fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple languages
+
+
+    # generate relations for type_of
+    for i in range(num_books):
+        already_type_of_list = []
+        genre_index = random.randint(0, len(GENRES_LIST) - 1)
+        TYPE_OF["ID"].append(BOOKS["ID"][i])
+        TYPE_OF["Genre_ID"].append(GENRES["Genre_ID"][genre_index])
+        already_type_of_list.append(GENRES["Genre_ID"][genre_index])
+        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple genres
+        while fake:
+            genre_index = random.randint(0, len(GENRES_LIST) - 1)
+            if GENRES["Genre_ID"][genre_index] not in already_type_of_list:
+                TYPE_OF["ID"].append(BOOKS["ID"][i])
+                TYPE_OF["Genre_ID"].append(GENRES["Genre_ID"][genre_index])
+                already_type_of_list.append(GENRES["Genre_ID"][genre_index])
+                fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple genres
+
+    # generate relations for is_in
+    for i in range(num_publishers):
+        already_is_in_list = []
+        IS_IN["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][i])
+        IS_IN["Country_ID"].append(random.randint(0, len(COUNTRIES_LIST) - 1))
+        already_is_in_list.append(COUNTRIES["Country_ID"][IS_IN["Country_ID"][i]])
+        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple countries
+        while fake:
+            country_index = random.randint(0, len(COUNTRIES_LIST) - 1)
+            if COUNTRIES["Country_ID"][country_index] not in already_is_in_list:
+                IS_IN["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][i])
+                IS_IN["Country_ID"].append(COUNTRIES["Country_ID"][country_index])
+                already_is_in_list.append(COUNTRIES["Country_ID"][country_index])
+                fake = faker.boolean(chance_of_getting_true=20)
+
+
 
 # Save data to a JSON file
-def save_to_json_file():
-    with open("./Data Samples/random_data.json", "w") as file:
-        file.write("{")
-        for i in range(NUM_BOOKS):
-            book = {
-                "ID": BOOKS["ID"][i],
-                "Title": BOOKS["Title"][i],
-                "ISBN": BOOKS["ISBN"][i],
-                "Publisher_ID": BOOKS["Publisher_ID"][i],
-                "Page_Count": BOOKS["Page_Count"][i],
-                "Format": BOOKS["Format"][i],
-                "Genre_ID": BOOKS["Genre_ID"][i],
-                "Language_ID": BOOKS["Language_ID"][i],
-                "Description": BOOKS["Description"][i],
-                "Author_ID": BOOKS["Author_ID"][i],
-                "Location_ID": BOOKS["Location_ID"][i],
-                "Release_Date": BOOKS["Release_Date"][i]
-            }
-            file.write(f"\"Book #{i+1}\": {json.dumps(book)},")
-            file.write("\n")
+# def save_to_json_file():
+#     with open("./Data Samples/random_data.json", "w") as file:
+#         file.write("{")
+#         for i in range(NUM_BOOKS):
+#             book = {
+#                 "ID": BOOKS["ID"][i],
+#                 "Title": BOOKS["Title"][i],
+#                 "ISBN": BOOKS["ISBN"][i],
+#                 "Page_Count": BOOKS["Page_Count"][i],
+#                 "Format": BOOKS["Format"][i],
+#                 "Description": BOOKS["Description"][i],
+#                 "Release_Date": BOOKS["Release_Date"][i]
+#             }
+#             file.write(f"\"Book #{i+1}\": {json.dumps(book)},")
+#             file.write("\n")
 
-        for i in range(NUM_AUTHORS):
-            author = {
-                "Author_ID": AUTHORS["Author_ID"][i],
-                "First_Name": AUTHORS["First_Name"][i],
-                "Last_Name": AUTHORS["Last_Name"][i],
-                "Biography": AUTHORS["Biography"][i],
-                "Date_of_Birth": AUTHORS["Date_of_Birth"][i]
-            }
-            file.write(f"\"Author #{i+1}\": {json.dumps(author)},")
-            file.write("\n")
+#         for i in range(NUM_AUTHORS):
+#             author = {
+#                 "Author_ID": AUTHORS["Author_ID"][i],
+#                 "First_Name": AUTHORS["First_Name"][i],
+#                 "Last_Name": AUTHORS["Last_Name"][i],
+#                 "Biography": AUTHORS["Biography"][i],
+#                 "Date_of_Birth": AUTHORS["Date_of_Birth"][i]
+#             }
+#             file.write(f"\"Author #{i+1}\": {json.dumps(author)},")
+#             file.write("\n")
 
-        for i in range(NUM_PUBLISHERS):
-            publisher = {
-                "Publisher_ID": PUBLISHERS["Publisher_ID"][i],
-                "Name": PUBLISHERS["Name"][i],
-                "Country_ID": PUBLISHERS["Country_ID"][i],
-                "Phone": PUBLISHERS["Phone"][i],
-                "Website": PUBLISHERS["Website"][i]
-            }
-            file.write(f"\"Publisher #{i+1}\": {json.dumps(publisher)},")
-            file.write("\n")
+#         for i in range(NUM_PUBLISHERS):
+#             publisher = {
+#                 "Publisher_ID": PUBLISHERS["Publisher_ID"][i],
+#                 "Name": PUBLISHERS["Name"][i],
+#                 "Country_ID": PUBLISHERS["Country_ID"][i],
+#                 "Phone": PUBLISHERS["Phone"][i],
+#                 "Website": PUBLISHERS["Website"][i]
+#             }
+#             file.write(f"\"Publisher #{i+1}\": {json.dumps(publisher)},")
+#             file.write("\n")
             
-        for i in range(NUM_LOCATIONS):
-            location = {
-                "Location_ID": LOCATIONS["Location_ID"][i],
-                "Shelf": LOCATIONS["Shelf"][i],
-                "Floor": LOCATIONS["Floor"][i],
-                "Quantity": LOCATIONS["Quantity"][i],
-                "Condition": LOCATIONS["Condition"][i]
-            }
-            file.write(f"\"Location #{i+1}\": {json.dumps(location)},")
-            file.write("\n")
+#         for i in range(NUM_LOCATIONS):
+#             location = {
+#                 "Location_ID": LOCATIONS["Location_ID"][i],
+#                 "Shelf": LOCATIONS["Shelf"][i],
+#                 "Floor": LOCATIONS["Floor"][i],
+#                 "Quantity": LOCATIONS["Quantity"][i],
+#                 "Condition": LOCATIONS["Condition"][i]
+#             }
+#             file.write(f"\"Location #{i+1}\": {json.dumps(location)},")
+#             file.write("\n")
 
-        for i in range(len(COUNTRIES_LIST)):
-            country = {
-                "Country_ID": COUNTRIES["Country_ID"][i],
-                "Name": COUNTRIES["Name"][i]
-            }
-            file.write(f"\"Country #{i+1}\": {json.dumps(country)},")
-            file.write("\n")
+#         for i in range(len(COUNTRIES_LIST)):
+#             country = {
+#                 "Country_ID": COUNTRIES["Country_ID"][i],
+#                 "Name": COUNTRIES["Name"][i]
+#             }
+#             file.write(f"\"Country #{i+1}\": {json.dumps(country)},")
+#             file.write("\n")
 
-        for i in range(len(GENRES_LIST)):
-            genre = {
-                "Genre_ID": GENRES["Genre_ID"][i],
-                "Name": GENRES["Name"][i],
-                "Description": GENRES["Description"][i]
-            }
-            file.write(f"\"Genre #{i+1}\": {json.dumps(genre)},")
-            file.write("\n")
+#         for i in range(len(GENRES_LIST)):
+#             genre = {
+#                 "Genre_ID": GENRES["Genre_ID"][i],
+#                 "Name": GENRES["Name"][i],
+#                 "Description": GENRES["Description"][i]
+#             }
+#             file.write(f"\"Genre #{i+1}\": {json.dumps(genre)},")
+#             file.write("\n")
 
-        for i in range(len(LANGUAGE_LIST)):
-            language = {
-                "Language_ID": LANGUAGES["Language_ID"][i],
-                "LanguageName": LANGUAGES["LanguageName"][i]
-            }
-            file.write(f"\"Language #{i+1}\": {json.dumps(language)},")
-            file.write("\n")
+#         for i in range(len(LANGUAGE_LIST)):
+#             language = {
+#                 "Language_ID": LANGUAGES["Language_ID"][i],
+#                 "LanguageName": LANGUAGES["LanguageName"][i]
+#             }
+#             file.write(f"\"Language #{i+1}\": {json.dumps(language)},")
+#             file.write("\n")
 
-        file.write(f"\"TotalBooks\":" + str(NUM_BOOKS) + ",\n")
-        file.write(f"\"TotalAuthors\":" + str(NUM_AUTHORS) + ",\n")
-        file.write(f"\"TotalPublishers:\":" + str(NUM_PUBLISHERS) + ",\n")
-        file.write(f"\"TotalLocations:\":" + str(NUM_LOCATIONS) + "\n")
-        file.write("}")
+#         file.write(f"\"TotalBooks\":" + str(NUM_BOOKS) + ",\n")
+#         file.write(f"\"TotalAuthors\":" + str(NUM_AUTHORS) + ",\n")
+#         file.write(f"\"TotalPublishers:\":" + str(NUM_PUBLISHERS) + ",\n")
+#         file.write(f"\"TotalLocations:\":" + str(NUM_LOCATIONS) + "\n")
+#         file.write("}")
 
 
 # Save each data into a PostgreSQL script
 def save_to_sql_script():
-    with open("./Data Samples/random_books.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_books.sql", "w") as file:
         file.write(BOOK_SCRIPT)
         for i in range(NUM_BOOKS):
             file.write(f"('{BOOKS['Title'][i]}', {BOOKS['ID'][i]}, '{BOOKS['Release_Date'][i]}', {BOOKS['Page_Count'][i]}, '{BOOKS['Format'][i]}', '{BOOKS['Description'][i]}', {BOOKS['ISBN'][i]})")            
@@ -305,7 +380,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_locations.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_locations.sql", "w") as file:
         file.write(LOCATION_SCRIPT)
         for i in range(NUM_LOCATIONS):
             file.write(f"({LOCATIONS['Quantity'][i]}, '{LOCATIONS['Floor'][i]}', {LOCATIONS['Shelf'][i]}, {LOCATIONS['Location_ID'][i]}, '{LOCATIONS['Condition'][i]}', {LOCATIONS['ID'][i]})")
@@ -313,7 +388,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_authors.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_authors.sql", "w") as file:
         file.write(AUTHOR_SCRIPT)
         for i in range(NUM_AUTHORS):
             file.write(f"('{AUTHORS['First_Name'][i]}', '{AUTHORS['Last_Name'][i]}', '{AUTHORS['Date_of_Birth'][i]}', {AUTHORS['Author_ID'][i]}, '{AUTHORS['Biography'][i]}')")
@@ -321,7 +396,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_publishers.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_publishers.sql", "w") as file:
         file.write(PUBLISHER_SCRIPT)
         for i in range(NUM_PUBLISHERS):
             file.write(f"('{PUBLISHERS['Name'][i]}', '{PUBLISHERS['Phone_Number'][i]}', '{PUBLISHERS['Website'][i]}', {PUBLISHERS['Publisher_ID'][i]})")
@@ -329,7 +404,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_countries.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_countries.sql", "w") as file:
         file.write(COUNTRY_SCRIPT)
         for i in range(len(COUNTRIES_LIST)):
             file.write(f"('{COUNTRIES['Name'][i]}', {COUNTRIES['Country_ID'][i]})")
@@ -337,7 +412,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_genres.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_genres.sql", "w") as file:
         file.write(GENRE_SCRIPT)
         for i in range(len(GENRES_LIST)):
             file.write(f"('{GENRES['Name'][i]}', '{GENRES['Description'][i]}', {GENRES['Genre_ID'][i]})")
@@ -345,7 +420,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Data Samples/random_languages.sql", "w") as file:
+    with open("./Stage1/Data_Samples/random_languages.sql", "w") as file:
         file.write(LANGUAGE_SCRIPT)
         for i in range(len(LANGUAGE_LIST)):
             file.write(f"({LANGUAGES['Language_ID'][i]}, '{LANGUAGES['Name'][i]}')")
@@ -354,12 +429,55 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
     # generate tables for the other relations
+    with open("./Stage1/Data_Samples/written_by.sql", "w") as file:
+        file.write(WRITTEN_BY_SCRIPT)
+        for i in range(len(WRITTEN_BY["ID"])):
+            file.write(f"({WRITTEN_BY['ID'][i]}, {WRITTEN_BY['Author_ID'][i]})")
+            if i != len(WRITTEN_BY["ID"]) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
 
+    with open("./Stage1/Data_Samples/published_by.sql", "w") as file:
+        file.write(PUBLISHED_BY_SCRIPT)
+        for i in range(len(PUBLISHED_BY["ID"])):
+            file.write(f"({PUBLISHED_BY['ID'][i]}, {PUBLISHED_BY['Publisher_ID'][i]})")
+            if i != len(PUBLISHED_BY["ID"]) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+    with open("./Stage1/Data_Samples/written_in.sql", "w") as file:
+        file.write(WRITTEN_IN_SCRIPT)
+        for i in range(len(WRITTEN_IN["ID"])):
+            file.write(f"({WRITTEN_IN['ID'][i]}, {WRITTEN_IN['Language_ID'][i]})")
+            if i != len(WRITTEN_IN["ID"]) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+    with open("./Stage1/Data_Samples/type_of.sql", "w") as file:
+        file.write(TYPE_OF_SCRIPT)
+        for i in range(len(TYPE_OF["ID"])):
+            file.write(f"({TYPE_OF['ID'][i]}, {TYPE_OF['Genre_ID'][i]})")
+            if i != len(TYPE_OF["ID"]) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
+
+    with open("./Stage1/Data_Samples/is_in.sql", "w") as file:
+        file.write(IS_IN_SCRIPT)
+        for i in range(len(IS_IN["Publisher_ID"])):
+            file.write(f"({IS_IN['Publisher_ID'][i]}, {IS_IN['Country_ID'][i]})")
+            if i != len(IS_IN["Publisher_ID"]) - 1:
+                file.write(",\n")
+            else:
+                file.write(";\n\n")
 
 # Main function to generate and save data
 def main():
     generate_data()
-    save_to_json_file()
+    # save_to_json_file()
     save_to_sql_script()
 
 if __name__ == "__main__":
