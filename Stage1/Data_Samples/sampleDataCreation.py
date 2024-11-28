@@ -37,7 +37,7 @@ def generate_unique_id(existing_ids, digits=9):
     return new_id
 
 # generate date between two values 
-def generate_date(start: str = "1800-01-01", end: str = "2024-01-01"):
+def generate_date(start: str = "1800-01-01", end: str = "2006-01-01"):
     start = datetime.strptime(start, "%Y-%m-%d")
     end = datetime.strptime(end, "%Y-%m-%d")
     return faker.date_between(start_date=start, end_date=end)
@@ -140,10 +140,6 @@ IS_IN = {
     "Country_ID": []     # Foreign key to Country(Country_ID)
 }
 
-# Track used IDs to ensure uniqueness
-used_author_ids = set()
-used_publisher_ids = set()
-
 # Generate random data
 def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=NUM_PUBLISHERS, num_locations=NUM_LOCATIONS):
     
@@ -207,11 +203,10 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         # Generate a release date after the author's date of birth
         min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
         max_release_date = datetime.now()
-        release_date = generate_date(date_start=min_release_date, date_end=max_release_date)
+        release_date = generate_date(date_start=min_release_date)
 
         BOOKS["Location_ID"].append(random.choice(LOCATIONS["Location_ID"]))
         BOOKS["Release_Date"].append(release_date)
-
 
 # Save data to a JSON file
 def save_to_json_file():
@@ -358,7 +353,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-
+    # generate tables for the other relations
 
 
 # Main function to generate and save data
