@@ -200,17 +200,17 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         BOOKS["Description"].append(faker.paragraph())
         BOOKS["Author_ID"].append(random.choice(AUTHORS["Author_ID"]))
 
-        # author_index = AUTHORS["Author_ID"].index(author_id)
-        # author_dob_str = AUTHORS["Date_of_Birth"][author_index]
-        # author_dob = datetime.strptime(author_dob_str, '%Y-%m-%d')
+        author_index = AUTHORS["Author_ID"].index(author_id)
+        author_dob_str = AUTHORS["Date_of_Birth"][author_index]
+        author_dob = datetime.strptime(author_dob_str, '%Y-%m-%d')
 
-        # # Generate a release date after the author's date of birth
-        # min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
-        # max_release_date = datetime.now()
-        # release_date = generate_date(date_start=min_release_date, date_end=max_release_date)
+        # Generate a release date after the author's date of birth
+        min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
+        max_release_date = datetime.now()
+        release_date = generate_date(date_start=min_release_date, date_end=max_release_date)
 
         BOOKS["Location_ID"].append(random.choice(LOCATIONS["Location_ID"]))
-        BOOKS["Release_Date"].append(faker.date())
+        BOOKS["Release_Date"].append(release_date)
 
 
 # Save data to a JSON file
