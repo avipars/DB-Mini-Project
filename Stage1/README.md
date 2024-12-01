@@ -91,3 +91,20 @@ Build a database system to manage books in a library.
 
 ## Stage 2
 
+### Create Tables:
+
+* ![image](https://github.com/user-attachments/assets/a8f66d3d-50f3-49a1-9e3b-1e6cf1d12e80)
+
+Click Query Tool
+
+Now open the CreateTable.sql script via Open File
+![image](https://github.com/user-attachments/assets/bc311280-e445-4e25-8762-7236a0ff5b81)
+
+And click execute script
+
+![image](https://github.com/user-attachments/assets/47706ba8-9894-4da4-ba39-d22338730f4f)
+
+
+
+
+
