@@ -177,12 +177,10 @@ if-exists to avoid errors if tables do not exist
 
 ### Restore Data
 
-   file format should be auto-detected
-
    * Restore backupSQL (plain text)
 
       ```bash
-      pg_restore --file "backupSQL.sql" --host "localhost" --port "5432" --username "postgres" --format --clean --if-exists --dbname "postgres" 2>restoreSQL.log
+      pg_restore --host "localhost" --port "5432" --username "postgres" --no-owner --no-privileges --verbose --clean --if-exists --disable-triggers --dbname "postgres"  2>restoreSQL.log
       ```
 
       <!-- Full restore output is [here]( -->
@@ -190,7 +188,7 @@ if-exists to avoid errors if tables do not exist
    * Restore backupPSQL (binary format)
 
       ```bash
-      pg_restore --file "backupPSQL.sql" --host "localhost" --port "5432" --username "postgres" --verbose --clean --if-exists --dbname "postgres" 2>restorePSQL.log
+      pg_restore --host "localhost" --port "5432" --username "postgres" --no-owner --no-privileges  --format=c --verbose --clean --if-exists --disable-triggers --dbname "postgres" 2>restorePSQL.log
       ```
 
       <!-- Full restore output is [here]( -->
