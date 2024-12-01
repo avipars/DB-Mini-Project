@@ -124,6 +124,8 @@ Build a database system to manage books in a library.
             - Script: `is_in.sql`
             - 37,028 rows
 
+![image](https://github.com/user-attachments/assets/d3418bd6-4f2b-4a50-be48-12eb613bdd22)
+
 ## Stage 2
 
 ### Create Tables in PostgreSQL
