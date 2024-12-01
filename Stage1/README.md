@@ -67,51 +67,62 @@ Build a database system to manage books in a library.
              1. Country
             - **Independent table**.
             - Script: `random_countries.sql`
+            - 24 rows
 
              2. Publisher
             - **Depends on Country** for the `Is_In` table.
             - Script: `random_publishers.sql`
-
+            - 30,000 rows
+            
              3. Author
             - **Independent table**.
             - Script: `random_authors.sql`
-
+            - 5,000 rows
+            
              4. Language
             - **Independent table**.
             - Script: `random_languages.sql`
-
+            - 62 rows
+            
              5. Genre
             - **Independent table**.
             - Script: `random_genres.sql`
-
+            - 77 rows
+            
              6. Book
             - **Independent table** but referenced by several others.
             - Script: `random_books.sql`
-
+            - 100,000 rows 
+            
              7. Location
             - **Depends on Book.**
             - Script: `random_locations.sql`
-
+            - 70,000 rows 
+            
              8. Written_By
             - **Depends on Book and Author.**
             - Script: `written_by.sql`
-
+            - 132,758 rows 
+            
              9. Published_By
             - **Depends on Book and Publisher.**
             - Script: `published_by.sql`
-
+            - 124,906 rows
+            
              10. Written_In
             - **Depends on Book and Language.**
             - Script: `written_in.sql`
+            - 124,788 rows
 
              11. Type_of
             - **Depends on Book and Genre.**
             - Script: `type_of.sql`
-
+            - 125,019 rows 
+            
              12. Is_In
             - **Depends on Publisher and Country.**
             - Script: `is_in.sql`
-
+            - 37,028 rows
 
 ## Stage 2
 
@@ -141,8 +152,9 @@ Via command line, we can dump the data from the database into a file.
 pg_dump -U postgres -d postgres -v -f "D:\NewComp\DevProjects\JCT\Dump\backupSQL.sql"
 ```
 
+Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/dump.log)
 
-
+![image](https://github.com/user-attachments/assets/3684afc6-2b9b-4574-abf1-6ae5fef07955)
 
 
 
