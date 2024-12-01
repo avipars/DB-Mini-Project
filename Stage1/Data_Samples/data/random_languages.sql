@@ -60,4 +60,3 @@ INSERT INTO Language (Language_ID, Name) VALUES(0, 'English'),
 (59, 'Arabic'),
 (60, 'Hebrew'),
 (61, 'Yiddish');
-

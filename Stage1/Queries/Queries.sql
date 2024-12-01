@@ -54,6 +54,17 @@ UPDATE Book
 SET Release_Date = '2000-01-01'
 WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31'
 
+-- Move all returned Reference books from Returns that are in good condition to the Reference section:
+SELECT l.ID, l.Floor, l.Condition
+FROM Location l
+WHERE l.ID IN (
+    SELECT b.ID
+    FROM Book b
+    JOIN Type_of t ON b.ID = t.ID
+    JOIN Genre g ON t.Genre_ID = g.Genre_ID
+    WHERE g.Name = 'Childrens' 
+)
+AND l.Condition IN ('Good', 'New', 'Like New') AND l.Floor = 'Returns' AND l.quantity > 0;
 
 -- -- TODO CHECK AND VERIFY THE FOLLOWING
 -- -- All new books that have been released in the last 3 years that are New are now considered Like New:
