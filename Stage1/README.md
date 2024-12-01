@@ -193,9 +193,33 @@ if-exists to avoid errors if tables do not exist
 
    - found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/Queries.sql)
 
+   SELECT: 
+
+   * (Query 1) Find the 5 oldest authors (Name, DOB) who published at least 1 book in the database
+   
+   * (Query 2) Get average amount of books published by any publisher
+
+   * (Query 3) Get publisher (ID) with books published in the most languages
+
+   * (Query 4) Get book title and quantity of book with the lowest quantity in stock
+
+   UPDATE: 
+
+   * (Query 5) Change all books released between 1999-12-28 and 1999-12-31 to 2000-01-01
+
+   * (Query 6) Move all returned Children's books from Returns that are in decent condition to the Kids Corner
+
+   DELETE:
+
+   * (Query 7) Delete books with 0 copies that are moldy or damaged
+
+   * (Query 8) Delete all books written in russian that have more than 90 copies in stock
+
+
+
+### Indexing
 
 ### Timing
 
-### Indexing
 
 ### Parameterized Queries
