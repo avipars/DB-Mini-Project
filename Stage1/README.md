@@ -138,7 +138,7 @@ In a similar fashion to the CreateData.sql script, we now bring in each sql file
 Via command line, we can dump the data from the database into a file. 
 
 ```bash
-pg_dump -U postgres -d postgres -v -f "D:\NewComp\DevProjects\JCT\Dump\backupSQL.sql"
+pg_dump -U postgres -d postgres -v -f ".\Stage1\backupSQL.sql"
 ```
 
 

@@ -1,3 +1,6 @@
+D:\NewComp\DevProjects\JCT\DB-Mini-Project>pg_dump -U postgres -d postgres -v -f ".\Stage1\backupSQL.sql"
+Password:
+
 pg_dump: last built-in OID is 16383
 pg_dump: reading extensions
 pg_dump: identifying extension members
