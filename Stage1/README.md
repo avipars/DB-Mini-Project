@@ -221,5 +221,11 @@ if-exists to avoid errors if tables do not exist
 
 ### Timing
 
+* TODO COMPARE WITH AND WITHOUT INDEXING AND PUT IN TABLE
 
 ### Parameterized Queries
+
+
+### Constraints
+
+found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/)
