@@ -54,51 +54,47 @@ UPDATE Book
 SET Release_Date = '2000-01-01'
 WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31'
 
--- Move all returned Reference books from Returns that are in good condition to the Reference section:
-SELECT l.ID, l.Floor, l.Condition
-FROM Location l
-WHERE l.ID IN (
-    SELECT b.ID
-    FROM Book b
-    JOIN Type_of t ON b.ID = t.ID
-    JOIN Genre g ON t.Genre_ID = g.Genre_ID
-    WHERE g.Name = 'Childrens' 
-)
-AND l.Condition IN ('Good', 'New', 'Like New') AND l.Floor = 'Returns' AND l.quantity > 0;
+-- Move all returned Childrens books from Returns that are in decent condition to the Kids Corner:
+-- To check what will change:
 
--- -- TODO CHECK AND VERIFY THE FOLLOWING
--- -- All new books that have been released in the last 3 years that are New are now considered Like New:
--- UPDATE Location
--- SET Condition = 'Like New'
--- WHERE ID IN (
---     SELECT b.ID
---     FROM Book b
---     WHERE b.Release_Date >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR)
--- )
--- AND Condition = 'New';
-
--- -- Move all returned Reference books that are in good condition to the Reference section:
--- UPDATE Location
--- SET Floor = 'Reference Section'
--- WHERE ID IN (
+-- SELECT l.ID, l.Floor, l.Condition
+-- FROM Location l
+-- WHERE l.ID IN (
 --     SELECT b.ID
 --     FROM Book b
 --     JOIN Type_of t ON b.ID = t.ID
 --     JOIN Genre g ON t.Genre_ID = g.Genre_ID
---     WHERE g.Name = 'Reference'
+--     WHERE g.Name = 'Childrens' 
 -- )
--- AND Condition = 'Good';
+-- AND l.Condition IN ('Good', 'New', 'Like New') AND l.Floor = 'Returns' AND l.quantity > 0;
+
+UPDATE Location
+SET Floor = 'Kids Corner'
+WHERE ID IN (
+    SELECT b.ID
+    FROM Book b
+    JOIN Type_of t ON b.ID = t.ID
+    JOIN Genre g ON t.Genre_ID = g.Genre_ID
+    WHERE g.Name = 'Childrens'
+)
+AND Condition IN ('Good', 'New', 'Like New') 
+AND Floor = 'Returns' 
+AND quantity > 0;
 
 -- 2 DELETES
--- -- TODO CHECK AND VERIFY THE FOLLOWING
--- -- Delete books that are in Poor or Damaged condition if their copies are less than 5:
--- DELETE FROM Book
--- WHERE ID IN (
---     SELECT b.ID
---     FROM Book b
---     JOIN Location l ON b.ID = l.ID
---     WHERE l.Condition IN ('Poor', 'Damaged') AND l.Quantity < 5
--- );
+-- Delete books that have zero copies in stock:
+-- To check what will change:
+-- SELECT b.ID, l.Quantity
+-- FROM Book b
+-- JOIN Location l ON b.ID = l.ID
+-- WHERE l.Quantity < 1 
+DELETE FROM Book
+WHERE ID IN (
+    SELECT b.ID
+    FROM Book b
+    JOIN Location l ON b.ID = l.ID
+    WHERE l.Condition IN ('Poor', 'Damaged') AND l.Quantity < 5
+);
 
 -- -- Delete publishers that have no books published by them in the database:
 -- DELETE FROM Publisher

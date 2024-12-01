@@ -102,27 +102,27 @@ Build a database system to manage books in a library.
              8. Written_By
             - **Depends on Book and Author.**
             - Script: `written_by.sql`
-            - 132,758 rows 
+            - 132,406 rows 
             
              9. Published_By
             - **Depends on Book and Publisher.**
             - Script: `published_by.sql`
-            - 124,906 rows
+            - 125,171 rows
             
              10. Written_In
             - **Depends on Book and Language.**
             - Script: `written_in.sql`
-            - 124,788 rows
+            - 124,727 rows
 
              11. Type_of
             - **Depends on Book and Genre.**
             - Script: `type_of.sql`
-            - 125,019 rows 
+            - 124,756 rows 
             
              12. Is_In
             - **Depends on Publisher and Country.**
             - Script: `is_in.sql`
-            - 37,028 rows
+            - 37,048 rows
 
 ## Stage 2
 
@@ -184,7 +184,7 @@ if-exists to avoid errors if tables do not exist
       no owner and no privileges to avoid issues with permissions
       
       ```bash
-      pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "Stage1\backupPSQL.sql" 2>>"Stage1\backupPSQL.log"
+      pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"
       ```
 
 ### Basic Queries
