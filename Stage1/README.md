@@ -56,7 +56,7 @@ Build a database system to manage books in a library.
 
    * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/sampleDataCreation.py) we created SQL insert statements that deal with 100.000 Books, 5.000 Authors, 30.000 Publishers, and 70.000 Locations. 
 
-   Each SQL file can be found in the [Data Samples Directory](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/)
+   Each SQL file can be found in the [Data Samples Directory](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/)
    
    Run the SQL files in the following order: 
 
@@ -64,29 +64,53 @@ Build a database system to manage books in a library.
 
       2. Data for tables
 
-         * random_countries.sql
+             1. Country
+            - **Independent table**.
+            - Script: `random_countries.sql`
 
-         * random_publishers.sql
+             2. Publisher
+            - **Depends on Country** for the `Is_In` table.
+            - Script: `random_publishers.sql`
 
-         * random_authors.sql
+             3. Author
+            - **Independent table**.
+            - Script: `random_authors.sql`
 
-         * random_languages.sql
+             4. Language
+            - **Independent table**.
+            - Script: `random_languages.sql`
 
-         * random_genres.sql
+             5. Genre
+            - **Independent table**.
+            - Script: `random_genres.sql`
 
-         * random_locations.sql
+             6. Book
+            - **Independent table** but referenced by several others.
+            - Script: `random_books.sql`
 
-         * random_books.sql
+             7. Location
+            - **Depends on Book.**
+            - Script: `random_locations.sql`
 
-         * written_by.sql
+             8. Written_By
+            - **Depends on Book and Author.**
+            - Script: `written_by.sql`
 
-         * published_by.sql
+             9. Published_By
+            - **Depends on Book and Publisher.**
+            - Script: `published_by.sql`
 
-         * written_in.sql
+             10. Written_In
+            - **Depends on Book and Language.**
+            - Script: `written_in.sql`
 
-         * type_of.sql
+             11. Type_of
+            - **Depends on Book and Genre.**
+            - Script: `type_of.sql`
 
-         * is_in.sql
+             12. Is_In
+            - **Depends on Publisher and Country.**
+            - Script: `is_in.sql`
 
 
 ## Stage 2
@@ -106,57 +130,19 @@ And click execute script
 
 ### Load data
 
-In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the following order
+In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the order listed above
 
-# Schema Dependency Outline
 
-## 1. Country
-- **Independent table**.
-- Script: `random_countries.sql`
+### Dump Data
 
-## 2. Publisher
-- **Depends on Country** for the `Is_In` table.
-- Script: `random_publishers.sql`
+Via command line, we can dump the data from the database into a file. 
 
-## 3. Author
-- **Independent table**.
-- Script: `random_authors.sql`
+```bash
+pg_dump -U postgres -d postgres -v -f "D:\NewComp\DevProjects\JCT\Dump\backupSQL.sql"
+```
 
-## 4. Language
-- **Independent table**.
-- Script: `random_languages.sql`
 
-## 5. Genre
-- **Independent table**.
-- Script: `random_genres.sql`
 
-## 6. Book
-- **Independent table** but referenced by several others.
-- Script: `random_books.sql`
-
-## 7. Location
-- **Depends on Book.**
-- Script: `random_locations.sql`
-
-## 8. Written_By
-- **Depends on Book and Author.**
-- Script: `written_by.sql`
-
-## 9. Published_By
-- **Depends on Book and Publisher.**
-- Script: `published_by.sql`
-
-## 10. Written_In
-- **Depends on Book and Language.**
-- Script: `written_in.sql`
-
-## 11. Type_of
-- **Depends on Book and Genre.**
-- Script: `type_of.sql`
-
-## 12. Is_In
-- **Depends on Publisher and Country.**
-- Script: `is_in.sql`
 
 
 

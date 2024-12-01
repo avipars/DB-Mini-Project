@@ -1,15 +1,16 @@
--- Drop script (Deletes everything), CASCADE can be used but be careful
-DROP TABLE IF EXISTS Is_In;
-DROP TABLE IF EXISTS Type_of;
-DROP TABLE IF EXISTS Written_In;
-DROP TABLE IF EXISTS Published_By;
-DROP TABLE IF EXISTS Written_By;
-DROP TABLE IF EXISTS Location;
-DROP TABLE IF EXISTS Book;
-DROP TABLE IF EXISTS Genre;
-DROP TABLE IF EXISTS Language;
-DROP TABLE IF EXISTS Author;
-DROP TABLE IF EXISTS Publisher;
-DROP TABLE IF EXISTS Country;
+-- Drop script (Deletes everything)
+
+DROP TABLE IF EXISTS Is_In; -- Publisher is in country
+DROP TABLE IF EXISTS Type_of; -- Book is genre
+DROP TABLE IF EXISTS Written_In; -- Book is in language
+DROP TABLE IF EXISTS Published_By; -- Book is published by publisher
+DROP TABLE IF EXISTS Written_By; -- Book is written by author
+DROP TABLE IF EXISTS Location; -- Location of publisher
+DROP TABLE IF EXISTS Book; -- Book
+DROP TABLE IF EXISTS Genre; -- Genre
+DROP TABLE IF EXISTS Language; -- Language
+DROP TABLE IF EXISTS Author; -- Author
+DROP TABLE IF EXISTS Publisher; -- Publisher
+DROP TABLE IF EXISTS Country; -- Country
 
 commit;
