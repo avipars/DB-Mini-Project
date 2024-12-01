@@ -248,18 +248,27 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
     for i in range(num_books):
         already_type_of_list = []
         genre_index = random.randint(0, len(GENRES_LIST) - 1)
+        # Assign the first genre to the book
         TYPE_OF["ID"].append(BOOKS["ID"][i])
         TYPE_OF["Genre_ID"].append(GENRES["Genre_ID"][genre_index])
-        already_type_of_list.append(GENRES["Genre_ID"][genre_index])
-        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple genres
+        already_type_of_list.append(GENRES["Genre_ID"][genre_index])  # Add this genre to the list
+
+        # 20% chance of having multiple genres
+        fake = faker.boolean(chance_of_getting_true=30)
+        
+        # Only allow additional genres if fake is true and genre is not already assigned
         while fake:
             genre_index = random.randint(0, len(GENRES_LIST) - 1)
+            
+            # Ensure genre is not already assigned to the book
             if GENRES["Genre_ID"][genre_index] not in already_type_of_list:
                 TYPE_OF["ID"].append(BOOKS["ID"][i])
                 TYPE_OF["Genre_ID"].append(GENRES["Genre_ID"][genre_index])
-                already_type_of_list.append(GENRES["Genre_ID"][genre_index])
-                fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple genres
-
+                already_type_of_list.append(GENRES["Genre_ID"][genre_index])  # Add new genre to the list
+                
+            # Continue with a 20% chance for additional genres
+            fake = faker.boolean(chance_of_getting_true=35)
+            
     # generate relations for is_in
     unique_pairs = set()  # To keep track of unique (Publisher_ID, Country_ID) pairs
     for i in range(num_publishers):
