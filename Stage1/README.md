@@ -91,7 +91,7 @@ Build a database system to manage books in a library.
 
 ## Stage 2
 
-### Create Tables:
+### Create Tables
 
 * ![image](https://github.com/user-attachments/assets/a8f66d3d-50f3-49a1-9e3b-1e6cf1d12e80)
 
@@ -104,6 +104,59 @@ And click execute script
 
 ![image](https://github.com/user-attachments/assets/47706ba8-9894-4da4-ba39-d22338730f4f)
 
+### Load data
+
+In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the following order
+
+# Schema Dependency Outline
+
+## 1. Country
+- **Independent table**.
+- Script: `random_countries.sql`
+
+## 2. Publisher
+- **Depends on Country** for the `Is_In` table.
+- Script: `random_publishers.sql`
+
+## 3. Author
+- **Independent table**.
+- Script: `random_authors.sql`
+
+## 4. Language
+- **Independent table**.
+- Script: `random_languages.sql`
+
+## 5. Genre
+- **Independent table**.
+- Script: `random_genres.sql`
+
+## 6. Book
+- **Independent table** but referenced by several others.
+- Script: `random_books.sql`
+
+## 7. Location
+- **Depends on Book.**
+- Script: `random_locations.sql`
+
+## 8. Written_By
+- **Depends on Book and Author.**
+- Script: `written_by.sql`
+
+## 9. Published_By
+- **Depends on Book and Publisher.**
+- Script: `published_by.sql`
+
+## 10. Written_In
+- **Depends on Book and Language.**
+- Script: `written_in.sql`
+
+## 11. Type_of
+- **Depends on Book and Genre.**
+- Script: `type_of.sql`
+
+## 12. Is_In
+- **Depends on Publisher and Country.**
+- Script: `is_in.sql`
 
 
 
