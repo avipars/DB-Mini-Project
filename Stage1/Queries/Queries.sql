@@ -34,7 +34,7 @@ WITH LanguageCounts AS (
     JOIN Published_By pb ON p.Publisher_ID = pb.Publisher_ID
     JOIN Written_In w ON pb.ID = w.ID 
     GROUP BY P.Publisher_ID, P.Name -- group by publisher
-);
+)
 SELECT Name, LanguageCount 
 FROM LanguageCounts
 WHERE LanguageCount = (SELECT MAX(LanguageCount) FROM LanguageCounts); -- take previous subquery and extract the MAX

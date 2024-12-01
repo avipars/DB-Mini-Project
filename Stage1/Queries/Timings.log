@@ -1,17 +1,40 @@
-Regular Queries
+Regular Queries without indexing
 
 Query 1
- first_name  | last_name | date_of_birth
--------------+-----------+---------------
- Michael     | Johnson   | 1800-01-10
- Christopher | Rivera    | 1800-01-11
- Lauren      | Lopez     | 1800-03-17
- Victoria    | Henderson | 1800-03-26
- Jeffrey     | Garza     | 1800-03-31
-(5 rows)
-
-
-Time: 95.574 ms
+"QUERY PLAN"
+"Limit  (cost=10902.45..11019.84 rows=5 width=18) (actual time=84.977..89.806 rows=5 loops=1)"
+"  ->  GroupAggregate  (cost=10902.45..48749.24 rows=1612 width=18) (actual time=84.977..89.804 rows=5 loops=1)"
+"        Group Key: a.date_of_birth, a.first_name, a.last_name"
+"        Filter: (count(DISTINCT b.id) > 0)"
+"        ->  Nested Loop  (cost=10902.45..47364.73 rows=132406 width=22) (actual time=84.874..89.761 rows=193 loops=1)"
+"              ->  Gather Merge  (cost=10902.14..26323.01 rows=132406 width=22) (actual time=84.661..89.158 rows=193 loops=1)"
+"                    Workers Planned: 2"
+"                    Workers Launched: 2"
+"                    ->  Sort  (cost=9902.12..10040.04 rows=55169 width=22) (actual time=56.831..56.894 rows=927 loops=3)"
+"                          Sort Key: a.date_of_birth, a.first_name, a.last_name, wb.id"
+"                          Sort Method: external merge  Disk: 2136kB"
+"                          Worker 0:  Sort Method: quicksort  Memory: 2918kB"
+"                          Worker 1:  Sort Method: quicksort  Memory: 2833kB"
+"                          ->  Nested Loop  (cost=0.71..5557.13 rows=55169 width=22) (actual time=0.227..25.798 rows=44135 loops=3)"
+"                                ->  Parallel Index Only Scan using written_by_pkey on written_by wb  (cost=0.42..2702.14 rows=55169 width=8) (actual time=0.164..4.386 rows=44135 loops=3)"
+"                                      Heap Fetches: 0"
+"                                ->  Memoize  (cost=0.29..0.31 rows=1 width=22) (actual time=0.000..0.000 rows=1 loops=132406)"
+"                                      Cache Key: wb.author_id"
+"                                      Cache Mode: logical"
+"                                      Hits: 59435  Misses: 4981  Evictions: 0  Overflows: 0  Memory Usage: 602kB"
+"                                      Worker 0:  Hits: 30183  Misses: 4867  Evictions: 0  Overflows: 0  Memory Usage: 588kB"
+"                                      Worker 1:  Hits: 28101  Misses: 4839  Evictions: 0  Overflows: 0  Memory Usage: 585kB"
+"                                      ->  Index Scan using author_pkey on author a  (cost=0.28..0.30 rows=1 width=22) (actual time=0.001..0.001 rows=1 loops=14687)"
+"                                            Index Cond: (author_id = wb.author_id)"
+"              ->  Memoize  (cost=0.30..0.33 rows=1 width=4) (actual time=0.003..0.003 rows=1 loops=193)"
+"                    Cache Key: wb.id"
+"                    Cache Mode: logical"
+"                    Hits: 0  Misses: 193  Evictions: 0  Overflows: 0  Memory Usage: 20kB"
+"                    ->  Index Only Scan using book_pkey on book b  (cost=0.29..0.32 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=193)"
+"                          Index Cond: (id = wb.id)"
+"                          Heap Fetches: 0"
+"Planning Time: 0.388 ms"
+"Execution Time: 91.120 ms"
 
 Query 2
 "QUERY PLAN"
