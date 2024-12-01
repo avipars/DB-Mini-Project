@@ -1,2 +1,3 @@
 Stage1/backupSQL.sql filter=lfs diff=lfs merge=lfs -text
 Stage1/backupPSQL.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/pg_backup.backup filter=lfs diff=lfs merge=lfs -text

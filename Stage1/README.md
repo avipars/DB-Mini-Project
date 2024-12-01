@@ -1,4 +1,4 @@
-# BookDB
+# BookDB Stage 1 and Stage 2
 
 ## Leib Blam and Avi Parshan
 
@@ -6,7 +6,7 @@
 
 This library book database system was created solely for educational and demonstration purposes. All data contained within is entirely fabricated and does not represent any real-world information. Any resemblance to actual book titles, authors, or other entities is purely coincidental and unintentional. 
 
-## Stage 1
+## Stage 1 
 ### Project Proposal
 
 Build a database system to manage books in a library.  
@@ -175,51 +175,22 @@ if-exists to avoid errors if tables do not exist
    Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/backupPSQL.log)
 
 
-### Restore Data
-
-   * Restore backupSQL (plain text)
-
-      ```bash
-      pg_restore --host "localhost" --port "5432" --username "postgres" --no-owner --no-privileges --verbose --clean --if-exists --disable-triggers --dbname "postgres"  2>restoreSQL.log
-      ```
-
-      <!-- Full restore output is [here]( -->
+### Restore Data 
 
    * Restore backupPSQL (binary format)
 
-      ```bash
-      pg_restore --host "localhost" --port "5432" --username "postgres" --no-owner --no-privileges  --format=c --verbose --clean --if-exists --disable-triggers --dbname "postgres" 2>restorePSQL.log
-      ```
+      send logs to be appended to original log file, disable triggers helps us avoid future constraint issues with order of insertion into the table (preventative measure)
 
-      <!-- Full restore output is [here]( -->
+      no owner and no privileges to avoid issues with permissions
+      
+      ```bash
+      pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "Stage1\backupPSQL.sql" 2>>"Stage1\backupPSQL.log"
+      ```
 
 ### Basic Queries
 
-   SELECT: 
+   - found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/Queries.sql)
 
-   * Find the oldest author who published at least 1 book in the database 
-   
-   * Select the average amount of books published by each publisher
-
-   * Get the book with the least number of copies available
-
-   * Get languages that have no books written in them
-
-   * Get all Math books that are in any of these conditions: New, Like new, very good, or good
-
-   * Get 5 large print books written in english that are published in the USA
-
-   DELETE: 
-
-   * Delete books that are in Poor or Damaged condition if their copies are less than 5
-
-   * Delete publishers that have no books published by them in the database
-
-   UPDATE:
-
-   * All new books that have been released in the last 3 years that are New are now considered Like New
-
-   * Move all returned Reference books that are in good condition to the Reference section
 
 ### Timing
 
