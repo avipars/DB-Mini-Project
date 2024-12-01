@@ -1,6 +1,4 @@
-D:\NewComp\DevProjects\JCT\DB-Mini-Project>pg_dump -U postgres -d postgres -v -f ".\Stage1\backupSQL.sql"
-Password:
-
+pg_dump: allocating AH for backupSQL.sql, format 4
 pg_dump: last built-in OID is 16383
 pg_dump: reading extensions
 pg_dump: identifying extension members
@@ -50,6 +48,11 @@ pg_dump: reading dependency data
 pg_dump: saving encoding = UTF8
 pg_dump: saving "standard_conforming_strings = on"
 pg_dump: saving "search_path = "
+pg_dump: saving database definition
+pg_dump: dropping DATABASE postgres
+pg_dump: creating DATABASE "postgres"
+pg_dump: connecting to new database "postgres"
+pg_dump: creating COMMENT "DATABASE postgres"
 pg_dump: creating TABLE "public.author"
 pg_dump: creating TABLE "public.book"
 pg_dump: creating TABLE "public.country"
@@ -63,29 +66,17 @@ pg_dump: creating TABLE "public.type_of"
 pg_dump: creating TABLE "public.written_by"
 pg_dump: creating TABLE "public.written_in"
 pg_dump: processing data for table "public.author"
-pg_dump: dumping contents of table "public.author"
 pg_dump: processing data for table "public.book"
-pg_dump: dumping contents of table "public.book"
 pg_dump: processing data for table "public.country"
-pg_dump: dumping contents of table "public.country"
 pg_dump: processing data for table "public.genre"
-pg_dump: dumping contents of table "public.genre"
 pg_dump: processing data for table "public.is_in"
-pg_dump: dumping contents of table "public.is_in"
 pg_dump: processing data for table "public.language"
-pg_dump: dumping contents of table "public.language"
 pg_dump: processing data for table "public.location"
-pg_dump: dumping contents of table "public.location"
 pg_dump: processing data for table "public.published_by"
-pg_dump: dumping contents of table "public.published_by"
 pg_dump: processing data for table "public.publisher"
-pg_dump: dumping contents of table "public.publisher"
 pg_dump: processing data for table "public.type_of"
-pg_dump: dumping contents of table "public.type_of"
 pg_dump: processing data for table "public.written_by"
-pg_dump: dumping contents of table "public.written_by"
 pg_dump: processing data for table "public.written_in"
-pg_dump: dumping contents of table "public.written_in"
 pg_dump: creating CONSTRAINT "public.author author_pkey"
 pg_dump: creating CONSTRAINT "public.book book_isbn_key"
 pg_dump: creating CONSTRAINT "public.book book_pkey"

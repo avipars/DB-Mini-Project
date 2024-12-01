@@ -126,7 +126,7 @@ Build a database system to manage books in a library.
 
 ## Stage 2
 
-### Create Tables
+### Create Tables in PostgreSQL
 
 * ![image](https://github.com/user-attachments/assets/a8f66d3d-50f3-49a1-9e3b-1e6cf1d12e80)
 
@@ -143,19 +143,88 @@ And click execute script
 
 In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the order listed above
 
-
 ### Dump Data
 
 Via command line, we can dump the data from the database into a file. 
 
-```bash
-pg_dump -U postgres -d postgres -v -f ".\Stage1\backupSQL.sql"
-```
+clean to first drop tables
 
-Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/dump.log)
+if-exists to avoid errors if tables do not exist
 
-![image](https://github.com/user-attachments/assets/3684afc6-2b9b-4574-abf1-6ae5fef07955)
+* backupSQL (with DROP . . . CREATE . . . INSERT)
+
+   settled on 1000 rows per insert to balance speed and file size
+
+   create to include create table statements
+
+   inserts to include insert statements
+
+   ```bash
+   pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create --clean --if-exists --verbose --inserts --rows-per-insert "1000" 2>backupSQL.log
+   ```
+
+   Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/backupSQL.log)
 
 
+* backupPSQL (binary format)
+
+   ```bash
+   pg_dump --file "backupPSQL.sql" --host "localhost" --port "5432" --username "postgres" --format=c --create --clean --if-exists --verbose "postgres" 2>backupPSQL.log
+   ```
+
+   Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/backupPSQL.log)
 
 
+### Restore Data
+
+   file format should be auto-detected
+
+   * Restore backupSQL (plain text)
+
+      ```bash
+      pg_restore --file "backupSQL.sql" --host "localhost" --port "5432" --username "postgres" --format --clean --if-exists --dbname "postgres" 2>restoreSQL.log
+      ```
+
+      <!-- Full restore output is [here]( -->
+
+   * Restore backupPSQL (binary format)
+
+      ```bash
+      pg_restore --file "backupPSQL.sql" --host "localhost" --port "5432" --username "postgres" --verbose --clean --if-exists --dbname "postgres" 2>restorePSQL.log
+      ```
+
+      <!-- Full restore output is [here]( -->
+
+### Basic Queries
+
+   SELECT: 
+
+   * Find the oldest author who published at least 1 book in the database 
+   
+   * Select the average amount of books published by each publisher
+
+   * Get the book with the least number of copies available
+
+   * Get languages that have no books written in them
+
+   * Get all Math books that are in any of these conditions: New, Like new, very good, or good
+
+   * Get 5 large print books written in english that are published in the USA
+
+   DELETE: 
+
+   * Delete books that are in Poor or Damaged condition if their copies are less than 5
+
+   * Delete publishers that have no books published by them in the database
+
+   UPDATE:
+
+   * All new books that have been released in the last 3 years that are New are now considered Like New
+
+   * Move all returned Reference books that are in good condition to the Reference section
+
+### Timing
+
+### Indexing
+
+### Parameterized Queries
