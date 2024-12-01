@@ -1,15 +1,16 @@
 import random
 import json
 from faker import Faker
+import os
 from datetime import datetime
 
 # Initialize Faker for random realistic data
-faker = Faker()
+faker = Faker("en_US")
 
 # SQL Statements
 BOOK_SCRIPT = 'INSERT INTO Book (Title, ID, Release_Date, Page_Count, Format, Description, ISBN) VALUES'
 LOCATION_SCRIPT = 'INSERT INTO Location (Quantity, Floor, Shelf, Location_ID, Condition, ID) VALUES'
-AUTHOR_SCRIPT = 'INSERT INTO Author (First_Name, Last_Name, Date_of_Birth, Author_ID, Biographygraphy) VALUES'
+AUTHOR_SCRIPT = 'INSERT INTO Author (First_Name, Last_Name, Date_of_Birth, Author_ID, Biography) VALUES'
 PUBLISHER_SCRIPT = 'INSERT INTO Publisher (Name, Phone_Number, Website, Publisher_ID) VALUES'
 COUNTRY_SCRIPT = 'INSERT INTO Country (Name, Country_ID) VALUES'
 GENRE_SCRIPT = 'INSERT INTO Genre (Name, Description, Genre_ID) VALUES'
@@ -36,18 +37,13 @@ def generate_unique_id(existing_ids, digits=9):
     existing_ids.add(new_id)
     return new_id
 
-# generate date between two values 
-def generate_date(start: str = "1800-01-01", end: str = "2006-01-01"):
-    start = datetime.strptime(start, "%Y-%m-%d")
-    end = datetime.strptime(end, "%Y-%m-%d")
+# generate date between two values
+def generate_date(start ="1800-01-01", end = "2006-01-01"):
+    if isinstance(start, str):
+        start = datetime.strptime(start, "%Y-%m-%d").date()
+    if isinstance(end, str):
+        end = datetime.strptime(end, "%Y-%m-%d").date()
     return faker.date_between(start_date=start, end_date=end)
-
-# generate random address
-# def generate_address():
-#     return f"{random.randint(1, 9999)} {r.random_words(1)} {r.random_words(1)}"
-# # generate random url
-# def generate_url():
-#     return f"https://{r.random_words(1)}.com"
 
 NUM_BOOKS = 100000
 NUM_AUTHORS = 5000
@@ -142,22 +138,23 @@ IS_IN = {
 
 # Generate random data
 def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=NUM_PUBLISHERS, num_locations=NUM_LOCATIONS):
-    
+    print(f"Generating {num_books} books, {num_authors} authors, {num_publishers} publishers, and {num_locations} locations...")
     # generate countries
     for i in range(len(COUNTRIES_LIST)):
-        COUNTRIES["Country_ID"].append(i)
+        COUNTRIES["Country_ID"].append(i) # sequential country id
         COUNTRIES["Name"].append(COUNTRIES_LIST[i])
 
     # Generate publishers
-    for _ in range(num_publishers):
-        PUBLISHERS["Publisher_ID"].append(faker.random_number(digits=5))
+    unique_publisher_ids = set()
+    for _ in range(num_publishers):       
+        PUBLISHERS["Publisher_ID"].append(generate_unique_id(unique_publisher_ids, digits=5)) # ensure unique
         PUBLISHERS["Name"].append(faker.company())
         PUBLISHERS["Phone_Number"].append(faker.phone_number())
         PUBLISHERS["Website"].append(faker.url())
 
     # generate genres
     for i in range(len(GENRES_LIST)):
-        GENRES["Genre_ID"].append(i)
+        GENRES["Genre_ID"].append(i) 
         GENRES["Name"].append(GENRES_LIST[i])
         GENRES["Description"].append(faker.sentence())
 
@@ -166,33 +163,25 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         LANGUAGES["Language_ID"].append(i)
         LANGUAGES["Name"].append(LANGUAGE_LIST[i])
 
+    unique_author_ids = set()
     # Generate authors
     for _ in range(num_authors):
-        AUTHORS["Author_ID"].append(faker.random_number(digits=9))
+        AUTHORS["Author_ID"].append(generate_unique_id(unique_author_ids, digits=9))
         AUTHORS["First_Name"].append(faker.first_name())
         AUTHORS["Last_Name"].append(faker.last_name())
         AUTHORS["Biography"].append(faker.paragraph())
         AUTHORS["Date_of_Birth"].append(generate_date())
 
+    unique_book_ids = set()
+    unique_isbn = set()
     # Generate books
     for i in range(num_books):
-        BOOKS["ID"].append(faker.random_number(digits=5))
+        BOOKS["ID"].append(generate_unique_id(unique_book_ids, digits=5))
         BOOKS["Title"].append(faker.sentence())
-        BOOKS["ISBN"].append(faker.random_number(digits=13))
+        BOOKS["ISBN"].append(generate_unique_id(unique_isbn, digits=9)) # original isbn standard
         BOOKS["Page_Count"].append(faker.random_number(digits=3))
         BOOKS["Format"].append(random.choice(BOOKFORMAT_LIST))
         BOOKS["Description"].append(faker.paragraph())
-
-        # author_index = AUTHORS["Author_ID"].index(author_id)
-        # author_dob_str = AUTHORS["Date_of_Birth"][author_index]
-        # author_dob = datetime.strptime(author_dob_str, '%Y-%m-%d')
-
-        # # Generate a release date after the author's date of birth
-        # min_release_date = author_dob + timedelta(days=random.randint(18*365, 90*365))  # 18 to 90 years
-        # max_release_date = datetime.now()
-        # release_date = generate_date(date_start=min_release_date)
-
-        # BOOKS["Release_Date"].append(release_date)
         BOOKS["Release_Date"].append(generate_date(start="1850-01-01", end=datetime.now().strftime("%Y-%m-%d")))
 
     # generate locations
@@ -272,20 +261,33 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
                 fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple genres
 
     # generate relations for is_in
+    unique_pairs = set()  # To keep track of unique (Publisher_ID, Country_ID) pairs
     for i in range(num_publishers):
+        publisher_id = PUBLISHERS["Publisher_ID"][i]
+        country_id = random.randint(0, len(COUNTRIES_LIST) - 1)
         already_is_in_list = []
-        IS_IN["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][i])
-        IS_IN["Country_ID"].append(random.randint(0, len(COUNTRIES_LIST) - 1))
-        already_is_in_list.append(COUNTRIES["Country_ID"][IS_IN["Country_ID"][i]])
-        fake = faker.boolean(chance_of_getting_true=20) # 20% chance of having multiple countries
+        
+        # Add the first country
+        IS_IN["Publisher_ID"].append(publisher_id)
+        IS_IN["Country_ID"].append(COUNTRIES["Country_ID"][country_id])
+        already_is_in_list.append(COUNTRIES["Country_ID"][country_id])
+        unique_pairs.add((publisher_id, COUNTRIES["Country_ID"][country_id]))
+        
+        # Check for additional countries with a 20% chance
+        fake = faker.boolean(chance_of_getting_true=20)
         while fake:
             country_index = random.randint(0, len(COUNTRIES_LIST) - 1)
-            if COUNTRIES["Country_ID"][country_index] not in already_is_in_list:
-                IS_IN["Publisher_ID"].append(PUBLISHERS["Publisher_ID"][i])
-                IS_IN["Country_ID"].append(COUNTRIES["Country_ID"][country_index])
-                already_is_in_list.append(COUNTRIES["Country_ID"][country_index])
-                fake = faker.boolean(chance_of_getting_true=20)
-
+            new_country_id = COUNTRIES["Country_ID"][country_index]
+            
+            # Ensure no duplicate entries
+            if new_country_id not in already_is_in_list and (publisher_id, new_country_id) not in unique_pairs:
+                IS_IN["Publisher_ID"].append(publisher_id)
+                IS_IN["Country_ID"].append(new_country_id)
+                already_is_in_list.append(new_country_id)
+                unique_pairs.add((publisher_id, new_country_id))
+            
+            # Roll for another country
+            fake = faker.boolean(chance_of_getting_true=20)
 
 
 # Save data to a JSON file
@@ -371,8 +373,12 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
 
 
 # Save each data into a PostgreSQL script
-def save_to_sql_script():
-    with open("./Stage1/Data_Samples/random_books.sql", "w") as file:
+
+def save_to_sql_script(folder = "./Stage1/Data_Samples"):
+    print(f"Saving data to SQL scripts in {folder}...")
+    os.makedirs(folder, exist_ok=True)     # Ensure the directory exists
+    with open(f"{folder}/random_books.sql", "w+") as file:    #  if file doesnt exist, create it (w+)
+
         file.write(BOOK_SCRIPT)
         for i in range(NUM_BOOKS):
             file.write(f"('{BOOKS['Title'][i]}', {BOOKS['ID'][i]}, '{BOOKS['Release_Date'][i]}', {BOOKS['Page_Count'][i]}, '{BOOKS['Format'][i]}', '{BOOKS['Description'][i]}', {BOOKS['ISBN'][i]})")            
@@ -380,7 +386,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_locations.sql", "w") as file:
+    with open(f"{folder}/random_locations.sql", "w+") as file:
         file.write(LOCATION_SCRIPT)
         for i in range(NUM_LOCATIONS):
             file.write(f"({LOCATIONS['Quantity'][i]}, '{LOCATIONS['Floor'][i]}', {LOCATIONS['Shelf'][i]}, {LOCATIONS['Location_ID'][i]}, '{LOCATIONS['Condition'][i]}', {LOCATIONS['ID'][i]})")
@@ -388,7 +394,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_authors.sql", "w") as file:
+    with open(f"{folder}/random_authors.sql", "w+") as file:
         file.write(AUTHOR_SCRIPT)
         for i in range(NUM_AUTHORS):
             file.write(f"('{AUTHORS['First_Name'][i]}', '{AUTHORS['Last_Name'][i]}', '{AUTHORS['Date_of_Birth'][i]}', {AUTHORS['Author_ID'][i]}, '{AUTHORS['Biography'][i]}')")
@@ -396,7 +402,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_publishers.sql", "w") as file:
+    with open(f"{folder}//random_publishers.sql", "w+") as file:
         file.write(PUBLISHER_SCRIPT)
         for i in range(NUM_PUBLISHERS):
             file.write(f"('{PUBLISHERS['Name'][i]}', '{PUBLISHERS['Phone_Number'][i]}', '{PUBLISHERS['Website'][i]}', {PUBLISHERS['Publisher_ID'][i]})")
@@ -404,7 +410,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_countries.sql", "w") as file:
+    with open(f"{folder}/random_countries.sql", "w+") as file:
         file.write(COUNTRY_SCRIPT)
         for i in range(len(COUNTRIES_LIST)):
             file.write(f"('{COUNTRIES['Name'][i]}', {COUNTRIES['Country_ID'][i]})")
@@ -412,7 +418,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_genres.sql", "w") as file:
+    with open(f"{folder}/random_genres.sql", "w+") as file:
         file.write(GENRE_SCRIPT)
         for i in range(len(GENRES_LIST)):
             file.write(f"('{GENRES['Name'][i]}', '{GENRES['Description'][i]}', {GENRES['Genre_ID'][i]})")
@@ -420,7 +426,7 @@ def save_to_sql_script():
                 file.write(",\n")
             else:
                 file.write(";\n\n")
-    with open("./Stage1/Data_Samples/random_languages.sql", "w") as file:
+    with open(f"{folder}/random_languages.sql", "w+") as file:
         file.write(LANGUAGE_SCRIPT)
         for i in range(len(LANGUAGE_LIST)):
             file.write(f"({LANGUAGES['Language_ID'][i]}, '{LANGUAGES['Name'][i]}')")
@@ -429,7 +435,7 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
     # generate tables for the other relations
-    with open("./Stage1/Data_Samples/written_by.sql", "w") as file:
+    with open(f"{folder}/written_by.sql", "w+") as file:
         file.write(WRITTEN_BY_SCRIPT)
         for i in range(len(WRITTEN_BY["ID"])):
             file.write(f"({WRITTEN_BY['ID'][i]}, {WRITTEN_BY['Author_ID'][i]})")
@@ -438,7 +444,7 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
 
-    with open("./Stage1/Data_Samples/published_by.sql", "w") as file:
+    with open(f"{folder}/published_by.sql", "w+") as file:
         file.write(PUBLISHED_BY_SCRIPT)
         for i in range(len(PUBLISHED_BY["ID"])):
             file.write(f"({PUBLISHED_BY['ID'][i]}, {PUBLISHED_BY['Publisher_ID'][i]})")
@@ -447,7 +453,7 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
 
-    with open("./Stage1/Data_Samples/written_in.sql", "w") as file:
+    with open(f"{folder}/written_in.sql", "w+") as file:
         file.write(WRITTEN_IN_SCRIPT)
         for i in range(len(WRITTEN_IN["ID"])):
             file.write(f"({WRITTEN_IN['ID'][i]}, {WRITTEN_IN['Language_ID'][i]})")
@@ -456,7 +462,7 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
 
-    with open("./Stage1/Data_Samples/type_of.sql", "w") as file:
+    with open(f"{folder}/type_of.sql", "w+") as file:
         file.write(TYPE_OF_SCRIPT)
         for i in range(len(TYPE_OF["ID"])):
             file.write(f"({TYPE_OF['ID'][i]}, {TYPE_OF['Genre_ID'][i]})")
@@ -465,7 +471,7 @@ def save_to_sql_script():
             else:
                 file.write(";\n\n")
 
-    with open("./Stage1/Data_Samples/is_in.sql", "w") as file:
+    with open(f"{folder}/is_in.sql", "w+") as file:
         file.write(IS_IN_SCRIPT)
         for i in range(len(IS_IN["Publisher_ID"])):
             file.write(f"({IS_IN['Publisher_ID'][i]}, {IS_IN['Country_ID'][i]})")
@@ -478,7 +484,7 @@ def save_to_sql_script():
 def main():
     generate_data()
     # save_to_json_file()
-    save_to_sql_script()
+    save_to_sql_script(folder = "./data")
 
 if __name__ == "__main__":
     main()
