@@ -1,11 +1,11 @@
--- QUERY 1: a query where the user enters a genre and number of outputs and results the most ranked authors in that genre
--- 140ms
+-- QUERY 9: a query where the user enters a genre and number of outputs and results the most ranked authors in that genre
+-- RANK = number of books written by author in that genre
 -- Prepare the query
 PREPARE find_top_books_by_author(CHARACTER VARYING, INTEGER) AS
 WITH AuthorRank AS (
     SELECT 
         wb.Author_ID,
-        a.First_Name || ' ' || a.Last_Name AS Author_Name,
+        a.First_Name || ' ' || a.Last_Name AS Author_Name, 
         COUNT(wb.ID) AS Total_Books_By_Author,
         tof.Genre_ID
     FROM 
@@ -48,8 +48,7 @@ LIMIT $2; -- Number of top books parameter
 EXECUTE find_top_books_by_author('Fantasy', 5);
 
 
--- QUERY 2: a query where the user enters a language and it outputs 5 books written in that language
---90ms
+-- QUERY 10: a query where the user enters a language and it outputs 5 books written in that language
 -- Prepare the query
 PREPARE find_books_by_language(CHARACTER VARYING, INTEGER) AS
 SELECT 
@@ -74,7 +73,7 @@ LIMIT $2;  -- Limit to top N books based on user input
 EXECUTE find_books_by_language('Spanish', 5);
 
 
--- QUERY 3: The user enters a book name and it outputs all the publishers of this book
+-- QUERY 11: The user enters a book name and it outputs all the publishers of this book
 -- Prepare the query
 PREPARE find_publishers_by_book(CHARACTER VARYING) AS
 SELECT 
@@ -93,7 +92,7 @@ WHERE
 -- Execute the prepared query with the book name as an argument
 EXECUTE find_publishers_by_book('Shake itself former majority.');
 
--- QUERY 4: The user enters a publisher name and it outputs all the books published by this publisher
+-- QUERY 12: The user enters a publisher name and it outputs all the books published by this publisher
 -- Prepare the query
 PREPARE find_books_by_publisher(CHARACTER VARYING) AS
 SELECT 

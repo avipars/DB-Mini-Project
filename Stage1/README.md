@@ -219,18 +219,22 @@ if-exists to avoid errors if tables do not exist
 
 ### Parameterized Queries
 
-   * (Query 9) 
+ - found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
 
-   * (Query 10) 
 
-   * (Query 11) 
+   * (Query 9) Top N prolific authors in a genre (who wrote the most books in that genre)
 
-   * (Query 12)
+   * (Query 10) Get the top N books written in a specified language
+
+   * (Query 11) Get all publishers associated with a specified book
+
+   * (Query 12) Lists all books published by a specified publisher
 
 
 ### Indexing
 
 ### Timing
+
 
 * Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
