@@ -1,4 +1,4 @@
--- TODO RUN AND CHECK
+
 
 -- Test input of invalid constraints which should cause an error
 

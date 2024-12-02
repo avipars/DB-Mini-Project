@@ -284,8 +284,6 @@ To make our database system more sturdy, we enforced the following rules:
 
 * Author birth date is not in the future
 
-* Author birth date comes before book release date 
-
 * Every book has a publisher
 
 * Shelf number is minimum of 0

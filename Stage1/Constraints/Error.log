@@ -1,0 +1,37 @@
+ERROR:  Failing row contains (-1, History Section, 85, 70000, New, 62819).new row for relation "location" violates check constraint "book_quantity" 
+
+ERROR:  new row for relation "location" violates check constraint "book_quantity"
+SQL state: 23514
+Detail: Failing row contains (-1, History Section, 85, 70000, New, 62819)
+
+ERROR:  Failing row contains (27, Adult Section, -52, 70001, New, 43003).new row for relation "location" violates check constraint "shelf_min" 
+
+ERROR:  new row for relation "location" violates check constraint "shelf_min"
+SQL state: 23514
+Detail: Failing row contains (27, Adult Section, -52, 70001, New, 43003).
+
+ERROR:  Failing row contains (The Hobbit, 100000, 1937-09-21, -310, null, null, 123456789).null value in column "format" of relation "book" violates not-null constraint 
+
+ERROR:  null value in column "format" of relation "book" violates not-null constraint
+SQL state: 23502
+Detail: Failing row contains (The Hobbit, 100000, 1937-09-21, -310, null, null, 123456789).
+ERROR:  Failing row contains (The Hobbit, 1, 2037-09-21, 310, null, null, 123456789).null value in column "format" of relation "book" violates not-null constraint 
+
+ERROR:  null value in column "format" of relation "book" violates not-null constraint
+SQL state: 23502
+Detail: Failing row contains (The Hobbit, 1, 2037-09-21, 310, null, null, 123456789).
+ERROR:  Key (publisher_id)=(38816) is not present in table "publisher".insert or update on table "published_by" violates foreign key constraint "published_by_publisher_id_fkey" 
+
+ERROR:  insert or update on table "published_by" violates foreign key constraint "published_by_publisher_id_fkey"
+SQL state: 23503
+Detail: Key (publisher_id)=(38816) is not present in table "publisher".
+ERROR:  Failing row contains (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).new row for relation "author" violates check constraint "dob_future" 
+
+ERROR:  new row for relation "author" violates check constraint "dob_future"
+SQL state: 23514
+Detail: Failing row contains (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).
+ERROR:  Key (author_id)=(818352457) is not present in table "author".insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey" 
+
+ERROR:  insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey"
+SQL state: 23503
+Detail: Key (author_id)=(818352457) is not present in table "author".
