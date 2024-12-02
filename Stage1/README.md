@@ -217,16 +217,13 @@ if-exists to avoid errors if tables do not exist
 
    * (Query 8) Delete all books written in russian that have more than 90 copies in stock
 
-
+### Parameterized Queries
 
 ### Indexing
 
 ### Timing
 
 * TODO COMPARE WITH AND WITHOUT INDEXING AND PUT IN TABLE
-
-### Parameterized Queries
-
 
 ### Constraints
 
