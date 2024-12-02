@@ -1,0 +1,88 @@
+pg_restore: Fehler: konnte Eingabedatei »backupPSQLLeib.sql« nicht öffnen: No such file or directory
+pg_restore: verbinde mit der Datenbank zur Wiederherstellung
+pg_restore: entferne FK CONSTRAINT written_in written_in_language_id_fkey
+pg_restore: entferne FK CONSTRAINT written_in written_in_id_fkey
+pg_restore: entferne FK CONSTRAINT written_by written_by_id_fkey
+pg_restore: entferne FK CONSTRAINT written_by written_by_author_id_fkey
+pg_restore: entferne FK CONSTRAINT type_of type_of_id_fkey
+pg_restore: entferne FK CONSTRAINT type_of type_of_genre_id_fkey
+pg_restore: entferne FK CONSTRAINT published_by published_by_publisher_id_fkey
+pg_restore: entferne FK CONSTRAINT published_by published_by_id_fkey
+pg_restore: entferne FK CONSTRAINT location location_id_fkey
+pg_restore: entferne FK CONSTRAINT is_in is_in_publisher_id_fkey
+pg_restore: entferne FK CONSTRAINT is_in is_in_country_id_fkey
+pg_restore: entferne CONSTRAINT written_in written_in_pkey
+pg_restore: entferne CONSTRAINT written_by written_by_pkey
+pg_restore: entferne CONSTRAINT type_of type_of_pkey
+pg_restore: entferne CONSTRAINT publisher publisher_pkey
+pg_restore: entferne CONSTRAINT publisher publisher_phone_number_key
+pg_restore: entferne CONSTRAINT published_by published_by_pkey
+pg_restore: entferne CONSTRAINT location location_pkey
+pg_restore: entferne CONSTRAINT language language_pkey
+pg_restore: entferne CONSTRAINT is_in is_in_pkey
+pg_restore: entferne CONSTRAINT genre genre_pkey
+pg_restore: entferne CONSTRAINT country country_pkey
+pg_restore: entferne CONSTRAINT book book_pkey
+pg_restore: entferne CONSTRAINT book book_isbn_key
+pg_restore: entferne CONSTRAINT author author_pkey
+pg_restore: entferne TABLE written_in
+pg_restore: entferne TABLE written_by
+pg_restore: entferne TABLE type_of
+pg_restore: entferne TABLE publisher
+pg_restore: entferne TABLE published_by
+pg_restore: entferne TABLE location
+pg_restore: entferne TABLE language
+pg_restore: entferne TABLE is_in
+pg_restore: entferne TABLE genre
+pg_restore: entferne TABLE country
+pg_restore: entferne TABLE book
+pg_restore: entferne TABLE author
+pg_restore: erstelle TABLE »public.author«
+pg_restore: erstelle TABLE »public.book«
+pg_restore: erstelle TABLE »public.country«
+pg_restore: erstelle TABLE »public.genre«
+pg_restore: erstelle TABLE »public.is_in«
+pg_restore: erstelle TABLE »public.language«
+pg_restore: erstelle TABLE »public.location«
+pg_restore: erstelle TABLE »public.published_by«
+pg_restore: erstelle TABLE »public.publisher«
+pg_restore: erstelle TABLE »public.type_of«
+pg_restore: erstelle TABLE »public.written_by«
+pg_restore: erstelle TABLE »public.written_in«
+pg_restore: verarbeite Daten für Tabelle »public.author«
+pg_restore: verarbeite Daten für Tabelle »public.book«
+pg_restore: verarbeite Daten für Tabelle »public.country«
+pg_restore: verarbeite Daten für Tabelle »public.genre«
+pg_restore: verarbeite Daten für Tabelle »public.is_in«
+pg_restore: verarbeite Daten für Tabelle »public.language«
+pg_restore: verarbeite Daten für Tabelle »public.location«
+pg_restore: verarbeite Daten für Tabelle »public.published_by«
+pg_restore: verarbeite Daten für Tabelle »public.publisher«
+pg_restore: verarbeite Daten für Tabelle »public.type_of«
+pg_restore: verarbeite Daten für Tabelle »public.written_by«
+pg_restore: verarbeite Daten für Tabelle »public.written_in«
+pg_restore: erstelle CONSTRAINT »public.author author_pkey«
+pg_restore: erstelle CONSTRAINT »public.book book_isbn_key«
+pg_restore: erstelle CONSTRAINT »public.book book_pkey«
+pg_restore: erstelle CONSTRAINT »public.country country_pkey«
+pg_restore: erstelle CONSTRAINT »public.genre genre_pkey«
+pg_restore: erstelle CONSTRAINT »public.is_in is_in_pkey«
+pg_restore: erstelle CONSTRAINT »public.language language_pkey«
+pg_restore: erstelle CONSTRAINT »public.location location_pkey«
+pg_restore: erstelle CONSTRAINT »public.published_by published_by_pkey«
+pg_restore: erstelle CONSTRAINT »public.publisher publisher_phone_number_key«
+pg_restore: erstelle CONSTRAINT »public.publisher publisher_pkey«
+pg_restore: erstelle CONSTRAINT »public.type_of type_of_pkey«
+pg_restore: erstelle CONSTRAINT »public.written_by written_by_pkey«
+pg_restore: erstelle CONSTRAINT »public.written_in written_in_pkey«
+pg_restore: erstelle FK CONSTRAINT »public.is_in is_in_country_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.is_in is_in_publisher_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.location location_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.published_by published_by_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.published_by published_by_publisher_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.type_of type_of_genre_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.type_of type_of_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.written_by written_by_author_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.written_by written_by_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.written_in written_in_id_fkey«
+pg_restore: erstelle FK CONSTRAINT »public.written_in written_in_language_id_fkey«
