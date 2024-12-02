@@ -165,10 +165,9 @@ BEGIN;
         JOIN Written_In wi ON b.ID = wi.ID
         JOIN Language l ON wi.Language_ID = l.Language_ID
         JOIN Location loc ON b.ID = loc.ID
-        WHERE l.Name = 'Yiddish'
-        AND loc.Quantity > 5
+        WHERE l.Name = 'Russian'
+        AND loc.Quantity > 90
         GROUP BY b.ID
-        HAVING COUNT(wb.Author_ID) = 4
     );
 
     -- 2. Delete from Published_By (book-publisher relation)

@@ -1,0 +1,13 @@
+-- Result for DropTables.sql
+WARNING:  there is no transaction in progress
+COMMIT
+
+Query returned successfully in 684 msec.
+
+
+-- Result for CreateTables.sql
+
+CREATE TABLE
+
+Query returned successfully in 474 msec.
+

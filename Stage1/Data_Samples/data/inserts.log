@@ -1,0 +1,41 @@
+-- Inserts via order specified in readme
+
+INSERT 0 24
+
+Query returned successfully in 193 msec.
+
+INSERT 0 30000
+
+Query returned successfully in 2 secs 354 msec.
+
+INSERT 0 5000
+
+Query returned successfully in 287 msec.
+
+INSERT 0 62
+
+Query returned successfully in 74 msec.
+
+INSERT 0 77
+
+Query returned successfully in 101 msec.
+
+INSERT 0 70000
+
+Query returned successfully in 5 secs 822 msec.
+
+INSERT 0 132406
+
+Query returned successfully in 12 secs 75 msec.
+
+INSERT 0 125171
+
+Query returned successfully in 11 secs 1 msec.
+
+INSERT 0 124727
+
+Query returned successfully in 10 secs 982 msec.
+
+INSERT 0 37048
+
+Query returned successfully in 3 secs 366 msec.
