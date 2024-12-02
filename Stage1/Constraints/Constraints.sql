@@ -3,13 +3,13 @@
 ALTER TABLE Location
 ADD CONSTRAINT Book_Quantity CHECK (Quantity >= 0);
 
--- Shelf number is 1 or more
+-- Shelf number is 0 or more
 ALTER TABLE Location
-ADD CONSTRAINT Shelf_Min CHECK (Shelf > 0);
+ADD CONSTRAINT Shelf_Min CHECK (Shelf >= 0);
 
--- Book page count is 1 or more
+-- Book page count is 0 or more (for digital books)
 ALTER TABLE Book
-ADD CONSTRAINT Page_Min CHECK (Page_Count > 0);
+ADD CONSTRAINT Page_Min CHECK (Page_Count >= 0);
 
 -- Book ISBN is unique
 ALTER TABLE Book

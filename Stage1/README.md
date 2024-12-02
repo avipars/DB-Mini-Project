@@ -219,12 +219,57 @@ if-exists to avoid errors if tables do not exist
 
 ### Parameterized Queries
 
+   * (Query 9) 
+
+   * (Query 10) 
+
+   * (Query 11) 
+
+   * (Query 12)
+
+
 ### Indexing
 
 ### Timing
 
-* TODO COMPARE WITH AND WITHOUT INDEXING AND PUT IN TABLE
+* Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
 ### Constraints
 
-found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/)
+To make our database system more sturdy, we enforced the following rules:
+
+* Book quantity is minimum of 0
+
+* Book page count is minimum of 1
+
+* ISBN is unique
+
+* Release date for books is not in the future
+
+* Author birth date is not in the future
+
+* Author birth date comes before book release date 
+
+* Every book has a publisher
+
+* Shelf number is minimum of 0
+
+To test the constraints, we attempted to break them as follows:
+
+* Negative book quantity
+
+* Negative page count
+
+* Duplicate ISBN
+
+* Future release date
+
+* Future author birth date
+
+* Author birth date after book release date
+
+* Book without a publisher
+
+* Negative shelf number
+
+Files and logs found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/)
