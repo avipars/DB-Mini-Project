@@ -1,5 +1,3 @@
--- Enable timing
-\timing on
 -- SELECTS
 
 -- 1. Find the 5 oldest authors (Name, DOB) who published at least 1 book in the database 

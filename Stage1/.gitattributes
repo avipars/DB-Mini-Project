@@ -1,0 +1,2 @@
+backupSQLIndex.sql filter=lfs diff=lfs merge=lfs -text
+backupPSQLIndex.sql filter=lfs diff=lfs merge=lfs -text

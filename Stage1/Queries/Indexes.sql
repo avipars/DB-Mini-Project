@@ -1,6 +1,5 @@
 -- Indexes
 
--- Query 1
 -- Index on Genre.Name for fast lookups when filtering by genre
 CREATE INDEX idx_genre_name ON Genre(Name);
 
@@ -16,7 +15,6 @@ CREATE INDEX idx_type_of_genre_id ON Type_of(Genre_ID);
 -- Index on Book.ID for joining with Written_By and Type_of tables
 CREATE INDEX idx_book_id ON Book(ID);
 
--- Query 2
 -- Index on Language.Name for fast lookups when filtering by language
 CREATE INDEX idx_language_name ON Language(Name);
 
@@ -29,7 +27,6 @@ CREATE INDEX idx_written_in_id ON Written_In(ID);
 -- Index on Book.ID for joining with Written_In table
 CREATE INDEX idx_book_id_on_written_in ON Book(ID);
 
--- Query 3
 -- Index on Book.Title for fast lookups when filtering by book title
 CREATE INDEX idx_book_title ON Book(Title);
 
@@ -42,8 +39,6 @@ CREATE INDEX idx_published_by_id ON Published_By(ID);
 -- Index on Publisher.Publisher_ID for fast joins with Published_By table
 CREATE INDEX idx_publisher_id ON Publisher(Publisher_ID);
 
-
--- Query 4
 -- Index on Publisher.Name for fast lookups when filtering by publisher name
 CREATE INDEX idx_publisher_name ON Publisher(Name);
 

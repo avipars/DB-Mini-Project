@@ -1,12 +1,49 @@
 Query 1
 
+ first_name  | last_name | date_of_birth
+-------------+-----------+---------------
+ Michael     | Johnson   | 1800-01-10
+ Christopher | Rivera    | 1800-01-11
+ Lauren      | Lopez     | 1800-03-17
+ Victoria    | Henderson | 1800-03-26
+ Jeffrey     | Garza     | 1800-03-31
+(5 rows)
+
+
+Time: 311.863 ms
+
 Query 2
+
+ average_books_per_publisher
+-----------------------------
+                        4.17
+(1 row)
+
+
+Time: 228.738 ms
 
 Query 3
 
+    name     | languagecount
+-------------+---------------
+ Frazier Ltd |            19
+(1 row)
+
+
+Time: 604.491 ms
+
 Query 4
 
+            title             | quantity
+------------------------------+----------
+ Assume address tonight bill. |        0
+(1 row)
+
+
+Time: 10.922 ms
+
 Query 5
+
 
 Query 6
 
