@@ -232,6 +232,22 @@ if-exists to avoid errors if tables do not exist
 
 
 ### Indexing
+To optimize the performance of the previous parameterized queries, we should create indexes on the columns that are frequently used in JOIN operations, WHERE clauses, and ORDER BY clauses.
+Columns to index:
+
+* Genre.Name (for filtering the genre)
+* Written_By.Author_ID (for the join with the Author table)
+* Written_By.ID (for joining with the Book table)
+* Type_of.Genre_ID (for the join with the Genre table)
+* Book.ID (for joining with the Written_By and Type_of tables)
+* Language.Name (for filtering by language)
+* Written_In.Language_ID (for the join with the Language table)
+* Written_In.ID (for the join with the Book table)
+* Book.Title (for filtering by book title)
+* Published_By.Publisher_ID (for the join with the Publisher table)
+* Published_By.ID (for the join with the Book table)
+* Publisher.Publisher_ID (for joining with the Published_By table)
+* Publisher.Name (for filtering by publisher name)
 
 ### Timing
 
