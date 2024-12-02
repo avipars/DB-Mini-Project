@@ -300,8 +300,6 @@ To test the constraints, we attempted to break them as follows:
 
 * Future author birth date
 
-* Author birth date after book release date
-
 * Book without a publisher
 
 * Negative shelf number
