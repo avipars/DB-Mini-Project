@@ -249,9 +249,25 @@ Columns to index:
 * Publisher.Publisher_ID (for joining with the Published_By table)
 * Publisher.Name (for filtering by publisher name)
 
+* File is found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Indexes.sql/)
+
 ### Timing
 
-
+| Query Number | Normal Runtime (ms) | Runtime With Indexes (ms) |
+| ------------ | ------------------- | ------------------------- |
+| 1            | 280.25              | 257.85                    |
+| 2            | 179.344             | 178.423                   |
+| 3            | 520.412             | 514.267                   |
+| 4            | 15.532              | 10.922                    |
+| 5            | 26.422              | 12.63                     |
+| 6            | 35.571              | 31.103                    |
+| 7            | 79.197              | 78.133                    |
+| 8            | 250.913             | 152.8542844               |
+|              |                     |                           |
+| 9            | 541.529             | 31.633                    |
+| 10           | 348.897             | 25.609                    |
+| 11           | 97.931              | 9.133                     |
+| 12           | 73.311              | 1.294                     |
 * Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
 ### Constraints

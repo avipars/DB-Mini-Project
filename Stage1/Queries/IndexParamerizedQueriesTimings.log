@@ -1,7 +1,317 @@
 Query 9
 
+PREPARE
+Time: 1.543 ms
+postgres=# EXECUTE find_top_books
+_by_author('Fantasy', 5);
+                book_title
+         | author_name | total_bo
+oks_by_author
+---------------------------------
+---------+-------------+---------
+--------------
+ Break gas rule entire.
+         | Sara Ray    |
+            5
+ Central along idea coach man.
+         | Sara Ray    |
+            5
+ Court major score different mout
+h bring. | Sara Ray    |
+            5
+ Player call will class light.
+         | Sara Ray    |
+            5
+ Such until firm line piece keep
+win.     | Sara Ray    |
+            5
+(5 rows)
+
+
+Time: 30.090 ms
+
 Query 10
+
+Time: 0.357 ms
+postgres=# EXECUTE find_books_by_
+language('Spanish', 5);
+                    book_title
+                 | release_date |
+   isbn    | page_count |  format
+
+---------------------------------
+-----------------+--------------+
+-----------+------------+--------
+--
+ A article her town.
+                 | 2000-02-06   |
+ 807482466 |        162 | Registe
+r
+ A culture person what.
+                 | 1893-11-12   |
+ 211164868 |        311 | Atlas
+ A force also they shoulder after
+ discover power. | 1933-09-13   |
+ 667958772 |        126 | Album
+ Ability part girl fine speech wr
+iter our top.    | 1981-02-26   |
+ 639299356 |        954 | Noteboo
+k
+ Ability performance already diff
+erent kid.       | 1994-06-07   |
+ 676924005 |        163 | Ledger
+(5 rows)
+
+
+Time: 25.252 ms
 
 Query 11
 
+PREPARE
+Time: 0.347 ms
+postgres=# EXECUTE find_publisher
+s_by_book('Shake itself former ma
+jority.');
+ publisher_name | phone_number |
+  publisher_address
+----------------+--------------+-
+----------------------
+ King Inc       | 512.600.8530 |
+http://www.green.com/
+(1 row)
+
+
+Time: 8.786 ms
+
 Query 12
+
+PREPARE
+Time: 0.385 ms
+
+                        book_titl
+e                        | releas
+e_date |   isbn    | page_count |
+   format
+---------------------------------
+-------------------------+-------
+-------+-----------+------------+
+-------------
+ Detail two campaign happen.
+                         | 2011-0
+2-07   | 438284473 |        471 |
+ Sketchbook
+ Even simple help onto long true.
+                         | 1985-0
+2-19   | 571265910 |        972 |
+ Album
+ Line front leg health.
+                         | 1952-1
+1-12   | 135437401 |        384 |
+ Textbook
+ Race look within change.
+                         | 1943-0
+8-16   |  62386516 |        623 |
+ Scrapbook
+ Represent parent think though oc
+cur pull simply clearly. | 1993-1
+0-29   | 256414725 |        191 |
+ Leaflet
+ Most her imagine room author.
+                         | 1932-0
+6-22   | 727083851 |        102 |
+ Record
+ Brother hope look no.
+                         | 1936-1
+2-04   | 151512743 |        474 |
+ Flyer
+ Someone clear lose happen south
+project shoulder.        | 1899-1
+2-21   | 159725530 |        761 |
+ Sketchbook
+ Artist professor somebody experi
+ence I view.             | 1941-1
+0-30   | 315544766 |        484 |
+ Notebook
+ Cost figure win.
+                         | 1985-0
+4-12   | 177311371 |        286 |
+ Scrapbook
+ Suggest dinner red seem above st
+ate.                     | 1935-0
+5-11   |  43832910 |        480 |
+ Mass Market
+ Strong PM bank just maybe patter
+n it.                    | 1996-0
+3-15   | 562182492 |        135 |
+ Sketchbook
+ Skin wonder allow international
+figure born include.     | 1874-0
+5-31   | 144959432 |        984 |
+ Workbook
+ No well exactly your interview r
+elate meeting.           | 2015-0
+1-04   | 529512997 |        164 |
+ Diary
+ Offer provide teach study detail
+.                        | 1869-0
+2-23   | 161498729 |        565 |
+ Almanac
+ Involve risk strategy close conc
+ern by.                  | 1911-0
+9-12   | 525270588 |        748 |
+ Logbook
+ Only center various practice gas
+.                        | 1932-1
+0-23   | 485060254 |         60 |
+ Newspaper
+ Of paper foot interview occur.
+                         | 2011-0
+4-07   | 550186125 |        607 |
+ Diary
+Time: 1.783 ms
+postgres=#
+postgres=# EXECUTE find_books_by_
+publisher('King Inc');
+                        book_titl
+e                        | releas
+e_date |   isbn    | page_count |
+   format
+---------------------------------
+-------------------------+-------
+-------+-----------+------------+
+-------------
+ Detail two campaign happen.
+                         | 2011-0
+2-07   | 438284473 |        471 |
+ Sketchbook
+ Even simple help onto long true.
+                         | 1985-0
+2-19   | 571265910 |        972 |
+ Album
+ Line front leg health.
+                         | 1952-1
+1-12   | 135437401 |        384 |
+ Textbook
+ Race look within change.
+                         | 1943-0
+8-16   |  62386516 |        623 |
+ Scrapbook
+ Represent parent think though oc
+cur pull simply clearly. | 1993-1
+0-29   | 256414725 |        191 |
+ Leaflet
+ Most her imagine room author.
+                         | 1932-0
+6-22   | 727083851 |        102 |
+ Record
+Time: 0.881 ms
+postgres=# EXECUTE find_books_by_
+publisher('King Inc');
+                        book_titl
+e                        | releas
+e_date |   isbn    | page_count |
+   format
+---------------------------------
+-------------------------+-------
+-------+-----------+------------+
+-------------
+ Detail two campaign happen.
+                         | 2011-0
+2-07   | 438284473 |        471 |
+ Sketchbook
+ Even simple help onto long true.
+                         | 1985-0
+2-19   | 571265910 |        972 |
+ Album
+ Line front leg health.
+                         | 1952-1
+1-12   | 135437401 |        384 |
+ Textbook
+ Race look within change.
+                         | 1943-0
+8-16   |  62386516 |        623 |
+ Scrapbook
+ Represent parent think though oc
+cur pull simply clearly. | 1993-1
+0-29   | 256414725 |        191 |
+ Leaflet
+ Most her imagine room author.
+                         | 1932-0
+6-22   | 727083851 |        102 |
+ Record
+ Brother hope look no.
+                         | 1936-1
+2-04   | 151512743 |        474 |
+ Flyer
+ Someone clear lose happen south
+project shoulder.        | 1899-1
+2-21   | 159725530 |        761 |
+ Sketchbook
+ Artist professor somebody experi
+ence I view.             | 1941-1
+0-30   | 315544766 |        484 |
+ Notebook
+ Cost figure win.
+                         | 1985-0
+4-12   | 177311371 |        286 |
+ Scrapbook
+ Suggest dinner red seem above st
+ate.                     | 1935-0
+5-11   |  43832910 |        480 |
+ Mass Market
+ Strong PM bank just maybe patter
+n it.                    | 1996-0
+3-15   | 562182492 |        135 |
+ Sketchbook
+ Skin wonder allow international
+figure born include.     | 1874-0
+5-31   | 144959432 |        984 |
+ Workbook
+ No well exactly your interview r
+elate meeting.           | 2015-0
+1-04   | 529512997 |        164 |
+ Diary
+ Offer provide teach study detail
+.                        | 1869-0
+2-23   | 161498729 |        565 |
+ Almanac
+ Involve risk strategy close conc
+ern by.                  | 1911-0
+9-12   | 525270588 |        748 |
+ Logbook
+ Only center various practice gas
+.                        | 1932-1
+0-23   | 485060254 |         60 |
+ Newspaper
+ Of paper foot interview occur.
+                         | 2011-0
+4-07   | 550186125 |        607 |
+ Diary
+ Shake itself former majority.
+                         | 1863-0
+9-15   | 334809004 |        550 |
+ Logbook
+ Outside factor us laugh goal ten
+.                        | 1907-0
+3-04   | 650368250 |        118 |
+ Journal
+ Common choose prepare ahead popu
+lation.                  | 1957-0
+9-09   | 867559906 |        409 |
+ Scrapbook
+ Huge member push itself as Repub
+lican.                   | 1997-1
+2-18   | 142476916 |        772 |
+ Diary
+ Economic west miss president con
+tinue staff.             | 1974-0
+6-16   | 585043988 |        589 |
+ Paperback
+ Road defense sea short campaign
+few enter.               | 1939-0
+1-08   | 356288692 |        920 |
+ Logbook
+(24 rows)
+
+
+Time: 0.909 ms
