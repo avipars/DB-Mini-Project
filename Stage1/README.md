@@ -147,6 +147,8 @@ In a similar fashion to the CreateData.sql script, we now bring in each sql file
 
 ### Dump Data
 
+<!-- (our table name is postgres and password is admin) -->
+
 Via command line, we can dump the data from the database into a file. 
 
 clean to first drop tables
@@ -183,7 +185,7 @@ if-exists to avoid errors if tables do not exist
 
       send logs to be appended to original log file, disable triggers helps us avoid future constraint issues with order of insertion into the table (preventative measure)
 
-      no owner and no privileges to avoid issues with permissions
+      no owner and no privileges to avoid potential issues with permissions
       
       ```bash
       pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"

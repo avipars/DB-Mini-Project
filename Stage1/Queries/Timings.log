@@ -1,133 +1,61 @@
-Regular Queries without indexing
-
 Query 1
-"QUERY PLAN"
-"Limit  (cost=10902.45..11019.84 rows=5 width=18) (actual time=84.977..89.806 rows=5 loops=1)"
-"  ->  GroupAggregate  (cost=10902.45..48749.24 rows=1612 width=18) (actual time=84.977..89.804 rows=5 loops=1)"
-"        Group Key: a.date_of_birth, a.first_name, a.last_name"
-"        Filter: (count(DISTINCT b.id) > 0)"
-"        ->  Nested Loop  (cost=10902.45..47364.73 rows=132406 width=22) (actual time=84.874..89.761 rows=193 loops=1)"
-"              ->  Gather Merge  (cost=10902.14..26323.01 rows=132406 width=22) (actual time=84.661..89.158 rows=193 loops=1)"
-"                    Workers Planned: 2"
-"                    Workers Launched: 2"
-"                    ->  Sort  (cost=9902.12..10040.04 rows=55169 width=22) (actual time=56.831..56.894 rows=927 loops=3)"
-"                          Sort Key: a.date_of_birth, a.first_name, a.last_name, wb.id"
-"                          Sort Method: external merge  Disk: 2136kB"
-"                          Worker 0:  Sort Method: quicksort  Memory: 2918kB"
-"                          Worker 1:  Sort Method: quicksort  Memory: 2833kB"
-"                          ->  Nested Loop  (cost=0.71..5557.13 rows=55169 width=22) (actual time=0.227..25.798 rows=44135 loops=3)"
-"                                ->  Parallel Index Only Scan using written_by_pkey on written_by wb  (cost=0.42..2702.14 rows=55169 width=8) (actual time=0.164..4.386 rows=44135 loops=3)"
-"                                      Heap Fetches: 0"
-"                                ->  Memoize  (cost=0.29..0.31 rows=1 width=22) (actual time=0.000..0.000 rows=1 loops=132406)"
-"                                      Cache Key: wb.author_id"
-"                                      Cache Mode: logical"
-"                                      Hits: 59435  Misses: 4981  Evictions: 0  Overflows: 0  Memory Usage: 602kB"
-"                                      Worker 0:  Hits: 30183  Misses: 4867  Evictions: 0  Overflows: 0  Memory Usage: 588kB"
-"                                      Worker 1:  Hits: 28101  Misses: 4839  Evictions: 0  Overflows: 0  Memory Usage: 585kB"
-"                                      ->  Index Scan using author_pkey on author a  (cost=0.28..0.30 rows=1 width=22) (actual time=0.001..0.001 rows=1 loops=14687)"
-"                                            Index Cond: (author_id = wb.author_id)"
-"              ->  Memoize  (cost=0.30..0.33 rows=1 width=4) (actual time=0.003..0.003 rows=1 loops=193)"
-"                    Cache Key: wb.id"
-"                    Cache Mode: logical"
-"                    Hits: 0  Misses: 193  Evictions: 0  Overflows: 0  Memory Usage: 20kB"
-"                    ->  Index Only Scan using book_pkey on book b  (cost=0.29..0.32 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=193)"
-"                          Index Cond: (id = wb.id)"
-"                          Heap Fetches: 0"
-"Planning Time: 0.388 ms"
-"Execution Time: 91.120 ms"
+ first_name  | last_name | date_of_birth
+-------------+-----------+---------------
+ Michael     | Johnson   | 1800-01-10
+ Christopher | Rivera    | 1800-01-11
+ Lauren      | Lopez     | 1800-03-17
+ Victoria    | Henderson | 1800-03-26
+ Jeffrey     | Garza     | 1800-03-31
+(5 rows)
+
+
+Time: 280.250 ms
 
 Query 2
-"QUERY PLAN"
-"Aggregate  (cost=4462.19..4462.20 rows=1 width=32) (actual time=68.736..68.738 rows=1 loops=1)"
-"  ->  HashAggregate  (cost=3787.18..4087.18 rows=30000 width=29) (actual time=61.648..65.899 rows=30000 loops=1)"
-"        Group Key: p.publisher_id"
-"        Batches: 1  Memory Usage: 4113kB"
-"        ->  Hash Right Join  (cost=1027.00..3161.33 rows=125171 width=25) (actual time=6.582..39.227 rows=125643 loops=1)"
-"              Hash Cond: (pb.publisher_id = p.publisher_id)"
-"              ->  Seq Scan on published_by pb  (cost=0.00..1805.71 rows=125171 width=8) (actual time=0.019..5.621 rows=125171 loops=1)"
-"              ->  Hash  (cost=652.00..652.00 rows=30000 width=21) (actual time=6.501..6.502 rows=30000 loops=1)"
-"                    Buckets: 32768  Batches: 1  Memory Usage: 1825kB"
-"                    ->  Seq Scan on publisher p  (cost=0.00..652.00 rows=30000 width=21) (actual time=0.011..3.289 rows=30000 loops=1)"
-"Planning Time: 2.282 ms"
-"Execution Time: 69.402 ms"
+
+ average_books_per_publisher
+-----------------------------
+                        4.17
+(1 row)
+
+
+Time: 179.344 ms
 
 Query 3
-"QUERY PLAN"
-"CTE Scan on languagecounts  (cost=30962.32..31637.32 rows=150 width=524) (actual time=201.985..202.843 rows=1 loops=1)"
-"  Filter: (languagecount = (InitPlan 2).col1)"
-"  Rows Removed by Filter: 29527"
-"  CTE languagecounts"
-"    ->  GroupAggregate  (cost=28646.73..30287.31 rows=30000 width=29) (actual time=150.613..192.771 rows=29528 loops=1)"
-"          Group Key: p.publisher_id"
-"          ->  Sort  (cost=28646.73..29093.59 rows=178744 width=25) (actual time=150.602..171.176 rows=156264 loops=1)"
-"                Sort Key: p.publisher_id, w.language_id"
-"                Sort Method: external merge  Disk: 5672kB"
-"                ->  Hash Join  (cost=4385.36..8776.52 rows=178744 width=25) (actual time=26.650..99.990 rows=156264 loops=1)"
-"                      Hash Cond: (pb.id = w.id)"
-"                      ->  Hash Join  (cost=1027.00..3161.33 rows=125171 width=25) (actual time=5.593..44.420 rows=125171 loops=1)"
-"                            Hash Cond: (pb.publisher_id = p.publisher_id)"
-"                            ->  Seq Scan on published_by pb  (cost=0.00..1805.71 rows=125171 width=8) (actual time=0.008..5.795 rows=125171 loops=1)"
-"                            ->  Hash  (cost=652.00..652.00 rows=30000 width=21) (actual time=5.530..5.530 rows=30000 loops=1)"
-"                                  Buckets: 32768  Batches: 1  Memory Usage: 1869kB"
-"                                  ->  Seq Scan on publisher p  (cost=0.00..652.00 rows=30000 width=21) (actual time=0.005..2.558 rows=30000 loops=1)"
-"                      ->  Hash  (cost=1799.27..1799.27 rows=124727 width=8) (actual time=20.924..20.925 rows=124727 loops=1)"
-"                            Buckets: 131072  Batches: 1  Memory Usage: 5897kB"
-"                            ->  Seq Scan on written_in w  (cost=0.00..1799.27 rows=124727 width=8) (actual time=0.019..9.657 rows=124727 loops=1)"
-"  InitPlan 2"
-"    ->  Aggregate  (cost=675.00..675.01 rows=1 width=8) (actual time=50.063..50.063 rows=1 loops=1)"
-"          ->  CTE Scan on languagecounts languagecounts_1  (cost=0.00..600.00 rows=30000 width=8) (actual time=0.001..48.911 rows=29528 loops=1)"
-"Planning Time: 1.936 ms"
-"Execution Time: 204.770 ms"
+
+    name     | languagecount
+-------------+---------------
+ Frazier Ltd |            19
+(1 row)
+
+
+Time: 520.412 ms
 
 Query 4
-"QUERY PLAN"
-"Limit  (cost=1473.30..1480.77 rows=1 width=40) (actual time=6.880..6.881 rows=1 loops=1)"
-"  InitPlan 1"
-"    ->  Aggregate  (cost=1473.00..1473.01 rows=1 width=4) (actual time=6.849..6.849 rows=1 loops=1)"
-"          ->  Seq Scan on location  (cost=0.00..1298.00 rows=70000 width=4) (actual time=0.003..3.368 rows=70000 loops=1)"
-"  ->  Nested Loop  (cost=0.29..5230.00 rows=700 width=40) (actual time=6.879..6.880 rows=1 loops=1)"
-"        ->  Seq Scan on location l  (cost=0.00..1473.00 rows=700 width=8) (actual time=6.864..6.864 rows=1 loops=1)"
-"              Filter: (quantity = (InitPlan 1).col1)"
-"              Rows Removed by Filter: 59"
-"        ->  Index Scan using book_pkey on book b  (cost=0.29..5.37 rows=1 width=40) (actual time=0.013..0.013 rows=1 loops=1)"
-"              Index Cond: (id = l.id)"
-"Planning Time: 1.269 ms"
-"Execution Time: 6.903 ms"
+
+            title             | quantity
+------------------------------+----------
+ Assume address tonight bill. |        0
+(1 row)
+
+
+Time: 15.532 ms
 
 Query 5
-"QUERY PLAN"
-"Update on book  (cost=0.00..3820.00 rows=0 width=0) (actual time=12.393..12.393 rows=0 loops=1)"
-"  ->  Seq Scan on book  (cost=0.00..3820.00 rows=7 width=10) (actual time=0.824..11.658 rows=4 loops=1)"
-"        Filter: ((release_date > '1999-12-27'::date) AND (release_date <= '1999-12-31'::date))"
-"        Rows Removed by Filter: 99996"
-"Planning Time: 0.074 ms"
-"Execution Time: 12.565 ms"
+
+UPDATE 4
+Time: 26.422 ms
 
 Query 6
-"QUERY PLAN"
-"Update on location  (cost=0.85..3131.71 rows=0 width=0) (actual time=10.124..10.125 rows=0 loops=1)"
-"  ->  Nested Loop Semi Join  (cost=0.85..3131.71 rows=3 width=540) (actual time=0.372..9.591 rows=3 loops=1)"
-"        ->  Seq Scan on location  (cost=0.00..1910.50 rows=156 width=10) (actual time=0.028..7.115 rows=166 loops=1)"
-"              Filter: ((quantity > 0) AND ((floor)::text = 'Returns'::text) AND ((condition)::text = ANY ('{Good,New,""Like New""}'::text[])))"
-"              Rows Removed by Filter: 69834"
-"        ->  Nested Loop  (cost=0.85..7.82 rows=1 width=26) (actual time=0.015..0.015 rows=0 loops=166)"
-"              ->  Nested Loop  (cost=0.71..7.64 rows=1 width=24) (actual time=0.013..0.013 rows=1 loops=166)"
-"                    Join Filter: (b.id = location.id)"
-"                    ->  Index Scan using type_of_pkey on type_of t  (cost=0.42..7.23 rows=1 width=14) (actual time=0.008..0.009 rows=1 loops=166)"
-"                          Index Cond: (id = location.id)"
-"                    ->  Index Scan using book_pkey on book b  (cost=0.29..0.39 rows=1 width=10) (actual time=0.004..0.004 rows=1 loops=204)"
-"                          Index Cond: (id = t.id)"
-"              ->  Index Scan using genre_pkey on genre g  (cost=0.14..0.16 rows=1 width=10) (actual time=0.001..0.001 rows=0 loops=204)"
-"                    Index Cond: (genre_id = t.genre_id)"
-"                    Filter: ((name)::text = 'Childrens'::text)"
-"                    Rows Removed by Filter: 1"
-"Planning Time: 2.304 ms"
-"Execution Time: 10.171 ms"
+
+UPDATE 3
+Time: 35.571 ms
 
 Query 7
-postgres=# BEGIN;
+
+BEGIN;
 BEGIN
-Time: 0.154 ms
+Time: 0.589 ms
 postgres=*#     DELETE FROM Written_By
 postgres-*#     WHERE ID IN (
 postgres(*#         SELECT b.ID
@@ -136,7 +64,7 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 5
-Time: 13.702 ms
+Time: 9.662 ms
 postgres=*#     -- 2. Delete from the Published_By table (book-publisher relation)
 postgres=*#     DELETE FROM Published_By
 postgres-*#     WHERE ID IN (
@@ -146,7 +74,7 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 5
-Time: 10.305 ms
+Time: 11.484 ms
 postgres=*#     -- 3. Delete from the Written_In table (book-language relation)
 postgres=*#     DELETE FROM Written_In
 postgres-*#     WHERE ID IN (
@@ -156,7 +84,7 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 5
-Time: 10.295 ms
+Time: 9.454 ms
 postgres=*#     -- 4. Delete from the Type_of table (book-genre relation)
 postgres=*#     DELETE FROM Type_of
 postgres-*#     WHERE ID IN (
@@ -166,7 +94,7 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 5
-Time: 10.199 ms
+Time: 9.388 ms
 postgres=*#     -- 5. Delete from the Location table (book location)
 postgres=*#     DELETE FROM Location
 postgres-*#     WHERE ID IN (
@@ -176,7 +104,7 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 9
-Time: 17.980 ms
+Time: 16.131 ms
 postgres=*#     -- 6. Finally, delete the book from the Book table
 postgres=*#     DELETE FROM Book
 postgres-*#     WHERE ID IN (
@@ -186,16 +114,16 @@ postgres(*#         JOIN Location l ON b.ID = l.ID
 postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
 postgres(*#     );
 DELETE 0
-Time: 8.950 ms
+Time: 22.027 ms
 postgres=*# COMMIT;
 COMMIT
-Time: 2.033 ms
+Time: 0.462 ms
 
-Query 8 
-ms
-postgres=# BEGIN;
+Query 8
+
+BEGIN;
 BEGIN
-Time: 0.152 ms
+Time: 0.222 ms
 postgres=*#     DELETE FROM Written_By
 postgres-*#     WHERE ID IN (
 postgres(*#         SELECT b.ID
@@ -210,7 +138,7 @@ postgres(*#         GROUP BY b.ID
 postgres(*#         HAVING COUNT(wb.Author_ID) = 4
 postgres(*#     );
 DELETE 280
-Time: 31.799 ms
+Time: 104.263 ms
 postgres=*#
 postgres=*#     -- 2. Delete from Published_By (book-publisher relation)
 postgres=*#     DELETE FROM Published_By
@@ -226,7 +154,7 @@ postgres(*#         AND loc.Quantity > 90
 postgres(*#         GROUP BY b.ID
 postgres(*#     );
 DELETE 89
-Time: 15.989 ms
+Time: 23.265 ms
 postgres=*#
 postgres=*#     -- 3. Delete from Written_In (book-language relation)
 postgres=*#     DELETE FROM Written_In
@@ -242,7 +170,7 @@ postgres(*#         AND loc.Quantity > 90
 postgres(*#         GROUP BY b.ID
 postgres(*#     );
 DELETE 94
-Time: 16.073 ms
+Time: 26.330 ms
 postgres=*#
 postgres=*#     -- 4. Delete from Type_of (book-genre relation)
 postgres=*#     DELETE FROM Type_of
@@ -258,7 +186,7 @@ postgres(*#         AND loc.Quantity > 90
 postgres(*#         GROUP BY b.ID
 postgres(*#     );
 DELETE 0
-Time: 14.627 ms
+Time: 15.415 ms
 postgres=*#
 postgres=*#     -- 5. Delete from Location (book location)
 postgres=*#     DELETE FROM Location
@@ -274,7 +202,7 @@ postgres(*#         AND loc.Quantity > 90
 postgres(*#         GROUP BY b.ID
 postgres(*#     );
 DELETE 0
-Time: 14.941 ms
+Time: 52.536 ms
 postgres=*#
 postgres=*#     -- 6. Finally, delete the book from the Book table
 postgres=*#     DELETE FROM Book
@@ -290,7 +218,7 @@ postgres(*#         AND loc.Quantity > 90
 postgres(*#         GROUP BY b.ID
 postgres(*#     );
 DELETE 0
-Time: 15.122 ms
+Time: 16.021 ms
 postgres=*# COMMIT;
 COMMIT
-Time: 0.497 ms
+Time: 12.861 ms
