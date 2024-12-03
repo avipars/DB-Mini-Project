@@ -124,20 +124,18 @@ Via command line, we can dump the data from the database into a file.
 --if-exists to avoid errors if tables do not exist
 
 * backupSQL (with DROP . . . CREATE . . . INSERT)
-
    Settled on 1000 rows per insert to balance speed and file size.
    --create to include create table statements
-
-   inserts to include insert statements
+   --inserts to include insert statements
 
    ```bash
-   pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create --clean --if-exists --verbose --inserts --rows-per-insert "1000" 2>backupSQL.log
+   pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create -clean --if-exists --inserts --rows-per-insert "1000" 2>backupSQL.log
    ```
 
 * backupPSQL (binary format) 
 
    ```bash
-   pg_dump --file "backupPSQL.sql" --host "localhost" --port "5432" --username "postgres" --format=c --create --clean --if-exists --verbose "postgres" 2>backupPSQL.log
+   pg_dump -U postgres -d postgres -v -f "backupPSQL.sql" --format=c --create --clean --if-exists 2>backupPSQL.log
    ```
 
    Full dumps and logs are [here](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage1?ref_type=heads)
@@ -150,7 +148,7 @@ Via command line, we can dump the data from the database into a file.
       No owner and no privileges to avoid potential issues with permissions.
       
       ```bash
-      pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"
+      pg_restore -U postgres -d postgres -v --clean --if-exists --disable-triggers --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"
       ```
 
      [Log](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage1/backupPSQL.log?ref_type=heads)
@@ -171,36 +169,23 @@ Via command line, we can dump the data from the database into a file.
 
    DELETE:
    * (Query 7) Delete books with 0 copies that are moldy or damaged
-   * (Query 8) Delete all books written in russian that have more than 90 copies in stock
+   * (Query 8) Delete all books written in Russian that have more than 90 copies in stock
 
     [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log)
  
 ####  [Parameterized Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
 
    * (Query 9) Top N prolific authors in a genre (who wrote the most books in that genre)
-   * (Query 10) Get the top N books written in a specified language
-   * (Query 11) Get all publishers associated with a specified book
-   * (Query 12) Lists all books published by a specified publisher
+   * (Query 10) Top N books written in a specified language
+   * (Query 11) All publishers associated with a specified book
+   * (Query 12) All books published by a specified publisher
 
     [Logs with timings]([https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamTimings.log))
 
 ### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Indexes.sql/)
-To optimize the performance of the previous parameterized queries, we should create indexes on the columns that are frequently used in JOIN operations, WHERE clauses, and ORDER BY clauses.
+To optimize the performance of queries on the database, we should create indexes on the columns that are frequently used.
 Columns to index:
 
-* Genre.Name (for filtering the genre)
-* Written_By.Author_ID (for the join with the Author table)
-* Written_By.ID (for joining with the Book table)
-* Type_of.Genre_ID (for the join with the Genre table)
-* Book.ID (for joining with the Written_By and Type_of tables)
-* Language.Name (for filtering by language)
-* Written_In.Language_ID (for the join with the Language table)
-* Written_In.ID (for the join with the Book table)
-* Book.Title (for filtering by book title)
-* Published_By.Publisher_ID (for the join with the Publisher table)
-* Published_By.ID (for the join with the Book table)
-* Publisher.Publisher_ID (for joining with the Published_By table)
-* Publisher.Name (for filtering by publisher name)
 
 [Logs]
 
@@ -228,7 +213,7 @@ Columns to index:
 
 To make our database system more sturdy, we enforced the following rules:
 
-* Book quantity is minimum of 0
+* Book quantity is minimum of 1
 
 * Book page count is minimum of 1
 
@@ -240,7 +225,7 @@ To make our database system more sturdy, we enforced the following rules:
 
 * Every book has a publisher
 
-* Shelf number is minimum of 0
+* Shelf number is minimum of 1
 
 #### [Testing constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.sql)
 

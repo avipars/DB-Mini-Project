@@ -1,0 +1,5 @@
+-- Logs for Creating Indexes in Constraints.sql 
+
+CREATE INDEX
+
+Query returned successfully in 202 msec.

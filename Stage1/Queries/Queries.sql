@@ -69,7 +69,7 @@ WHERE ID IN (
 )
 AND Condition IN ('Good', 'New', 'Like New') 
 AND Floor = 'Returns' 
-AND quantity > 0;
+AND Quantity > 0;
 
 -- DELETES
 
