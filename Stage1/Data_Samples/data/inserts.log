@@ -2,40 +2,48 @@
 
 INSERT 0 24
 
-Query returned successfully in 193 msec.
+Query returned successfully in 37 msec.
 
 INSERT 0 30000
 
-Query returned successfully in 2 secs 354 msec.
+Query returned successfully in 553 msec.
 
 INSERT 0 5000
 
-Query returned successfully in 287 msec.
+Query returned successfully in 83 msec.
 
-INSERT 0 62
+INSERT 0 63
 
-Query returned successfully in 74 msec.
+Query returned successfully in 38 msec.
 
 INSERT 0 77
 
-Query returned successfully in 101 msec.
+Query returned successfully in 39 msec.
+
+INSERT 0 100000
+
+Query returned successfully in 2 secs 806 msec.
 
 INSERT 0 70000
 
-Query returned successfully in 5 secs 822 msec.
+Query returned successfully in 1 secs 340 msec.
 
-INSERT 0 132406
+INSERT 0 132820
 
-Query returned successfully in 12 secs 75 msec.
+Query returned successfully in 2 secs 297 msec.
 
-INSERT 0 125171
+INSERT 0 124848
 
-Query returned successfully in 11 secs 1 msec.
+Query returned successfully in 2 secs 219 msec.
 
-INSERT 0 124727
+INSERT 0 125087
 
-Query returned successfully in 10 secs 982 msec.
+Query returned successfully in 2 secs 492 msec.
 
-INSERT 0 37048
+INSERT 0 124741
 
-Query returned successfully in 3 secs 366 msec.
+Query returned successfully in 3 secs 64 msec.
+
+INSERT 0 37134
+
+Query returned successfully in 970 msec.

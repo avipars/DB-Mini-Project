@@ -1,2 +1,7 @@
-backupSQLIndex.sql filter=lfs diff=lfs merge=lfs -text
-backupPSQLIndex.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/backupSQL.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/backupPSQL.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/pg_backup.backup filter=lfs diff=lfs merge=lfs -text
+Stage1/backupSQLIndex.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/backupPSQLIndex.sql filter=lfs diff=lfs merge=lfs -text
+Stage1/pg_backupIndex.backup filter=lfs diff=lfs merge=lfs -text
+* text eol=lf

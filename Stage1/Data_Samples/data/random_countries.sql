@@ -22,3 +22,4 @@ INSERT INTO Country (Name, Country_ID) VALUES('USA', 0),
 ('South Korea', 21),
 ('North Korea', 22),
 ('Uzbekistan', 23);
+

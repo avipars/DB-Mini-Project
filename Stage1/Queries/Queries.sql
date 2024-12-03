@@ -50,7 +50,6 @@ LIMIT 1;
 -- To check what will change: 
 -- SELECT b.Release_Date 
 -- FROM Book b 
--- WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31'
 UPDATE Book 
 SET Release_Date = '2000-01-01'
 WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31';
@@ -59,14 +58,6 @@ WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31';
 -- To check what will change:
 -- SELECT l.ID, l.Floor, l.Condition
 -- FROM Location l
--- WHERE l.ID IN (
---     SELECT b.ID
---     FROM Book b
---     JOIN Type_of t ON b.ID = t.ID
---     JOIN Genre g ON t.Genre_ID = g.Genre_ID
---     WHERE g.Name = 'Childrens' 
--- )
--- AND l.Condition IN ('Good', 'New', 'Like New') AND l.Floor = 'Returns' AND l.quantity > 0;
 UPDATE Location
 SET Floor = 'Kids Corner'
 WHERE ID IN (
@@ -74,7 +65,7 @@ WHERE ID IN (
     FROM Book b
     JOIN Type_of t ON b.ID = t.ID
     JOIN Genre g ON t.Genre_ID = g.Genre_ID
-    WHERE g.Name = 'Childrens'
+    WHERE g.Name = 'Children'
 )
 AND Condition IN ('Good', 'New', 'Like New') 
 AND Floor = 'Returns' 

@@ -30,10 +30,10 @@ def generate_number(count):
     return num
 
 # Generate unique random numbers
-def generate_unique_id(existing_ids, digits=9):
-    new_id = faker.random_number(digits=digits)
+def generate_unique_id(existing_ids, digits=9, fix_len=False):
+    new_id = faker.random_number(digits=digits, fix_len=fix_len)
     while new_id in existing_ids:
-        new_id = faker.random_number(digits=digits)
+        new_id = faker.random_number(digits=digits, fix_len=fix_len)
     existing_ids.add(new_id)
     return new_id
 
@@ -52,11 +52,11 @@ NUM_LOCATIONS = 70000
 
 # List of random data
 COUNTRIES_LIST = ["USA", "Canada", "Mexico", "Brazil", "Argentina", "Chile", "UK", "Germany", "France", "Italy", "Spain", "Russia", "China", "Japan", "India", "Australia", "South Africa", "Nigeria", "Egypt", "Saudi Arabia", "Iran", "South Korea", "North Korea", "Uzbekistan"]
-GENRES_LIST = ['Accounting', 'Anthropology', 'Art', 'Autobiography', 'Biography', 'Biology', 'Business', 'Chemistry', "Childrens", 'Comics', 'Computer Science', 'Consulting', 'Cooking', 'Criminal Justice', 'Customer Service', 'Dance', 'Dentistry', 'Drama', 'Economics', 'Education', 'Engineering', 'Entrepreneurship', 'Fantasy', 'Fiction', 'Film', 'Finance', 'Fitness', 'Geography', 'Graphic Novel', 'Health', 'History', 'Horror', 'Human Resources', 'Information Technology', 'Innovation', 'Journalism', 'Law', 'Leadership', 'Literature', 'Logistics', 'Management', 'Marketing', 'Mathematics', 'Medicine', 'Music', 'Mystery', 'Non-Fiction', 'Nursing', 'Operations', 'Pharmacy', 'Philosophy', 'Physics', 'Poetry', 'Political Science', 'Politics', 'Psychiatry', 'Psychology', 'Radio', 'Religion', 'Romance', 'Sales', 'Science', 'Science Fiction', 'Self-Help', 'Sociology', 'Spirituality', 'Sports', 'Strategy', 'Supply Chain', 'Technology', 'Television', 'Theatre', 'Theology', 'Thriller', 'Travel', 'Veterinary', 'Young Adult']
-LANGUAGE_LIST = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian","Amharic","Aramaic", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Bengali", "Urdu", "Punjabi", "Telugu", "Marathi", "Tamil", "Gujarati", "Kannada", "Odia", "Malayalam", "Sindhi", "Sanskrit", "Persian", "Turkish", "Greek", "Swedish", "Norwegian", "Danish", "Finnish", "Icelandic", "Polish", "Czech", "Slovak", "Hungarian", "Romanian", "Bulgarian", "Serbian", "Croatian", "Bosnian", "Slovenian", "Macedonian", "Albanian", "Greek", "Armenian", "Georgian", "Azerbaijani", "Kazakh", "Uzbek", "Turkmen", "Kyrgyz", "Tajik", "Pashto", "Balochi", "Kurdish", "Arabic", "Hebrew", "Yiddish"]
-CONDITION_LIST = ["New", "Like New", "Very Good", "Good", "Acceptable", "Poor", "Damaged", "Worn", "Torn", "Stained", "Faded", "Yellowed", "Aged", "Moldy", "Dusty", "Dirty", "Scratched", "Cracked", "Chipped", "Broken", "Missing", "Incomplete", "Defective", "Faulty", "Expired", "Outdated", "Obsolete", "Discontinued", "Rare", "Limited Edition", "First Edition", "Signed", "Autographed", "Dedicated", "Inscribed", "Personalized", "Gifted", "Donated", "Borrowed", "Stolen", "Lost", "Found", "Recovered", "Returned", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent", "Borrowed", "Returned", "Lost", "Found", "Stolen", "Recovered", "Sold", "Purchased", "Bought", "Traded", "Exchanged", "Given", "Received", "Acquired", "Owned", "Possessed", "Kept", "Stored", "Displayed", "Showcased", "Presented", "Gifted", "Donated", "Lent"]
-BOOKFORMAT_LIST = ["Hardcover", "Paperback", "Ebook", "Audiobook", "Large Print", "Pocket", "Mass Market", "Trade", "Library", "Reference", "Textbook", "Workbook", "Guide", "Manual", "Handbook", "Dictionary", "Encyclopedia", "Atlas", "Almanac", "Yearbook", "Journal", "Magazine", "Newspaper", "Newsletter", "Brochure", "Pamphlet", "Leaflet", "Flyer", "Poster", "Postcard", "Bookmark", "Calendar", "Planner", "Diary", "Journal", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook", "Sketchbook", "Album", "Scrapbook", "Logbook", "Ledger", "Register", "Record", "Log", "Journal", "Diary", "Notebook"]
-FLOOR = ["Archive", "Storage", "Returns", "Kids Corner", "Young Adult Section", "Adult Section", "Reference Section", "Study Area", "Computer Lab", "History Section"]
+GENRES_LIST = ['Accounting', 'Anthropology', 'Art', 'Autobiography', 'Biography', 'Biology', 'Business', 'Chemistry', "Children", 'Comics', 'Computer Science', 'Consulting', 'Cooking', 'Criminal Justice', 'Customer Service', 'Dance', 'Dentistry', 'Drama', 'Economics', 'Education', 'Engineering', 'Entrepreneurship', 'Fantasy', 'Fiction', 'Film', 'Finance', 'Fitness', 'Geography', 'Graphic Novel', 'Health', 'History', 'Horror', 'Human Resources', 'Information Technology', 'Innovation', 'Journalism', 'Law', 'Leadership', 'Literature', 'Logistics', 'Management', 'Marketing', 'Mathematics', 'Medicine', 'Music', 'Mystery', 'Non-Fiction', 'Nursing', 'Operations', 'Pharmacy', 'Philosophy', 'Physics', 'Poetry', 'Political Science', 'Politics', 'Psychiatry', 'Psychology', 'Radio', 'Religion', 'Romance', 'Sales', 'Science', 'Science Fiction', 'Self-Help', 'Sociology', 'Spirituality', 'Sports', 'Strategy', 'Supply Chain', 'Technology', 'Television', 'Theatre', 'Theology', 'Thriller', 'Travel', 'Veterinary', 'Young Adult']
+LANGUAGE_LIST = ["English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Russian","Amharic","Aramaic", "Mandarin", "Japanese", "Korean", "Latin", "Hindi", "Bengali", "Urdu", "Punjabi", "Telugu", "Marathi", "Tamil", "Gujarati", "Kannada", "Odia", "Malayalam", "Sindhi", "Sanskrit", "Persian", "Turkish", "Greek", "Swedish", "Norwegian", "Danish", "Finnish", "Icelandic", "Polish", "Czech", "Slovak", "Hungarian", "Romanian", "Bulgarian", "Serbian", "Croatian", "Bosnian", "Slovenian", "Macedonian", "Albanian", "Greek", "Armenian", "Georgian", "Azerbaijani", "Kazakh", "Uzbek", "Turkmen", "Kyrgyz", "Tajik", "Pashto", "Balochi", "Kurdish", "Arabic", "Hebrew", "Yiddish", "Braille"]
+CONDITION_LIST = ["Like New", "Found", "Dusty", "Bought", "Worn", "Very Good", "Good", "Stained", "Acceptable", "Moldy", "New", "Yellowed", "Torn", "Damaged", "Expired", "Discontinued", "Scratched", "Outdated", "Obsolete", "Dirty", "Rare", "Broken", "Incomplete", "Chipped","Stolen", "Aged", "Cracked", "Missing", "Faulty",  "Defective", "Poor", "Faded"]
+BOOKFORMAT_LIST = ["Dictionary", "Library", "Yearbook", "Newsletter", "Poster",  "Audiobook", "Textbook", "Journal",  "Encyclopedia", "Guide", "Calendar", "Scrapbook", "Hardcover", "Album", "Brochure", "Planner", "Ebook", "Notebook", "Record", "Mass Market Paperback", "Manual", "Flyer", "Newspaper", "Reference", "Diary", "Magazine", "Almanac", "Large Print", "Paperback", "Atlas", "Handbook"]
+FLOOR = ["Archive", "Storage", "Maintenance", "Returns", "Kids Corner", "Young Adult Section", "Adult Section", "Reference Section", "Study Area", "Computer Lab", "History Section", "Periodicals","E-Library Section", "Audio-Visual Section", "Special Collections"]
 
 BOOKS = {
     "ID": [], # book id
@@ -145,9 +145,8 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
         COUNTRIES["Name"].append(COUNTRIES_LIST[i])
 
     # Generate publishers
-    unique_publisher_ids = set()
-    for _ in range(num_publishers):       
-        PUBLISHERS["Publisher_ID"].append(generate_unique_id(unique_publisher_ids, digits=5)) # ensure unique
+    for i in range(num_publishers):
+        PUBLISHERS["Publisher_ID"].append(i) # ensure unique
         PUBLISHERS["Name"].append(faker.company())
         PUBLISHERS["Phone_Number"].append(faker.phone_number())
         PUBLISHERS["Website"].append(faker.url())
@@ -166,30 +165,29 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
     unique_author_ids = set()
     # Generate authors
     for _ in range(num_authors):
-        AUTHORS["Author_ID"].append(generate_unique_id(unique_author_ids, digits=9))
+        AUTHORS["Author_ID"].append(generate_unique_id(unique_author_ids, digits=9, fix_len=True))
         AUTHORS["First_Name"].append(faker.first_name())
         AUTHORS["Last_Name"].append(faker.last_name())
         AUTHORS["Biography"].append(faker.paragraph())
         AUTHORS["Date_of_Birth"].append(generate_date())
 
-    unique_book_ids = set()
     unique_isbn = set()
     # Generate books
     for i in range(num_books):
-        BOOKS["ID"].append(generate_unique_id(unique_book_ids, digits=5))
+        BOOKS["ID"].append(i)
         BOOKS["Title"].append(faker.sentence())
-        BOOKS["ISBN"].append(generate_unique_id(unique_isbn, digits=9)) # original isbn standard
-        BOOKS["Page_Count"].append(faker.random_number(digits=3))
-        BOOKS["Format"].append(random.choice(BOOKFORMAT_LIST))
+        BOOKS["ISBN"].append(generate_unique_id(unique_isbn, digits=9, fix_len=True)) # original isbn standard
+        BOOKS["Page_Count"].append(faker.random_number(digits=3) +1)
+        BOOKS["Format"].append(faker.random_element(BOOKFORMAT_LIST))
         BOOKS["Description"].append(faker.paragraph())
         BOOKS["Release_Date"].append(generate_date(start="1850-01-01", end="2024-01-01"))
 
     # generate locations
     for i in range(num_locations):
         LOCATIONS["Location_ID"].append(i)
-        LOCATIONS["Shelf"].append(faker.random_number(digits=2))
+        LOCATIONS["Shelf"].append(faker.random_number(digits=2)+1)
         LOCATIONS["Floor"].append(random.choice(FLOOR))
-        LOCATIONS["Quantity"].append(faker.random_number(digits=2))
+        LOCATIONS["Quantity"].append(faker.random_number(digits=2) +1)
         LOCATIONS["Condition"].append(random.choice(CONDITION_LIST))
         LOCATIONS["ID"].append(BOOKS["ID"][random.randint(0, num_books - 1)])
 
@@ -202,7 +200,7 @@ def generate_data(num_books=NUM_BOOKS, num_authors=NUM_AUTHORS, num_publishers=N
                 WRITTEN_BY["ID"].append(BOOKS["ID"][book_index])
                 WRITTEN_BY["Author_ID"].append(AUTHORS["Author_ID"][author_index])
                 already_written_list.append(AUTHORS["Author_ID"][author_index])
-        if WRITTEN_BY["ID"] == []: # if no author is found, add a random author
+        if not WRITTEN_BY["ID"]: # if no author is found, add a random author
             while True:
                 author_index = random.randint(0, num_authors - 1)
                 if AUTHORS["Date_of_Birth"][author_index] < BOOKS["Release_Date"][book_index]: # author must be born before the book is released

@@ -67,62 +67,50 @@ Build a database system to manage books in a library.
       Country
          - **Independent table**.
          - Script: random_countries.sql
-         - 24 rows
 
       Publisher
          - **Depends on Country** for the `Is_In` table.
          - Script: `random_publishers.sql`
-         - 30,000 rows
          
       Author
          - **Independent table**.
          - Script: `random_authors.sql`
-         - 5,000 rows
          
       Language
          - **Independent table**.
          - Script: `random_languages.sql`
-         - 62 rows
          
       Genre
          - **Independent table**.
          - Script: `random_genres.sql`
-         - 77 rows
          
       Book
          - **Independent table** but referenced by several others.
          - Script: `random_books.sql`
-         - 100,000 rows 
          
       Location
          - **Depends on Book.**
          - Script: `random_locations.sql`
-         - 70,000 rows 
          
       Written_By
          - **Depends on Book and Author.**
          - Script: `written_by.sql`
-         - 132,406 rows 
          
       Published_By
          - **Depends on Book and Publisher.**
          - Script: `published_by.sql`
-         - 125,171 rows
          
       Written_In
          - **Depends on Book and Language.**
          - Script: `written_in.sql`
-         - 124,727 rows
 
       Type_of
          - **Depends on Book and Genre.**
          - Script: `type_of.sql`
-         - 124,756 rows 
          
       Is_In
          - **Depends on Publisher and Country.**
          - Script: `is_in.sql`
-         - 37,048 rows
 
 ![image](https://github.com/user-attachments/assets/d3418bd6-4f2b-4a50-be48-12eb613bdd22)
 
