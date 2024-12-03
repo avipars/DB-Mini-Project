@@ -1,0 +1,170 @@
+
+-- Query 9
+postgres=# PREPARE find_top_books_by_author(CHARACTER VARYING, INTEGER) AS
+postgres-# WITH AuthorRank AS (
+postgres(#     SELECT
+postgres(#         wb.Author_ID,
+postgres(#         a.First_Name || ' ' || a.Last_Name AS Author_Name,
+postgres(#         COUNT(wb.ID) AS Total_Books_By_Author,
+postgres(#         tof.Genre_ID
+postgres(#     FROM
+postgres(#         Written_By wb
+postgres(#     JOIN
+postgres(#         Book b ON wb.ID = b.ID
+postgres(#     JOIN
+postgres(#         Type_of tof ON b.ID = tof.ID
+postgres(#     JOIN
+postgres(#         Author a ON wb.Author_ID = a.Author_ID
+postgres(#     JOIN
+postgres(#         Genre g ON tof.Genre_ID = g.Genre_ID
+postgres(#     WHERE
+postgres(#         g.Name = $1 -- Genre parameter
+postgres(#     GROUP BY
+postgres(#         wb.Author_ID, a.First_Name, a.Last_Name, tof.Genre_ID
+postgres(#     ORDER BY
+postgres(#         Total_Books_By_Author DESC
+postgres(#     LIMIT $2 -- Number of top authors parameter
+postgres(# )
+postgres-# SELECT
+postgres-#     b.Title AS Book_Title,
+postgres-#     ar.Author_Name,
+postgres-#     ar.Total_Books_By_Author
+postgres-# FROM
+postgres-#     AuthorRank ar
+postgres-# JOIN
+postgres-#     Written_By wb ON ar.Author_ID = wb.Author_ID
+postgres-# JOIN
+postgres-#     Book b ON wb.ID = b.ID
+postgres-# JOIN
+postgres-#     Type_of tof ON b.ID = tof.ID
+postgres-# WHERE
+postgres-#     tof.Genre_ID = (SELECT Genre_ID FROM Genre WHERE Name = $1) -- Genre parameter
+postgres-# ORDER BY
+postgres-#     ar.Total_Books_By_Author DESC, b.Title ASC
+postgres-# LIMIT $2; -- Number of top books parameter
+PREPARE
+Time: 1,343 ms
+
+postgres=# -- Execute the prepared query with arguments
+postgres=# EXECUTE find_top_books_by_author('Fantasy', 5);
+                  book_title                   |   author_name    | total_books_by_author
+-----------------------------------------------+------------------+-----------------------
+ Agreement generation money food.              | Ashley Hoover    |                     4
+ Anyone car food husband sell only.            | Anthony Martinez |                     4
+ Blood save while onto environment true party. | Hunter Rodriguez |                     4
+ Class practice customer head.                 | Hunter Rodriguez |                     4
+ Congress size bank billion.                   | Ashley Hoover    |                     4
+(5 rows)
+
+
+Time: 44,373 ms
+
+-- Query 10
+postgres=# PREPARE find_books_by_language(CHARACTER VARYING, INTEGER) AS
+postgres-# SELECT
+postgres-#     b.Title AS Book_Title,
+postgres-#     b.Release_Date,
+postgres-#     b.ISBN,
+postgres-#     b.Page_Count,
+postgres-#     b.Format
+postgres-# FROM
+postgres-#     Book b
+postgres-# JOIN
+postgres-#     Written_In wi ON b.ID = wi.ID
+postgres-# JOIN
+postgres-#     Language l ON wi.Language_ID = l.Language_ID
+postgres-# WHERE
+postgres-#     l.Name = $1  -- Parameterized language input
+postgres-# ORDER BY
+postgres-#     b.Title ASC  -- Optionally, order by Title or any other criteria
+postgres-# LIMIT $2;  -- Limit to top N books based on user input
+PREPARE
+Time: 0,288 ms
+postgres=#
+postgres=# -- Execute the prepared query with arguments
+postgres=# EXECUTE find_books_by_language('Spanish', 5);
+                   book_title                    | release_date |   isbn    | page_count |  format
+-------------------------------------------------+--------------+-----------+------------+----------
+ A age make woman system.                        | 1936-08-30   | 486510685 |        699 | Calendar
+ A table dog carry along memory bed should.      | 2019-03-20   | 237578997 |        750 | Almanac
+ A through should subject.                       | 1852-09-05   | 866326941 |        785 | Brochure
+ Ability theory stop.                            | 1892-01-12   | 743356562 |        225 | Diary
+ Ability western today apply score reality last. | 1967-09-05   | 173078910 |        715 | Library
+(5 rows)
+
+
+Time: 16,821 ms
+
+-- Query 11
+postgres=# PREPARE find_publishers_by_book(CHARACTER VARYING) AS
+postgres-# SELECT
+postgres-#     p.Name AS Publisher_Name,
+postgres-#     p.Phone_Number,
+postgres-#     p.Website AS Publisher_Address
+postgres-# FROM
+postgres-#     Publisher p
+postgres-# JOIN
+postgres-#     Published_By pb ON p.Publisher_ID = pb.Publisher_ID
+postgres-# JOIN
+postgres-#     Book b ON pb.ID = b.ID
+postgres-# WHERE
+postgres-#     b.Title = $1;  -- Parameterized book title input
+PREPARE
+Time: 0,263 ms
+postgres=#
+postgres=# -- Execute the prepared query with the book name as an argument
+postgres=# EXECUTE find_publishers_by_book('Shake itself former majority.');
+ publisher_name | phone_number | publisher_address
+----------------+--------------+-------------------
+(0 rows)
+
+
+Time: 12,238 ms
+
+-- Query 12
+postgres=# PREPARE find_books_by_publisher(CHARACTER VARYING) AS
+postgres-# SELECT
+postgres-#     b.Title AS Book_Title,
+postgres-#     b.Release_Date,
+postgres-#     b.ISBN,
+postgres-#     b.Page_Count,
+postgres-#     b.Format
+postgres-# FROM
+postgres-#     Publisher p
+postgres-# JOIN
+postgres-#     Published_By pb ON p.Publisher_ID = pb.Publisher_ID
+postgres-# JOIN
+postgres-#     Book b ON pb.ID = b.ID
+postgres-# WHERE
+postgres-#     p.Name = $1;  -- Parameterized publisher name input
+PREPARE
+Time: 0,203 ms
+postgres=#
+postgres=# -- Execute the prepared query with the publisher name as an argument
+postgres=# EXECUTE find_books_by_publisher('King Inc');
+                         book_title                         | release_date |   isbn    | page_count |    format
+------------------------------------------------------------+--------------+-----------+------------+--------------
+ Owner hour food.                                           | 1928-05-12   | 591362255 |        367 | Almanac
+ Year head recently similar pretty.                         | 2000-10-08   | 103162955 |        578 | Guide
+ Right pattern score national force market.                 | 1899-01-11   | 883042809 |        887 | Flyer
+ Reach child listen most consumer certainly then.           | 1854-02-22   | 362027866 |        307 | Diary
+ Opportunity direction effort development.                  | 2007-04-07   | 836665858 |        775 | Dictionary
+ Miss order language responsibility here student pick.      | 2020-08-21   | 647219030 |        221 | Diary
+ Together we debate investment.                             | 1921-09-19   | 950788833 |        441 | Magazine
+ Attention American couple discover example.                | 1867-10-19   | 591098996 |        400 | Audiobook
+ Type herself agree if.                                     | 2007-05-15   | 959258031 |        957 | Large Print
+ Million true movement popular explain speech guy southern. | 1851-10-06   | 384268759 |        918 | Poster
+ Star fire leader allow billion do.                         | 1891-09-01   | 731729612 |        761 | Paperback
+ Address politics finish high.                              | 1904-07-23   | 245114497 |         86 | Textbook
+ Wife laugh peace administration child six.                 | 1908-09-23   | 545147484 |         10 | Reference
+ Better player that baby.                                   | 2004-06-07   | 720896546 |        288 | Calendar
+ Why boy add every key place exist control.                 | 2007-02-06   | 168882316 |         71 | Encyclopedia
+ None Democrat certain these now court last.                | 1900-02-21   | 330964819 |        699 | Textbook
+ Each lot field address suggest.                            | 1935-08-27   | 541659664 |         50 | Album
+ Activity free black early attorney.                        | 1934-10-20   | 701800522 |        740 | Library
+ Edge culture left number.                                  | 1859-04-26   | 768012242 |        153 | Newspaper
+(19 rows)
+
+
+Time: 11,022 ms
+postgres=#

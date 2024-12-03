@@ -1,0 +1,272 @@
+-- Query 1
+postgres=# SELECT a.First_Name, a.Last_Name, a.Date_of_Birth
+postgres-# FROM Author a
+postgres-# JOIN Written_By wb ON a.Author_ID = wb.Author_ID
+postgres-# JOIN Book b ON wb.ID = b.ID
+postgres-# GROUP BY a.First_Name, a.Last_Name, a.Date_of_Birth
+postgres-# HAVING COUNT(DISTINCT b.ID) > 0 -- at least one book written
+postgres-# ORDER BY a.Date_of_Birth ASC -- oldest first (DESC would be youngest first)
+postgres-# LIMIT 5;
+ first_name | last_name | date_of_birth
+------------+-----------+---------------
+ Michelle   | Smith     | 1800-01-19
+ Shelly     | Benson    | 1800-01-27
+ Justin     | Carroll   | 1800-02-05
+ Stephen    | Jordan    | 1800-02-08
+ Dennis     | Parker    | 1800-02-15
+(5 rows)
+
+
+Time: 79,351 ms
+
+-- Query 2
+postgres=# SELECT
+postgres-#     ROUND(AVG(BookCount), 2) AS Average_Books_Per_Publisher -- round to 2 decimal places
+postgres-# FROM (
+postgres(#     SELECT
+postgres(#         p.Publisher_ID,
+postgres(#         p.Name AS Publisher_Name,
+postgres(#         COUNT(pb.ID) AS BookCount -- count books published by each publisher
+postgres(#     FROM Publisher p
+postgres(#     LEFT JOIN Published_By pb ON p.Publisher_ID = pb.Publisher_ID -- join publishers with books
+postgres(#     GROUP BY p.Publisher_ID, p.Name -- group by publisher
+postgres(# );
+ average_books_per_publisher
+-----------------------------
+                        4.16
+(1 row)
+
+
+Time: 47,790 ms
+
+-- Query 3
+postgres=# WITH LanguageCounts AS (
+postgres(#     SELECT -- subquery that gives you publisher name and unique language count
+postgres(#         P.Name,  -- publisher name
+postgres(#         COUNT(DISTINCT w.Language_ID) AS LanguageCount -- count unique languages
+postgres(#     FROM Publisher p
+postgres(#     JOIN Published_By pb ON p.Publisher_ID = pb.Publisher_ID
+postgres(#     JOIN Written_In w ON pb.ID = w.ID
+postgres(#     GROUP BY P.Publisher_ID, P.Name -- group by publisher
+postgres(# )
+postgres-# SELECT Name, LanguageCount
+postgres-# FROM LanguageCounts
+postgres-# WHERE LanguageCount = (SELECT MAX(LanguageCount) FROM LanguageCounts); -- take previous subquery and extract the MAX
+            name             | languagecount
+-----------------------------+---------------
+ Brooks, Martinez and Thomas |            21
+(1 row)
+
+
+Time: 150,980 ms
+
+-- Query 4
+postgres=# SELECT b.Title, l.Quantity
+postgres-# FROM Book b
+postgres-# JOIN Location l ON b.ID = l.ID
+postgres-# WHERE l.Quantity = (SELECT MIN(Quantity) FROM Location) -- get the book with the lowest quantity
+postgres-# LIMIT 1;
+         title          | quantity
+------------------------+----------
+ Mrs feel prepare long. |        1
+(1 row)
+
+
+Time: 5,915 ms
+
+-- Query 5
+postgres=# UPDATE Book
+postgres-# SET Release_Date = '2000-01-01'
+postgres-# WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31';
+UPDATE 4
+Time: 17,027 ms
+
+-- Query 6
+postgres=# UPDATE Location
+postgres-# SET Floor = 'Kids Corner'
+postgres-# WHERE ID IN (
+postgres(#     SELECT b.ID
+postgres(#     FROM Book b
+postgres(#     JOIN Type_of t ON b.ID = t.ID
+postgres(#     JOIN Genre g ON t.Genre_ID = g.Genre_ID
+postgres(#     WHERE g.Name = 'Childrens'
+postgres(# )
+postgres-# AND Condition IN ('Good', 'New', 'Like New')
+postgres-# AND Floor = 'Returns'
+postgres-# AND quantity > 0;
+UPDATE 0
+Time: 48,687 ms
+
+-- Query 7
+postgres=# BEGIN;
+BEGIN
+Time: 0,228 ms
+postgres=*#     DELETE FROM Written_By
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 6,946 ms
+postgres=*#     -- 2. Delete from the Published_By table (book-publisher relation)
+postgres=*#     DELETE FROM Published_By
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 6,945 ms
+postgres=*#     -- 3. Delete from the Written_In table (book-language relation)
+postgres=*#     DELETE FROM Written_In
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 7,092 ms
+postgres=*#     -- 4. Delete from the Type_of table (book-genre relation)
+postgres=*#     DELETE FROM Type_of
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 6,991 ms
+postgres=*#     -- 5. Delete from the Location table (book location)
+postgres=*#     DELETE FROM Location
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 6,968 ms
+postgres=*#     -- 6. Finally, delete the book from the Book table
+postgres=*#     DELETE FROM Book
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Location l ON b.ID = l.ID
+postgres(*#         WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+postgres(*#     );
+DELETE 0
+Time: 6,827 ms
+postgres=*# COMMIT;
+COMMIT
+Time: 0,144 ms
+Time: 42,141 ms
+
+-- Query 8
+
+postgres=# -- 1. Delete from Written_By (book-author relation)
+postgres=# BEGIN;
+BEGIN
+Time: 0,090 ms
+postgres=*#     DELETE FROM Written_By
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Yiddish'
+postgres(*#         AND loc.Quantity > 5
+postgres(*#         GROUP BY b.ID
+postgres(*#         HAVING COUNT(wb.Author_ID) = 4
+postgres(*#     );
+DELETE 302
+Time: 25,275 ms
+postgres=*#
+postgres=*#     -- 2. Delete from Published_By (book-publisher relation)
+postgres=*#     DELETE FROM Published_By
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Russian'
+postgres(*#         AND loc.Quantity > 90
+postgres(*#         GROUP BY b.ID
+postgres(*#     );
+DELETE 116
+Time: 21,113 ms
+postgres=*#
+postgres=*#     -- 3. Delete from Written_In (book-language relation)
+postgres=*#     DELETE FROM Written_In
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Russian'
+postgres(*#         AND loc.Quantity > 90
+postgres(*#         GROUP BY b.ID
+postgres(*#     );
+DELETE 143
+Time: 21,847 ms
+postgres=*#
+postgres=*#     -- 4. Delete from Type_of (book-genre relation)
+postgres=*#     DELETE FROM Type_of
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Russian'
+postgres(*#         AND loc.Quantity > 90
+postgres(*#         GROUP BY b.ID
+postgres(*#     );
+DELETE 0
+Time: 11,953 ms
+postgres=*#
+postgres=*#     -- 5. Delete from Location (book location)
+postgres=*#     DELETE FROM Location
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Russian'
+postgres(*#         AND loc.Quantity > 90
+postgres(*#         GROUP BY b.ID
+postgres(*#     );
+DELETE 0
+Time: 12,407 ms
+postgres=*#
+postgres=*#     -- 6. Finally, delete the book from the Book table
+postgres=*#     DELETE FROM Book
+postgres-*#     WHERE ID IN (
+postgres(*#         SELECT b.ID
+postgres(*#         FROM Book b
+postgres(*#         JOIN Written_By wb ON b.ID = wb.ID
+postgres(*#         JOIN Written_In wi ON b.ID = wi.ID
+postgres(*#         JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres(*#         JOIN Location loc ON b.ID = loc.ID
+postgres(*#         WHERE l.Name = 'Russian'
+postgres(*#         AND loc.Quantity > 90
+postgres(*#         GROUP BY b.ID
+postgres(*#     );
+DELETE 0
+Time: 12,081 ms
+postgres=*# COMMIT;
+COMMIT
+Time: 0,254 ms
+Time: 105,02 ms
