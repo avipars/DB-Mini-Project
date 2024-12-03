@@ -1,10 +1,6 @@
 # BookDB Stage 1 and Stage 2
 
-## Leib Blam and Avi Parshan
-
-### Disclaimer
-
-This library book database system was created solely for educational and demonstration purposes. All data contained within is entirely fabricated and does not represent any real-world information. Any resemblance to actual book titles, authors, or other entities is purely coincidental and unintentional. 
+### Authors: Leib Blam and Avi Parshan
 
 ## Stage 1 
 ### Project Proposal
@@ -36,19 +32,13 @@ Build a database system to manage books in a library.
 
    Main Entities: 
 
-      1. Book
-
-      2. Genre
-
-      3. Location
-
-      4. Language
-
-      5. Author
-
-      6. Publisher
-
-      7. Country
+   * Book
+   * Genre
+   * Location
+   * Language
+   * Author
+   * Publisher
+   * Country
 
 ### Data Generation
 
@@ -66,10 +56,10 @@ Build a database system to manage books in a library.
 
       Country
          - **Independent table**.
-         - Script: random_countries.sql
-
+         - Script: `random_countries.sql`
+         
       Publisher
-         - **Depends on Country** for the `Is_In` table.
+         - **Depends on Country** for `Is_In` table.
          - Script: `random_publishers.sql`
          
       Author
@@ -112,7 +102,7 @@ Build a database system to manage books in a library.
          - **Depends on Publisher and Country.**
          - Script: `is_in.sql`
 
-![image](https://github.com/user-attachments/assets/d3418bd6-4f2b-4a50-be48-12eb613bdd22)
+![Screenshot 2024-12-03 155347](https://github.com/user-attachments/assets/bdbb31a5-5764-4919-8b04-1b8ef1238c82)
 
 ## Stage 2
 
@@ -129,25 +119,25 @@ And click execute script
 
 ![image](https://github.com/user-attachments/assets/47706ba8-9894-4da4-ba39-d22338730f4f)
 
+[Log for create, dump](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/Command.log)
+
+
 ### Load data
 
 In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the order listed above
 
+[Log for loading data](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/inserts.log)
+
 ### Dump Data
-
 <!-- (our table name is postgres and password is admin) -->
-
 Via command line, we can dump the data from the database into a file. 
-
-clean to first drop tables
-
-if-exists to avoid errors if tables do not exist
+--clean to first drop tables
+--if-exists to avoid errors if tables do not exist
 
 * backupSQL (with DROP . . . CREATE . . . INSERT)
 
-   settled on 1000 rows per insert to balance speed and file size
-
-   create to include create table statements
+   Settled on 1000 rows per insert to balance speed and file size.
+   --create to include create table statements
 
    inserts to include insert statements
 
@@ -155,66 +145,57 @@ if-exists to avoid errors if tables do not exist
    pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create --clean --if-exists --verbose --inserts --rows-per-insert "1000" 2>backupSQL.log
    ```
 
-   Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/backupSQL.log)
-
-
-* backupPSQL (binary format)
+* backupPSQL (binary format) 
 
    ```bash
    pg_dump --file "backupPSQL.sql" --host "localhost" --port "5432" --username "postgres" --format=c --create --clean --if-exists --verbose "postgres" 2>backupPSQL.log
    ```
 
-   Full dump output is [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/backupPSQL.log)
-
-
+   Full dumps and logs are [here](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage1?ref_type=heads)
+  
 ### Restore Data 
 
    * Restore backupPSQL (binary format)
 
-      send logs to be appended to original log file, disable triggers helps us avoid future constraint issues with order of insertion into the table (preventative measure)
-
-      no owner and no privileges to avoid potential issues with permissions
+      Send logs to be appended to original log file, disable triggers helps us avoid future constraint issues with order of insertion into the table (preventative measure).
+      No owner and no privileges to avoid potential issues with permissions.
       
       ```bash
       pg_restore --host "localhost" --port "5432" --username "postgres" --dbname "postgres" --clean --if-exists --disable-triggers --verbose --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"
       ```
 
-### [Basic Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/Queries.sql)
+     [Log](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage1/backupPSQL.log?ref_type=heads)
+     
+### Queries 
+
+#### [Basic Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/Queries.sql)
 
    SELECT: 
-
    * (Query 1) Find the 5 oldest authors (Name, DOB) who published at least 1 book in the database
-   
    * (Query 2) Get average amount of books published by any publisher
-
    * (Query 3) Get publisher (ID) with books published in the most languages
-
    * (Query 4) Get book title and quantity of book with the lowest quantity in stock
 
    UPDATE: 
-
    * (Query 5) Change all books released between 1999-12-28 and 1999-12-31 to 2000-01-01
-
    * (Query 6) Move all returned Children's books from Returns that are in decent condition to the Kids Corner
 
    DELETE:
-
    * (Query 7) Delete books with 0 copies that are moldy or damaged
-
    * (Query 8) Delete all books written in russian that have more than 90 copies in stock
 
-### [Parameterized Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
+    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log)
+ 
+####  [Parameterized Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
 
    * (Query 9) Top N prolific authors in a genre (who wrote the most books in that genre)
-
    * (Query 10) Get the top N books written in a specified language
-
    * (Query 11) Get all publishers associated with a specified book
-
    * (Query 12) Lists all books published by a specified publisher
 
+    [Logs with timings]([https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamTimings.log))
 
-### Indexing
+### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Indexes.sql/)
 To optimize the performance of the previous parameterized queries, we should create indexes on the columns that are frequently used in JOIN operations, WHERE clauses, and ORDER BY clauses.
 Columns to index:
 
@@ -232,7 +213,7 @@ Columns to index:
 * Publisher.Publisher_ID (for joining with the Published_By table)
 * Publisher.Name (for filtering by publisher name)
 
-* File is found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Indexes.sql/)
+[Logs]
 
 ### Timing
 
@@ -251,9 +232,10 @@ Columns to index:
 | 10           | 348.897             | 25.609                    |
 | 11           | 97.931              | 9.133                     |
 | 12           | 73.311              | 1.294                     |
+
 * Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
-### Constraints
+### [Constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Constraints.sql)
 
 To make our database system more sturdy, we enforced the following rules:
 
@@ -271,6 +253,8 @@ To make our database system more sturdy, we enforced the following rules:
 
 * Shelf number is minimum of 0
 
+#### [Testing constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.sql)
+
 To test the constraints, we attempted to break them as follows:
 
 * Negative book quantity
@@ -287,4 +271,4 @@ To test the constraints, we attempted to break them as follows:
 
 * Negative shelf number
 
-Files and logs found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/)
+[Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Error.log)
