@@ -11,27 +11,20 @@ Build a database system to manage books in a library.
 1. **Coding Systems**  
    - Internal Code: Unique identifiers for internal processes.  
    - International Code: Integration with global standards like ISBN.  
-
 2. **Location Tracking**  
    - Make it easier for librarians and patrons to find books based on floor and shelf. 
-
 3. **Condition Monitoring**  
    - Track each book's condition assists librarians with inventory management and overall quality. 
-
 4. **Copies Management**  
    - Total copies available per title.  
 
 ### [Design](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
-
    * ERD
    ![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookERDMap.png?raw=true)
-
    * DSD
    ![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookDSDMap.png?raw=true)
 
-
    Main Entities: 
-
    * Book
    * Genre
    * Location
@@ -41,66 +34,62 @@ Build a database system to manage books in a library.
    * Country
 
 ### Data Generation
-
    * Schema Definition [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/CreateTables.sql) is the script used to create the tables with the required schema.
-
    * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/sampleDataCreation.py) we created SQL insert statements that deal with 100.000 Books, 5.000 Authors, 30.000 Publishers, and 70.000 Locations. 
-
-   Each SQL file can be found in the [Data Samples Directory](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/)
+   * Each SQL file can be found in the [Data Samples Directory](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/)
    
    Run the SQL files in the following order: 
-
    1. Schema definition **CreateTables.sql**
-
-   2. Data
-
+   2. Data:
       Country
          - **Independent table**.
          - Script: `random_countries.sql`
-         
+         - Rows: 24
       Publisher
          - **Depends on Country** for `Is_In` table.
          - Script: `random_publishers.sql`
-         
+         - Rows: 30,000
       Author
          - **Independent table**.
          - Script: `random_authors.sql`
-         
+         - Rows: 5,000
       Language
          - **Independent table**.
          - Script: `random_languages.sql`
-         
+         - Rows: 63
       Genre
          - **Independent table**.
          - Script: `random_genres.sql`
-         
+         - Rows: 77
       Book
          - **Independent table** but referenced by several others.
          - Script: `random_books.sql`
-         
+         - Rows: 100,000
       Location
-         - **Depends on Book.**
+         - **Depends on Book**.
          - Script: `random_locations.sql`
-         
+         - Rows: 70,000
       Written_By
-         - **Depends on Book and Author.**
+         - **Depends on Book and Author**.
          - Script: `written_by.sql`
-         
+         - Rows: 132,820
       Published_By
-         - **Depends on Book and Publisher.**
+         - **Depends on Book and Publisher**.
          - Script: `published_by.sql`
-         
+         - Rows: 124,848
       Written_In
-         - **Depends on Book and Language.**
+         - **Depends on Book and Language**.
          - Script: `written_in.sql`
-
+         - Rows: 125,087
       Type_of
-         - **Depends on Book and Genre.**
+         - **Depends on Book and Genre**.
          - Script: `type_of.sql`
-         
+         - Rows: 124,741
       Is_In
-         - **Depends on Publisher and Country.**
+         - **Depends on Publisher and Country**.
          - Script: `is_in.sql`
+         - Rows: 37,134
+
 
 ![Screenshot 2024-12-03 155347](https://github.com/user-attachments/assets/bdbb31a5-5764-4919-8b04-1b8ef1238c82)
 
