@@ -1,4 +1,4 @@
-
+-- TODO CHANGE THIS (OLD) -- add UPDATE AND DELEETES
 
 -- Test input of invalid constraints which should cause an error
 

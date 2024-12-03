@@ -1,3 +1,5 @@
+-- TODO CHANGE THIS (OLD)
+
 -- Book quantity is 0 or more
 ALTER TABLE Location
 ADD CONSTRAINT Book_Quantity CHECK (Quantity >= 0);
