@@ -22,7 +22,7 @@ WHERE
     AND t.Genre_ID = g.Genre_ID
     AND g.Name = 'Science'
     AND l.Quantity > 5
-    AND l.Condition NOT IN ('New', 'Like New', 'Very Good')
+    AND l.Condition NOT IN ('New', 'Like New', 'Very Good');
 
 
 -- 3. Get books with the highest amount of pages that are in stock in decent condition
@@ -49,7 +49,7 @@ GROUP BY b.Title, l.Name, b.Page_Count;
 -- FROM Book b 
 UPDATE Book 
 SET Release_Date = '2000-01-01'
-WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31'  AND Page_Count > 1;
+WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31' AND Page_Count > 1;
 
 -- 6. Move all returned Children's books from Returns that are in decent condition to the Kids Corner:
 -- To check what will change:
@@ -127,7 +127,7 @@ BEGIN;
         SELECT b.ID
         FROM Book b
         JOIN Location l ON b.ID = l.ID
-        WHERE  l.Condition IN ('Damaged', 'Moldy') AND l.Quantity = 0
+        WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')  
     );
 COMMIT;
 

@@ -1,0 +1,63 @@
+Query 9 
+
+PREPARE
+Time: 0.313 ms
+postgres=# EXECUTE find_top_books_by_author('Fantasy', 5);
+                  book_title                   |   author_name    | total_books_by_author
+-----------------------------------------------+------------------+-----------------------
+ Agreement generation money food.              | Ashley Hoover    |                     4
+ Anyone car food husband sell only.            | Anthony Martinez |                     4
+ Blood save while onto environment true party. | Hunter Rodriguez |                     4
+ Class practice customer head.                 | Hunter Rodriguez |                     4
+ Congress size bank billion.                   | Ashley Hoover    |                     4
+(5 rows)
+
+
+Time: 10.861 ms
+
+Query 10
+
+PREPARE
+Time: 0.261 ms
+postgres=# EXECUTE find_books_by_language('Spanish', 5);
+                   book_title                    | release_date |   isbn    | page_count |  format
+-------------------------------------------------+--------------+-----------+------------+----------
+ A age make woman system.                        | 1936-08-30   | 486510685 |        699 | Calendar
+ A table dog carry along memory bed should.      | 2019-03-20   | 237578997 |        750 | Almanac
+ A through should subject.                       | 1852-09-05   | 866326941 |        785 | Brochure
+ Ability theory stop.                            | 1892-01-12   | 743356562 |        225 | Diary
+ Ability western today apply score reality last. | 1967-09-05   | 173078910 |        715 | Library
+(5 rows)
+
+
+Time: 6.009 ms
+
+Query 11
+
+PREPARE
+Time: 0.235 ms
+postgres=#
+postgres=# EXECUTE find_publishers_by_book('View store draw maintain should PM.');
+  publisher_name  | phone_number |      publisher_address
+------------------+--------------+------------------------------
+ Simpson-Williams | 2425997769   | https://figueroa-warner.net/
+(1 row)
+
+
+Time: 8.303 ms
+
+Query 12
+
+PREPARE
+Time: 0.204 ms
+postgres=#
+postgres=# EXECUTE find_books_by_publisher('Norton, Stevens and Dunlap');
+                     book_title                      | release_date |   isbn    | page_count |   format
+-----------------------------------------------------+--------------+-----------+------------+-------------
+ Recent with player catch especially human business. | 1944-09-30   | 783288665 |        506 | Large Print
+ Either people community court which kid country so. | 1938-06-18   | 739519772 |        281 | Guide
+ President case have across impact actually.         | 1935-11-20   | 258449505 |        653 | Yearbook
+(3 rows)
+
+
+Time: 2.509 ms

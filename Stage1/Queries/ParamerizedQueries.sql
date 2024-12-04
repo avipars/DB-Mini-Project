@@ -90,7 +90,7 @@ WHERE
     b.Title = $1;  -- Parameterized book title input
 
 -- Execute the prepared query with the book name as an argument
-EXECUTE find_publishers_by_book('Shake itself former majority.');
+EXECUTE find_publishers_by_book('View store draw maintain should PM.');
 
 -- QUERY 12: The user enters a publisher name and it outputs all the books published by this publisher
 -- Prepare the query
@@ -111,5 +111,5 @@ WHERE
     p.Name = $1;  -- Parameterized publisher name input
 
 -- Execute the prepared query with the publisher name as an argument
-EXECUTE find_books_by_publisher('King Inc');
+EXECUTE find_books_by_publisher('Norton, Stevens and Dunlap');
 

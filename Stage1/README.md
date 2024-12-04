@@ -41,26 +41,32 @@ Build a database system to manage books in a library.
    Run the SQL files in the following order: 
    1. Schema definition **CreateTables.sql**
    2. Data:
+
       Country
          - **Independent table**.
          - Script: `random_countries.sql`
          - Rows: 24
+
       Publisher
          - **Depends on Country** for `Is_In` table.
          - Script: `random_publishers.sql`
          - Rows: 30,000
+
       Author
          - **Independent table**.
          - Script: `random_authors.sql`
          - Rows: 5,000
+
       Language
          - **Independent table**.
          - Script: `random_languages.sql`
          - Rows: 63
+
       Genre
          - **Independent table**.
          - Script: `random_genres.sql`
          - Rows: 77
+
       Book
          - **Independent table** but referenced by several others.
          - Script: `random_books.sql`
@@ -69,6 +75,7 @@ Build a database system to manage books in a library.
          - **Depends on Book**.
          - Script: `random_locations.sql`
          - Rows: 70,000
+
       Written_By
          - **Depends on Book and Author**.
          - Script: `written_by.sql`
@@ -77,14 +84,17 @@ Build a database system to manage books in a library.
          - **Depends on Book and Publisher**.
          - Script: `published_by.sql`
          - Rows: 124,848
+
       Written_In
          - **Depends on Book and Language**.
          - Script: `written_in.sql`
          - Rows: 125,087
+
       Type_of
          - **Depends on Book and Genre**.
          - Script: `type_of.sql`
          - Rows: 124,741
+         
       Is_In
          - **Depends on Publisher and Country**.
          - Script: `is_in.sql`
@@ -129,7 +139,7 @@ Via command line, we can dump the data from the database into a file.
    --inserts to include insert statements
 
    ```bash
-   pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create -clean --if-exists --inserts --rows-per-insert "1000" 2>backupSQL.log
+   pg_dump -U postgres -d postgres -v -f "backupSQL.sql" --create --clean --if-exists --inserts --rows-per-insert "1000" 2>backupSQL.log
    ```
 
 * backupPSQL (binary format) 
@@ -171,7 +181,7 @@ Via command line, we can dump the data from the database into a file.
    * (Query 7) Delete books with 0 copies that are moldy or damaged
    * (Query 8) Delete all books written in Russian that have more than 90 copies in stock
 
-    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log)
+    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTime.log)
  
 ####  [Parameterized Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
 
@@ -180,38 +190,39 @@ Via command line, we can dump the data from the database into a file.
    * (Query 11) All publishers associated with a specified book
    * (Query 12) All books published by a specified publisher
 
-    [Logs with timings]([https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTimings.log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamTimings.log))
+    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamQueriesTime.log)
 
-### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Indexes.sql/)
-To optimize the performance of queries on the database, we should create indexes on the columns that are frequently used.
-Columns to index:
+### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/Constraints.sql)
 
+To optimize the performance of queries on the database, we created indexes on the columns that are frequently used.
+Additionally, all foreign keys for each table are also used as indexes. 
 
-[Logs]
+* [Logs for indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/Index.log)
+
+* [DB Dump after Indexing](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
 
 ### Timing
 
 | Query Number | Normal Runtime (ms) | Runtime With Indexes (ms) |
 | ------------ | ------------------- | ------------------------- |
-| 1            | 280.25              | 257.85                    |
-| 2            | 179.344             | 178.423                   |
-| 3            | 520.412             | 514.267                   |
-| 4            | 15.532              | 10.922                    |
-| 5            | 26.422              | 12.63                     |
-| 6            | 35.571              | 31.103                    |
-| 7            | 79.197              | 78.133                    |
-| 8            | 250.913             | 152.8542844               |
-|              |                     |                           |
-| 9            | 541.529             | 31.633                    |
-| 10           | 348.897             | 25.609                    |
-| 11           | 97.931              | 9.133                     |
-| 12           | 73.311              | 1.294                     |
+| 1            | 84.207              | 80.004                    |
+| 2            | 32.147              | 5.371                     |
+| 3            | 31.784              | 11.209                    |
+| 4            | 25.110              | 13.830                    |
+| 5            | 11.120              | 12.255                    |
+| 6            | 321.113             | 7.711                     |
+| 7            | 53.818              | 10.199                    |
+| 8            | 113.304             | 28.650                    |
+| 9            | 55.366              | 11.174                    |
+| 10           | 16.055              | 6.270                     |
+| 11           | 8.349               | 8.538                     |
+| 12           | 12.886              | 2.713                     |
 
 * Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
 ### [Constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Constraints.sql)
 
-To make our database system more sturdy, we enforced the following rules:
+To make our database system more sturdy, we enforced the following rules in CreateTable:
 
 * Book quantity is minimum of 1
 
