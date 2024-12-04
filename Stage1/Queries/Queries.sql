@@ -10,66 +10,64 @@ HAVING COUNT(DISTINCT b.ID) > 0 -- at least one book written
 ORDER BY a.Date_of_Birth ASC -- oldest first (DESC would be youngest first)
 LIMIT 5;
 
--- 2. Get average amount of books published by any publisher
+-- 2. Average page count for Science books stored in locations with > 5 copies in subpar condition, useful for library inventory analysis and condition-based reporting
+-- (taking up shelf space)
 SELECT 
-    ROUND(AVG(BookCount), 2) AS Average_Books_Per_Publisher -- round to 2 decimal places
-FROM (
-    SELECT 
-        p.Publisher_ID, 
-        p.Name AS Publisher_Name, 
-        COUNT(pb.ID) AS BookCount -- count books published by each publisher
-    FROM Publisher p 
-    LEFT JOIN Published_By pb ON p.Publisher_ID = pb.Publisher_ID -- join publishers with books
-    GROUP BY p.Publisher_ID, p.Name -- group by publisher
-);
+    ROUND(AVG(b.Page_Count), 2) AS avg_location_quantity
+FROM 
+    Location l, Book b, Type_of t, Genre g
+WHERE 
+    l.ID = b.ID
+    AND b.ID = t.ID
+    AND t.Genre_ID = g.Genre_ID
+    AND g.Name = 'Science'
+    AND l.Quantity > 5
+    AND l.Condition NOT IN ('New', 'Like New', 'Very Good')
 
--- 3. Get publisher (ID) with books published in the most languages
-WITH LanguageCounts AS ( 
-    SELECT -- subquery that gives you publisher name and unique language count
-        P.Name,  -- publisher name
-        COUNT(DISTINCT w.Language_ID) AS LanguageCount -- count unique languages
-    FROM Publisher p
-    JOIN Published_By pb ON p.Publisher_ID = pb.Publisher_ID
-    JOIN Written_In w ON pb.ID = w.ID 
-    GROUP BY P.Publisher_ID, P.Name -- group by publisher
-)
-SELECT Name, LanguageCount 
-FROM LanguageCounts
-WHERE LanguageCount = (SELECT MAX(LanguageCount) FROM LanguageCounts); -- take previous subquery and extract the MAX
 
--- 4. Get book title and quantity of book with the lowest quantity in stock
-SELECT b.Title, l.Quantity
+-- 3. Get books with the highest amount of pages that are in stock in decent condition
+SELECT b.Title, b.Page_Count, l.Quantity
 FROM Book b
 JOIN Location l ON b.ID = l.ID
-WHERE l.Quantity = (SELECT MIN(Quantity) FROM Location) -- get the book with the lowest quantity
-LIMIT 1;
+WHERE l.Quantity > 1 AND l.Condition IN ('New', 'Like New', 'Very Good') AND 
+b.Page_Count = (SELECT MAX(Page_Count) FROM Book);
+
+-- 4. Get book in english with the fewest pages
+SELECT b.Title,b.Page_Count, l.Name AS Language
+FROM Book b
+JOIN Written_In wi ON b.ID = wi.ID
+JOIN Language l ON wi.Language_ID = l.Language_ID
+WHERE b.Page_Count = (SELECT MIN(Page_Count) FROM Book) AND l.Name = 'English'
+GROUP BY b.Title, l.Name, b.Page_Count;
+
 
 -- UPDATES
 
--- 5. Fix the Y2K bug by changing all books released between 1999-12-28 and 1999-12-31 to 2000-01-01:
+-- 5. Fix the Y2K bug by changing all books released between 1999-12-28 and 1999-12-31 to 2000-01-01 and has at least 2 pages:
 -- To check what will change: 
 -- SELECT b.Release_Date 
 -- FROM Book b 
 UPDATE Book 
 SET Release_Date = '2000-01-01'
-WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31';
+WHERE Release_Date > '1999-12-27' AND Release_Date <= '1999-12-31'  AND Page_Count > 1;
 
 -- 6. Move all returned Children's books from Returns that are in decent condition to the Kids Corner:
 -- To check what will change:
 -- SELECT l.ID, l.Floor, l.Condition
 -- FROM Location l
-UPDATE Location
+UPDATE Location l
 SET Floor = 'Kids Corner'
-WHERE ID IN (
+FROM (
     SELECT b.ID
     FROM Book b
     JOIN Type_of t ON b.ID = t.ID
     JOIN Genre g ON t.Genre_ID = g.Genre_ID
     WHERE g.Name = 'Children'
-)
-AND Condition IN ('Good', 'New', 'Like New') 
-AND Floor = 'Returns' 
-AND Quantity > 0;
+) AS SubQuery
+WHERE l.ID = SubQuery.ID
+AND l.Floor = 'Returns' 
+AND l.Condition IN ('Good', 'New', 'Like New') 
+AND l.Quantity >= 1;
 
 -- DELETES
 
@@ -129,7 +127,7 @@ BEGIN;
         SELECT b.ID
         FROM Book b
         JOIN Location l ON b.ID = l.ID
-        WHERE l.Quantity = 0 AND l.Condition IN ('Damaged', 'Moldy')
+        WHERE  l.Condition IN ('Damaged', 'Moldy') AND l.Quantity = 0
     );
 COMMIT;
 

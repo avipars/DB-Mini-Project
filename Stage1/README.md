@@ -159,12 +159,12 @@ Via command line, we can dump the data from the database into a file.
 
    SELECT: 
    * (Query 1) Find the 5 oldest authors (Name, DOB) who published at least 1 book in the database
-   * (Query 2) Get average amount of books published by any publisher
-   * (Query 3) Get publisher (ID) with books published in the most languages
-   * (Query 4) Get book title and quantity of book with the lowest quantity in stock
+   * (Query 2) Average page count for Science books with > 5 copies in subpar condition (taking up shelf space)
+   * (Query 3) Get books with the highest amount of pages that are in stock in decent condition
+   * (Query 4) Get book in english with the fewest pages
 
    UPDATE: 
-   * (Query 5) Change all books released between 1999-12-28 and 1999-12-31 to 2000-01-01
+   * (Query 5) Change all books (with 2 or more pages) released between 1999-12-28 and 1999-12-31 to 2000-01-01 
    * (Query 6) Move all returned Children's books from Returns that are in decent condition to the Kids Corner
 
    DELETE:
