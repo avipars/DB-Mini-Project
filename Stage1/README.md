@@ -203,6 +203,8 @@ Additionally, all foreign keys for each table are also used as indexes.
 
 ### Timing
 
+(1 to 8 are basic queries, 9 to 13 are parameterized)
+
 | Query Number | Normal Runtime (ms) | Runtime With Indexes (ms) |
 | ------------ | ------------------- | ------------------------- |
 | 1            | 84.207              | 80.004                    |
@@ -220,7 +222,7 @@ Additionally, all foreign keys for each table are also used as indexes.
 
 * Logs and queries are found [here](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/)
 
-### [Constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Constraints.sql)
+### Constraints
 
 To make our database system more sturdy, we enforced the following rules in CreateTable:
 
@@ -237,6 +239,8 @@ To make our database system more sturdy, we enforced the following rules in Crea
 * Every book has a publisher
 
 * Shelf number is minimum of 1
+
+* Additionally we added ON DELETE RESTRICT for relevant foreign keys in our tables to avoid violating referential integrity 
 
 #### [Testing constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.sql)
 
@@ -256,4 +260,7 @@ To test the constraints, we attempted to break them as follows:
 
 * Negative shelf number
 
-[Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Error.log)
+[Testing Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Error.log)
+
+
+[Dumps for Stage2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
