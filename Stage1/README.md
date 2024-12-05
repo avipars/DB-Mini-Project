@@ -71,6 +71,7 @@ Build a database system to manage books in a library.
          - **Independent table** but referenced by several others.
          - Script: `random_books.sql`
          - Rows: 100,000
+
       Location
          - **Depends on Book**.
          - Script: `random_locations.sql`
@@ -80,6 +81,7 @@ Build a database system to manage books in a library.
          - **Depends on Book and Author**.
          - Script: `written_by.sql`
          - Rows: 132,820
+         
       Published_By
          - **Depends on Book and Publisher**.
          - Script: `published_by.sql`
@@ -195,7 +197,7 @@ Via command line, we can dump the data from the database into a file.
 ### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/Constraints.sql)
 
 To optimize the performance of queries on the database, we created indexes on the columns that are frequently used.
-Additionally, all foreign keys for each table are also used as indexes. 
+Additionally, all foreign keys for each table are also used as indexes (This helps for referential integrity, as it prevents data being deleted when its referenced elsewhere).
 
 * [Logs for indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/Index.log)
 
@@ -260,7 +262,7 @@ To test the constraints, we attempted to break them as follows:
 
 * Negative shelf number
 
-[Testing Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/Error.log)
+[Testing Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.log)
 
 
-[Dumps for Stage2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
+[DB Dumps for Stage2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
