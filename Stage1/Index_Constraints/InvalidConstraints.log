@@ -1,0 +1,70 @@
+-- Unfortunately, the log is written in German
+
+-- Negative book quantity
+ERROR:  Fehlgeschlagene Zeile enthält (-1, History Section, 85, 70000, New, 62819).neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check« 
+
+FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check«
+SQL state: 23514
+Detail: Fehlgeschlagene Zeile enthält (-1, History Section, 85, 70000, New, 62819).
+
+-- Negative shelf number
+ERROR:  Fehlgeschlagene Zeile enthält (27, Adult Section, -52, 70001, New, 43003).neue Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check« 
+
+FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check«
+SQL state: 23514
+Detail: Fehlgeschlagene Zeile enthält (27, Adult Section, -52, 70001, New, 43003).
+
+-- Negative page count
+ERROR:  Fehlgeschlagene Zeile enthält (The Hobbit, 100000, 1937-09-21, -310, null, null, 123456789).NULL-Wert in Spalte »format« von Relation »book« verletzt Not-Null-Constraint 
+
+FEHLER:  NULL-Wert in Spalte »format« von Relation »book« verletzt Not-Null-Constraint
+SQL state: 23502
+Detail: Fehlgeschlagene Zeile enthält (The Hobbit, 100000, 1937-09-21, -310, null, null, 123456789).
+
+-- Duplicate ISBN
+ERROR:  Schlüssel »(isbn)=(869427396)« existiert bereits.doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key« 
+
+FEHLER:  doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key«
+SQL state: 23505
+Detail: Schlüssel »(isbn)=(869427396)« existiert bereits.
+-- Future release date
+ERROR:  Fehlgeschlagene Zeile enthält (The Hobbit, 1, 2037-09-21, 310, null, null, 123456789).NULL-Wert in Spalte »format« von Relation »book« verletzt Not-Null-Constraint 
+
+FEHLER:  NULL-Wert in Spalte »format« von Relation »book« verletzt Not-Null-Constraint
+SQL state: 23502
+Detail: Fehlgeschlagene Zeile enthält (The Hobbit, 1, 2037-09-21, 310, null, null, 123456789).
+
+-- Non-existent publisher
+ERROR:  Schlüssel (publisher_id)=(38816) ist nicht in Tabelle »publisher« vorhanden.Einfügen oder Aktualisieren in Tabelle »published_by« verletzt Fremdschlüssel-Constraint »published_by_publisher_id_fkey« 
+
+FEHLER:  Einfügen oder Aktualisieren in Tabelle »published_by« verletzt Fremdschlüssel-Constraint »published_by_publisher_id_fkey«
+SQL state: 23503
+Detail: Schlüssel (publisher_id)=(38816) ist nicht in Tabelle »publisher« vorhanden.
+
+-- Future DOB
+ERROR:  Fehlgeschlagene Zeile enthält (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).neue Zeile für Relation »author« verletzt Check-Constraint »author_date_of_birth_check« 
+
+FEHLER:  neue Zeile für Relation »author« verletzt Check-Constraint »author_date_of_birth_check«
+SQL state: 23514
+Detail: Fehlgeschlagene Zeile enthält (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).
+
+-- Non-existent author
+ERROR:  Schlüssel (author_id)=(818352457) ist nicht in Tabelle »author« vorhanden.Einfügen oder Aktualisieren in Tabelle »written_by« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey« 
+
+FEHLER:  Einfügen oder Aktualisieren in Tabelle »written_by« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey«
+SQL state: 23503
+Detail: Schlüssel (author_id)=(818352457) ist nicht in Tabelle »author« vorhanden.
+
+-- Update invalid constraints
+-- Negative book quantity
+
+-- Negative shelf number
+
+-- Duplicate ISBN
+
+-- Update in written_by a null author
+
+-- Delete invalid constraints
+-- delete country that is in use
+
+-- delete author that is in use

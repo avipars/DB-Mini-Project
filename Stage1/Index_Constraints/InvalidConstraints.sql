@@ -18,3 +18,21 @@ INSERT INTO Published_By (ID, Publisher_ID) VALUES (66925, 38816);
 INSERT INTO Author (First_Name,Last_Name,Date_of_Birth, Author_ID, Biography) VALUES ('J.R.R.', ' Tolkien', '2037-01-03', 123456789, 'Best author ever');
 -- Non-existent author
 INSERT INTO Written_By (ID, Author_ID) VALUES (1, 818352457);
+
+
+-- These test should not work
+-- Update invalid constraints
+-- Negative book quantity
+UPDATE Location SET Quantity = -27 WHERE Location_ID = 70000;
+-- Negative shelf number
+UPDATE Location SET Shelf = -27 WHERE Location_ID = 70001;
+-- Duplicate ISBN
+UPDATE Book SET ISBN = 869427396 WHERE ID = 999990;
+-- Update in written_by a null author
+UPDATE Written_By SET Author_ID = NULL WHERE ID = 1;
+
+-- Delete invalid constraints
+-- delete country that is in use
+DELETE FROM Is_In WHERE Country_ID = 1;
+-- delete author that is in use
+DELETE FROM Author WHERE Author_ID =1;
