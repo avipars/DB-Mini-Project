@@ -20,9 +20,10 @@ Build a database system to manage books in a library.
 
 ### [Design](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
    * ERD
-   ![ERDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookERDMap.png?raw=true)
+  ![BookERDMap](https://github.com/user-attachments/assets/fced78de-3de6-4077-bf7a-27c7f376a003)
+
    * DSD
-   ![DSDimage](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Diagrams/BookDSDMap.png?raw=true)
+![BookDSDMap](https://github.com/user-attachments/assets/2ab45822-aaa7-43cc-a443-a6fd51166b28)
 
    Main Entities: 
    * Book
