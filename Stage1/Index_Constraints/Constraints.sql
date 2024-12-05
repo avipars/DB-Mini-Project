@@ -113,40 +113,5 @@ ALTER TABLE Is_In
 ADD CONSTRAINT fk_country_is_in
 FOREIGN KEY (Country_ID) REFERENCES Country(Country_ID)
 ON DELETE CASCADE;
--- Delete author from author
-ALTER TABLE Author
-ADD CONSTRAINT fk_author_author
-FOREIGN KEY (Author_ID) REFERENCES Written_By(Author_ID)
-ON DELETE CASCADE;
--- Delete book from book
-ALTER TABLE Book
-ADD CONSTRAINT fk_book_book
-FOREIGN KEY (ID) REFERENCES Written_By(ID)
-ON DELETE CASCADE;
--- Delete publisher from publisher
-ALTER TABLE Publisher
-ADD CONSTRAINT fk_publisher_publisher
-FOREIGN KEY (Publisher_ID) REFERENCES Published_By(Publisher_ID)
-ON DELETE CASCADE;
--- Delete language from language
-ALTER TABLE Language
-ADD CONSTRAINT fk_language_language
-FOREIGN KEY (Language_ID) REFERENCES Written_In(Language_ID)
-ON DELETE CASCADE;
--- Delete genre from genre
-ALTER TABLE Genre
-ADD CONSTRAINT fk_genre_genre
-FOREIGN KEY (Genre_ID) REFERENCES Type_of(Genre_ID)
-ON DELETE CASCADE;
--- Delete country from country
-ALTER TABLE Country
-ADD CONSTRAINT fk_country_country
-FOREIGN KEY (Country_ID) REFERENCES Is_In(Country_ID)
-ON DELETE CASCADE;
--- Delete location from location
-ALTER TABLE Location
-ADD CONSTRAINT fk_location_location
-FOREIGN KEY (ID) REFERENCES Location(ID)
-ON DELETE CASCADE;
 
 
