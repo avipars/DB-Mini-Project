@@ -116,7 +116,7 @@ Build a database system to manage books in a library.
 
 Click Query Tool
 
-Now open the CreateTable.sql script via Open File
+Now open the [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/CreateTables.sql) script via Open File
 ![image](https://github.com/user-attachments/assets/bc311280-e445-4e25-8762-7236a0ff5b81)
 
 And click execute script
@@ -229,7 +229,7 @@ Additionally, all foreign keys for each table are also used as indexes (This hel
 
 ### Constraints
 
-To make our database system more robust, we enforced the following rules during table creation:
+To make our database system more robust, we enforced the following rules during table creation phase in [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/CreateTables.sql):
 
 * **Location and Books:**
   * Book quantity must be at least 1.
