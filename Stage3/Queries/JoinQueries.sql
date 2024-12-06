@@ -1,0 +1,1 @@
+-- 3 or more queries that utilize a 2 or 3 table join (SELECT, UPDATE or both)
