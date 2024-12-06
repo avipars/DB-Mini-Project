@@ -34,6 +34,8 @@ Build a database system to manage books in a library.
    * Publisher
    * Country
 
+   Screenshots and erdplus json files are [here](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
+
 ### Data Generation
    * Schema Definition [CreateTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/CreateTables.sql) is the script used to create the tables with the required schema.
    * Utilizing [sampleDataCreation.py](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/sampleDataCreation.py) we created SQL insert statements that deal with 100.000 Books, 5.000 Authors, 30.000 Publishers, and 70.000 Locations. 
@@ -121,7 +123,7 @@ And click execute script
 
 ![image](https://github.com/user-attachments/assets/47706ba8-9894-4da4-ba39-d22338730f4f)
 
-[Log for create, dump](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/Command.log)
+[Log for table creation, dump](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/Command.log)
 
 
 ### Load data
@@ -164,7 +166,7 @@ Via command line, we can dump the data from the database into a file.
       pg_restore -U postgres -d postgres -v --clean --if-exists --disable-triggers --no-owner --no-privileges --format=c "backupPSQL.sql" 2>>"backupPSQL.log"
       ```
 
-     [Log](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage1/backupPSQL.log?ref_type=heads)
+     [Log for dump, restore](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage1/backupPSQL.log?ref_type=heads)
      
 ### Queries 
 
@@ -184,7 +186,7 @@ Via command line, we can dump the data from the database into a file.
    * (Query 7) Delete books with 0 copies that are moldy or damaged
    * (Query 8) Delete all books written in Russian that have more than 90 copies in stock
 
-    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTime.log)
+   [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/QueriesTime.log)
  
 ####  [Parameterized Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamerizedQueries.sql)
 
@@ -193,7 +195,7 @@ Via command line, we can dump the data from the database into a file.
    * (Query 11) All publishers associated with a specified book
    * (Query 12) All books published by a specified publisher
 
-    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamQueriesTime.log)
+   [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Queries/ParamQueriesTime.log)
 
 ### [Indexing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/Constraints.sql)
 
@@ -227,43 +229,67 @@ Additionally, all foreign keys for each table are also used as indexes (This hel
 
 ### Constraints
 
-To make our database system more sturdy, we enforced the following rules in CreateTable:
+To make our database system more robust, we enforced the following rules during table creation:
 
-* Book quantity is minimum of 1
+* **Location and Books:**
+  * Book quantity must be at least 1.
+  * Shelf numbers must be positive.
+  * Book page count must be at least 1.
+* **Books:**
+  * ISBN values must be unique.
+  * Release dates cannot be in the future.
+* **Authors:**
+  * Author birth dates cannot be in the future.
+* **Foreign Keys:**
+  * Every book must have a publisher.
+  * Foreign keys reference existing rows, and non-existent publishers, authors, genres, or countries cannot be added.
+  * `ON DELETE RESTRICT` is applied to relevant foreign keys to maintain referential integrity.
 
-* Book page count is minimum of 1
 
-* ISBN is unique
+#### [Testing constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/InvalidConstraints.sql)
 
-* Release date for books is not in the future
+To test these constraints, we designed and executed invalid scenarios that should produce errors. These include:
 
-* Author birth date is not in the future
+#### **INSERTS**
+* **Invalid Numerical Values:**
+  * Negative book quantity or shelf number.
+  * Negative page count for a book.
+* **Invalid Dates:**
+  * Release date of a book set in the future.
+  * Future birth date for an author.
+* **Non-Existent Foreign Keys:**
+  * Associating a book with a non-existent publisher, author, language, genre, or country.
+  * Adding a publisher in a non-existent country.
+* **Unique Constraints Violations:**
+  * Duplicate ISBN values for books.
 
-* Every book has a publisher
+#### **UPDATES**
+* **Invalid Numerical Updates:**
+  * Updating book quantity or shelf number to negative values.
+* **Invalid Dates:**
+  * Changing a book's release date to a future date.
+  * Updating an author's birth date to a future date.
+* **Foreign Key Violations:**
+  * Updating `Written_By` to reference a null or non-existent author.
+  * Updating `Type_Of` or `Written_In` to reference non-existent genres or languages.
+  * Changing a publisher's country to a non-existent one.
+* **Unique Constraint Violations:**
+  * Updating a publisher's phone number to one already in use.
 
-* Shelf number is minimum of 1
+#### **DELETES**
+* Attempting to delete rows that are in use by other tables, including:
+  * Countries, authors, genres, publishers, languages, or books referenced in other relationships.
 
-* Additionally we added ON DELETE RESTRICT for relevant foreign keys in our tables to avoid violating referential integrity 
 
-#### [Testing constraints](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.sql)
+[Testing Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Index_Constraints/InvalidConstraints.log)
 
-To test the constraints, we attempted to break them as follows:
 
-* Negative book quantity
+### Copies
 
-* Negative page count
+- If several copies of the same book are in the same location, they are classified as 1 unit in the Location table. 
 
-* Duplicate ISBN
+- When a copy moves to a different location or gets reclasified with a different condition, it becomes its own entry in the Location table.
 
-* Future release date
-
-* Future author birth date
-
-* Book without a publisher
-
-* Negative shelf number
-
-[Testing Constraint error log](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Constraints/InvalidConstraints.log)
-
+   * Quantity of the original unit can be decreased as well
 
 [DB Dumps for Stage2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)

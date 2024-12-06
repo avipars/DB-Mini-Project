@@ -1,116 +1,255 @@
--- Unfortunately, the log is written in German
+-- INSERTS 
 
 -- Negative book quantity - tried to insert a location with a negative book quantity
-ERROR:  Fehlgeschlagene Zeile enthält (-1, History Section, 85, 70000, New, 62819).neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check« 
 
-FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check«
+ERROR:  Failing row contains (-1, History Section, 85, 70000, New, 62819).new row for relation "location" violates check constraint "location_quantity_check" 
+
+ERROR:  new row for relation "location" violates check constraint "location_quantity_check"
 SQL state: 23514
-Detail: Fehlgeschlagene Zeile enthält (-1, History Section, 85, 70000, New, 62819).
+Detail: Failing row contains (-1, History Section, 85, 70000, New, 62819).
 
 -- Negative shelf number - tried to insert a location with a negative shelf number
-ERROR:  Fehlgeschlagene Zeile enthält (27, Adult Section, -52, 70001, New, 43003).neue Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check« 
 
-FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check«
+ERROR:  Failing row contains (27, Adult Section, -52, 70001, New, 43003).new row for relation "location" violates check constraint "location_shelf_check" 
+
+ERROR:  new row for relation "location" violates check constraint "location_shelf_check"
 SQL state: 23514
-Detail: Fehlgeschlagene Zeile enthält (27, Adult Section, -52, 70001, New, 43003).
+Detail: Failing row contains (27, Adult Section, -52, 70001, New, 43003).
 
--- Negative page count
+ERROR:  Failing row contains (Police , 5000010, 1884-05-21, -39, Magazine, Market, 322397558).new row for relation "book" violates check constraint "book_page_count_check" 
 
+ERROR:  new row for relation "book" violates check constraint "book_page_count_check"
+SQL state: 23514
+Detail: Failing row contains (Police , 5000010, 1884-05-21, -39, Magazine, Market, 322397558)
+
+-- Negative page count - tried to insert a book with negative number of pages
+
+INSERT INTO Book (Title, ID, Release_Date, Page_Count, Format, Description, ISBN) VALUES('Police ', 5000010, '1884-05-21', -39, 'Magazine', 'Market', 322397558);
 
 -- Duplicate ISBN - tried to insert a book with an ISBN that already exists
-ERROR:  Schlüssel »(isbn)=(869427396)« existiert bereits.doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key« 
 
-FEHLER:  doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key«
+ERROR:  Key (isbn)=(322397088) already exists.duplicate key value violates unique constraint "book_isbn_key" 
+
+ERROR:  duplicate key value violates unique constraint "book_isbn_key"
 SQL state: 23505
-Detail: Schlüssel »(isbn)=(869427396)« existiert bereits.
--- Future release date
+Detail: Key (isbn)=(322397088) already exists.
+
+-- Future release date of book
+
+ERROR:  Failing row contains (Police , 5000011, 2025-05-21, 39, Magazine, Market, 322398088).new row for relation "book" violates check constraint "book_release_date_check" 
+
+ERROR:  new row for relation "book" violates check constraint "book_release_date_check"
+SQL state: 23514
+Detail: Failing row contains (Police , 5000011, 2025-05-21, 39, Magazine, Market, 322398088).
 
 -- Non-existent publisher - tried to insert a book with a publisher that does not exist
-ERROR:  Schlüssel (publisher_id)=(38816) ist nicht in Tabelle »publisher« vorhanden.Einfügen oder Aktualisieren in Tabelle »published_by« verletzt Fremdschlüssel-Constraint »published_by_publisher_id_fkey« 
 
-FEHLER:  Einfügen oder Aktualisieren in Tabelle »published_by« verletzt Fremdschlüssel-Constraint »published_by_publisher_id_fkey«
+ERROR:  Key (publisher_id)=(38816) is not present in table "publisher".insert or update on table "published_by" violates foreign key constraint "published_by_publisher_id_fkey" 
+
+ERROR:  insert or update on table "published_by" violates foreign key constraint "published_by_publisher_id_fkey"
 SQL state: 23503
-Detail: Schlüssel (publisher_id)=(38816) ist nicht in Tabelle »publisher« vorhanden.
+Detail: Key (publisher_id)=(38816) is not present in table "publisher".
 
--- Future DOB - tried to insert an author with a future date of birth
-ERROR:  Fehlgeschlagene Zeile enthält (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).neue Zeile für Relation »author« verletzt Check-Constraint »author_date_of_birth_check« 
+-- Non-existent book by publisher
+ERROR:  Key (id)=(155555) is not present in table "book".insert or update on table "published_by" violates foreign key constraint "published_by_id_fkey" 
 
-FEHLER:  neue Zeile für Relation »author« verletzt Check-Constraint »author_date_of_birth_check«
+ERROR:  insert or update on table "published_by" violates foreign key constraint "published_by_id_fkey"
+SQL state: 23503
+Detail: Key (id)=(155555) is not present in table "book".
+
+-- Author DOB in future
+
+ERROR:  Failing row contains (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).new row for relation "author" violates check constraint "author_date_of_birth_check" 
+
+ERROR:  new row for relation "author" violates check constraint "author_date_of_birth_check"
 SQL state: 23514
-Detail: Fehlgeschlagene Zeile enthält (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).
+Detail: Failing row contains (J.R.R.,  Tolkien, 2037-01-03, 123456789, Best author ever).
 
 -- Non-existent author - tried to insert a book with an author that does not exist
-ERROR:  Schlüssel (author_id)=(818352457) ist nicht in Tabelle »author« vorhanden.Einfügen oder Aktualisieren in Tabelle »written_by« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey« 
 
-FEHLER:  Einfügen oder Aktualisieren in Tabelle »written_by« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey«
+ERROR:  Key (author_id)=(818352457) is not present in table "author".insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey" 
+
+ERROR:  insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey"
 SQL state: 23503
-Detail: Schlüssel (author_id)=(818352457) ist nicht in Tabelle »author« vorhanden.
+Detail: Key (author_id)=(818352457) is not present in table "author".
 
--- Update invalid constraints
--- Negative book quantity
-ERROR:  Fehlgeschlagene Zeile enthält (-27, Periodicals, 69, 1, Stained, 75412).neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check« 
+-- Non-existent language to a book
 
-FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_quantity_check«
-SQL state: 23514
-Detail: Fehlgeschlagene Zeile enthält (-27, Periodicals, 69, 1, Stained, 75412).
--- Negative shelf number
-Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check« 
+ERROR:  Key (language_id)=(556) is not present in table "language".insert or update on table "written_in" violates foreign key constraint "written_in_language_id_fkey" 
 
-FEHLER:  neue Zeile für Relation »location« verletzt Check-Constraint »location_shelf_check«
-SQL state: 23514
-Detail: Fehlgeschlagene Zeile enthält (66, Periodicals, -27, 1, Stained, 75412).
--- Duplicate ISBN
-ERROR:  Schlüssel »(isbn)=(172100001)« existiert bereits.doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key« 
+ERROR:  insert or update on table "written_in" violates foreign key constraint "written_in_language_id_fkey"
+SQL state: 23503
+Detail: Key (language_id)=(556) is not present in table "language".
 
-FEHLER:  doppelter Schlüsselwert verletzt Unique-Constraint »book_isbn_key«
-SQL state: 23505
-Detail: Schlüssel »(isbn)=(172100001)« existiert bereits.
--- Update in written_by a null author
-ERROR:  Fehlgeschlagene Zeile enthält (1754, null).NULL-Wert in Spalte »author_id« von Relation »written_by« verletzt Not-Null-Constraint 
+-- Non-existent genre to a book
 
-FEHLER:  NULL-Wert in Spalte »author_id« von Relation »written_by« verletzt Not-Null-Constraint
+ERROR:  Key (genre_id)=(78) is not present in table "genre".insert or update on table "type_of" violates foreign key constraint "type_of_genre_id_fkey" 
+
+ERROR:  insert or update on table "type_of" violates foreign key constraint "type_of_genre_id_fkey"
+SQL state: 23503
+Detail: Key (genre_id)=(78) is not present in table "genre".
+
+-- Non-existent book to a genre type 
+ERROR:  Key (id)=(100000) is not present in table "book".insert or update on table "type_of" violates foreign key constraint "type_of_id_fkey" 
+
+ERROR:  insert or update on table "type_of" violates foreign key constraint "type_of_id_fkey"
+SQL state: 23503
+Detail: Key (id)=(100000) is not present in table "book".
+
+-- Non-existent country to publisher
+ERROR:  Key (country_id)=(25) is not present in table "country".insert or update on table "is_in" violates foreign key constraint "is_in_country_id_fkey" 
+
+ERROR:  insert or update on table "is_in" violates foreign key constraint "is_in_country_id_fkey"
+SQL state: 23503
+Detail: Key (country_id)=(25) is not present in table "country".
+
+-- Non-existent publisher in country
+ERROR:  Key (publisher_id)=(30001) is not present in table "publisher".insert or update on table "is_in" violates foreign key constraint "is_in_publisher_id_fkey" 
+
+ERROR:  insert or update on table "is_in" violates foreign key constraint "is_in_publisher_id_fkey"
+SQL state: 23503
+Detail: Key (publisher_id)=(30001) is not present in table "publisher".
+
+-- Add a null author to written_by
+ERROR:  Failing row contains (5, null).null value in column "author_id" of relation "written_by" violates not-null constraint 
+
+ERROR:  null value in column "author_id" of relation "written_by" violates not-null constraint
 SQL state: 23502
-Detail: Fehlgeschlagene Zeile enthält (1754, null).
--- Delete invalid constraints
--- delete country that is in use
-ERROR:  Auf Schlüssel (country_id)=(23) wird noch aus Tabelle »is_in« verwiesen.Aktualisieren oder Löschen in Tabelle »country« verletzt Fremdschlüssel-Constraint »is_in_country_id_fkey« von Tabelle »is_in« 
+Detail: Failing row contains (5, null).
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »country« verletzt Fremdschlüssel-Constraint »is_in_country_id_fkey« von Tabelle »is_in«
+-- UPDATES 
+
+-- Negative book quantity update
+
+ERROR:  Failing row contains (-27, Periodicals, 69, 1, Stained, 75412).new row for relation "location" violates check constraint "location_quantity_check" 
+
+ERROR:  new row for relation "location" violates check constraint "location_quantity_check"
+SQL state: 23514
+Detail: Failing row contains (-27, Periodicals, 69, 1, Stained, 75412).
+
+-- Negative shelf number update
+
+RROR:  Failing row contains (66, Periodicals, -27, 1, Stained, 75412).new row for relation "location" violates check constraint "location_shelf_check" 
+
+ERROR:  new row for relation "location" violates check constraint "location_shelf_check"
+SQL state: 23514
+Detail: Failing row contains (66, Periodicals, -27, 1, Stained, 75412).
+
+-- Duplicate ISBN update
+
+ERROR:  Key (isbn)=(172100001) already exists.duplicate key value violates unique constraint "book_isbn_key" 
+
+ERROR:  duplicate key value violates unique constraint "book_isbn_key"
+SQL state: 23505
+Detail: Key (isbn)=(172100001) already exists.
+
+-- Update in written_by a null author
+
+ERROR:  Failing row contains (1754, null).null value in column "author_id" of relation "written_by" violates not-null constraint 
+
+ERROR:  null value in column "author_id" of relation "written_by" violates not-null constraint
+SQL state: 23502
+Detail: Failing row contains (1754, null).
+
+-- Update in written_by a non-existent 
+
+ERROR:  Key (author_id)=(123456789) is not present in table "author".insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey" 
+
+ERROR:  insert or update on table "written_by" violates foreign key constraint "written_by_author_id_fkey"
 SQL state: 23503
-Detail: Auf Schlüssel (country_id)=(23) wird noch aus Tabelle »is_in« verwiesen.
+Detail: Key (author_id)=(123456789) is not present in table "author".
 
--- delete author that is in use
-ERROR:  Auf Schlüssel (author_id)=(756070228) wird noch aus Tabelle »written_by« verwiesen.Aktualisieren oder Löschen in Tabelle »author« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey« von Tabelle »written_by« 
+-- Update in type_of a non-existent genre (change existing genre)
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »author« verletzt Fremdschlüssel-Constraint »written_by_author_id_fkey« von Tabelle »written_by«
+ERROR:  Key (genre_id)=(123456789) is not present in table "genre".insert or update on table "type_of" violates foreign key constraint "type_of_genre_id_fkey" 
+
+ERROR:  insert or update on table "type_of" violates foreign key constraint "type_of_genre_id_fkey"
 SQL state: 23503
-Detail: Auf Schlüssel (author_id)=(756070228) wird noch aus Tabelle »written_by« verwiesen.
+Detail: Key (genre_id)=(123456789) is not present in table "genre".
 
--- delete genre that is in use
-ERROR:  Auf Schlüssel (genre_id)=(1) wird noch aus Tabelle »type_of« verwiesen.Aktualisieren oder Löschen in Tabelle »genre« verletzt Fremdschlüssel-Constraint »type_of_genre_id_fkey« von Tabelle »type_of« 
+-- Update in Publisher a not unique phone number
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »genre« verletzt Fremdschlüssel-Constraint »type_of_genre_id_fkey« von Tabelle »type_of«
+ERROR:  Key (phone_number)=((420)325-5947) already exists.duplicate key value violates unique constraint "publisher_phone_number_key" 
+
+ERROR:  duplicate key value violates unique constraint "publisher_phone_number_key"
+SQL state: 23505
+Detail: Key (phone_number)=((420)325-5947) already exists.
+
+-- Update Publisher to a non-existent country
+ERROR:  Key (country_id)=(999) is not present in table "country".insert or update on table "is_in" violates foreign key constraint "is_in_country_id_fkey" 
+
+ERROR:  insert or update on table "is_in" violates foreign key constraint "is_in_country_id_fkey"
 SQL state: 23503
-Detail: Auf Schlüssel (genre_id)=(1) wird noch aus Tabelle »type_of« verwiesen.
+Detail: Key (country_id)=(999) is not present in table "country".
 
--- delete publisher that is in use
-ERROR:  Auf Schlüssel (publisher_id)=(1) wird noch aus Tabelle »is_in« verwiesen.Aktualisieren oder Löschen in Tabelle »publisher« verletzt Fremdschlüssel-Constraint »is_in_publisher_id_fkey« von Tabelle »is_in« 
+-- Update a future release date for a book
+ERROR:  Failing row contains (End decade though rich take., 50, 2025-12-25, 318, Paperback, Amount some meet today heart interest end. New sure establish ex..., 202601498).new row for relation "book" violates check constraint "book_release_date_check" 
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »publisher« verletzt Fremdschlüssel-Constraint »is_in_publisher_id_fkey« von Tabelle »is_in«
+ERROR:  new row for relation "book" violates check constraint "book_release_date_check"
+SQL state: 23514
+Detail: Failing row contains (End decade though rich take., 50, 2025-12-25, 318, Paperback, Amount some meet today heart interest end. New sure establish ex..., 202601498).
+
+-- Update Written_In with a non-existent language
+ERROR:  Key (language_id)=(999) is not present in table "language".insert or update on table "written_in" violates foreign key constraint "written_in_language_id_fkey" 
+
+ERROR:  insert or update on table "written_in" violates foreign key constraint "written_in_language_id_fkey"
 SQL state: 23503
-Detail: Auf Schlüssel (publisher_id)=(1) wird noch aus Tabelle »is_in« verwiesen.
+Detail: Key (language_id)=(999) is not present in table "language".
 
--- delete language that is in use
-ERROR:  Auf Schlüssel (language_id)=(1) wird noch aus Tabelle »written_in« verwiesen.Aktualisieren oder Löschen in Tabelle »language« verletzt Fremdschlüssel-Constraint »written_in_language_id_fkey« von Tabelle »written_in« 
+-- Update an author's date of birth to a future date
+ERROR:  Failing row contains (Kari, Mays, 2030-01-01, 576940420, Anything medical lose exactly trip. Development audience cell pr...).new row for relation "author" violates check constraint "author_date_of_birth_check" 
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »language« verletzt Fremdschlüssel-Constraint »written_in_language_id_fkey« von Tabelle »written_in«
+ERROR:  new row for relation "author" violates check constraint "author_date_of_birth_check"
+SQL state: 23514
+Detail: Failing row contains (Kari, Mays, 2030-01-01, 576940420, Anything medical lose exactly trip. Development audience cell pr...).
+
+
+-- DELETES 
+
+-- Delete country that is in use
+
+ERROR:  Key (country_id)=(23) is still referenced from table "is_in".update or delete on table "country" violates foreign key constraint "is_in_country_id_fkey" on table "is_in" 
+
+ERROR:  update or delete on table "country" violates foreign key constraint "is_in_country_id_fkey" on table "is_in"
 SQL state: 23503
-Detail: Auf Schlüssel (language_id)=(1) wird noch aus Tabelle »written_in« verwiesen.
+Detail: Key (country_id)=(23) is still referenced from table "is_in".
 
--- delete location that is in use
--- delete book that is in use
-ERROR:  Auf Schlüssel (id)=(1) wird noch aus Tabelle »published_by« verwiesen.Aktualisieren oder Löschen in Tabelle »book« verletzt Fremdschlüssel-Constraint »published_by_id_fkey« von Tabelle »published_by« 
+-- Delete author that is in use
 
-FEHLER:  Aktualisieren oder Löschen in Tabelle »book« verletzt Fremdschlüssel-Constraint »published_by_id_fkey« von Tabelle »published_by«
+ERROR:  Key (author_id)=(756070228) is still referenced from table "written_by".update or delete on table "author" violates foreign key constraint "written_by_author_id_fkey" on table "written_by" 
+
+ERROR:  update or delete on table "author" violates foreign key constraint "written_by_author_id_fkey" on table "written_by"
 SQL state: 23503
-Detail: Auf Schlüssel (id)=(1) wird noch aus Tabelle »published_by« verwiesen.
+Detail: Key (author_id)=(756070228) is still referenced from table "written_by".
+
+-- Delete genre that is in use
+
+ERROR:  Key (genre_id)=(1) is still referenced from table "type_of".update or delete on table "genre" violates foreign key constraint "type_of_genre_id_fkey" on table "type_of" 
+
+ERROR:  update or delete on table "genre" violates foreign key constraint "type_of_genre_id_fkey" on table "type_of"
+SQL state: 23503
+Detail: Key (genre_id)=(1) is still referenced from table "type_of".
+
+-- Delete publisher that is in use
+
+ERROR:  Key (publisher_id)=(7) is still referenced from table "is_in".update or delete on table "publisher" violates foreign key constraint "is_in_publisher_id_fkey" on table "is_in" 
+
+ERROR:  update or delete on table "publisher" violates foreign key constraint "is_in_publisher_id_fkey" on table "is_in"
+SQL state: 23503
+Detail: Key (publisher_id)=(7) is still referenced from table "is_in".
+
+-- Delete language that is in use
+
+ERROR:  Key (language_id)=(5) is still referenced from table "written_in".update or delete on table "language" violates foreign key constraint "written_in_language_id_fkey" on table "written_in" 
+
+ERROR:  update or delete on table "language" violates foreign key constraint "written_in_language_id_fkey" on table "written_in"
+SQL state: 23503
+Detail: Key (language_id)=(5) is still referenced from table "written_in".
+
+
+-- Delete book that is in use
+ERROR:  Key (id)=(13) is still referenced from table "location".update or delete on table "book" violates foreign key constraint "location_id_fkey" on table "location" 
+
+ERROR:  update or delete on table "book" violates foreign key constraint "location_id_fkey" on table "location"
+SQL state: 23503
+Detail: Key (id)=(13) is still referenced from table "location"
