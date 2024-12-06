@@ -130,7 +130,7 @@ And click execute script
 
 In a similar fashion to the CreateData.sql script, we now bring in each sql file and execute them in the order listed above
 
-[Log for loading data](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/inserts.log)
+[Log for loading data](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Data_Samples/data/Inserts.log)
 
 ### Dump Data
 <!-- (our table name is postgres and password is admin) -->
