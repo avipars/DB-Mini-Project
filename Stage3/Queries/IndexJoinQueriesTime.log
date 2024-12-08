@@ -1,0 +1,16 @@
+-- Query 1 (Index Join)
+Successfully run. Total query runtime: 77 msec.
+0 rows affected.
+
+-- Query 2 (Index Join)
+UPDATE 654
+
+Query returned successfully in 111 msec.
+
+-- Query 3 (Index Join)
+Successfully run. Total query runtime: 56 msec.
+1 rows affected.
+
+-- Query 4 (Index Join)
+Successfully run. Total query runtime: 103 msec.
+18228 rows affected.

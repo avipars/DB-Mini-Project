@@ -1,0 +1,16 @@
+-- Query 1
+Successfully run. Total query runtime: 357 msec.
+0 rows affected.
+
+-- Query 2
+UPDATE 654
+
+Query returned successfully in 82 msec.
+
+-- Query 3
+Successfully run. Total query runtime: 66 msec.
+1 rows affected.
+
+-- Query 4
+Successfully run. Total query runtime: 122 msec.
+18228 rows affected.
