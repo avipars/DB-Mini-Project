@@ -34,4 +34,11 @@ DEALLOCATE PREPARE ALL; -- drops all prepared statements (these do not get delet
 -- TODO for each function we make
 -- DROP FUNCTION name(param)
 
+
+-- VIEWS
+DROP VIEW IF EXISTS Book_Detail_View;
+DROP VIEW IF EXISTS Publisher_Detail_View;
+DROP VIEW IF EXISTS Author_Books_View;
+DROP VIEW IF EXISTS Genre_Location_Popularity_View;
+
 commit;

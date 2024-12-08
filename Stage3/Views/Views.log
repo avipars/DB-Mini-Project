@@ -1,0 +1,18 @@
+-- Log for Views.sql (View Creation Script)
+
+-- View 1
+CREATE VIEW
+
+Query returned successfully in 341 msec.
+-- View 2
+CREATE VIEW
+
+Query returned successfully in 37 msec.
+-- View 3
+CREATE VIEW
+
+Query returned successfully in 34 msec.
+-- View 4
+CREATE VIEW
+
+Query returned successfully in 35 msec.

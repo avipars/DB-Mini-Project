@@ -51,9 +51,32 @@ TODO - Leib
    [Indexed logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Queries/IndexJoinQueriesTime.log)
 
 
-### Views
+### [Views](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views)
 
-TODO - Avi
+#### [Creating Views](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views/Views.sql)
+
+* Providing a limited view of our database system:
+
+    1. View details of available books to take out
+
+    2. View of all publishers with ability to manage them
+
+    3. View of authors and books they wrote
+
+    4. View of book quantity per Genre
+
+    [Creating View Logs](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views/Views.log)
+
+
+#### [Querying via Views](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views/ViewQueries.sql)
+
+* Testing the views via SELECT, INSERT, UPDATE, and DELETE statements: 
+
+    * Any views that were based on several tables will not let you INSERT, UPDATE, or DELETE
+
+    * Publisher_Detail_View allows all of these commands, provided that the queries use abide by the existing database system rules
+
+    [View Query Logs](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views/ViewQueries.log)
 
 ### Visualizations
 
@@ -61,7 +84,7 @@ TODO
 
 ### Functions
 
-TODO 
+TODO - Leib
 
 ### Triggers (Bonus)
 

@@ -1,0 +1,210 @@
+-- Log for ViewQueries.sql (Running and testing queries on views script)
+
+-- View 1
+
+Explanation: select english dictionaries sorted by highest page count
+
+-- SELECT 
+
+                             title                              |
+                 description                                                                         |    genre_name    |       publisher_name       | page_count
+----------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------+----------------------------+------------
+ Reflect focus born.                                            | Control build score often surface current. Small face range.                                                                                               | Television       | Ellis, Arnold and Benjamin |        918
+ Tv score fact add agree energy kind.                           | Happen you far staff stand action east. Campaign lawyer which quickly maybe. Feeling environmental quality very reveal.                                    | Drama
+| Martinez-Mitchell          |        916
+ Project doctor later election should simply account.           | Finally man hot project exist. Office because performance feel. Design likely either name north new land Mr. Event every door rate worker leader analysis. | Mathematics      | Mendez, Mendoza and Hudson |        767
+ Project doctor later election should simply account.           | Finally man hot project exist. Office because performance feel. Design likely either name north new land Mr. Event every door rate worker leader analysis. | Fiction
+| Mendez, Mendoza and Hudson |        767
+ With get theory matter imagine forward measure.                | Stock course natural.
+                                                                                                     | Finance
+| Lopez, Simmons and Lopez   |        747
+ Those lay fact paper remain toward.                            | Lawyer hard economy its culture hospital prevent. Camera night financial grow office general candidate might.                                              | Radio
+| Sullivan Group             |        744
+ Those lay fact paper remain toward.                            | Lawyer hard economy its culture hospital prevent. Camera night financial grow office general candidate might.                                              | Consulting       | Sullivan Group             |        744
+ Republican chance budget later.                                | Person wear increase region trade mother easy. Their local concern how.                                                                                    | Religion
+| Bailey, Gomez and Ball     |        684
+ Similar family bed lay pick.                                   | Society important program same support away light court. When campaign just poor behavior agent. Ball discover with he defense.                            | Young Adult      | Martin LLC                 |        667
+ Cell themselves resource.                                      | Kid agreement play language. College coach education factor.                                                                                               | Autobiography    | Garrett, Brown and Smith   |        665
+ Democratic health teach although plan notice Congress last.    | Consumer office phone middle see place. Ready light and me feel. Voice land trade we material pattern month maintain.                                      | Science Fiction  | Sims Inc                   |        608
+ American sit ball east.                                        | Begin very price fine option thousand relationship. Sell traditional bad whatever. Choose fight finish. Play measure senior forget care cell hope.         | Computer Science | White Ltd                  |        560
+ Build different difficult individual list beat politics long.  | City especially now something nature. Open we always might rate spring. Item best financial.                                                               | Physics
+| Dawson Inc                 |        510
+ Under spend black position court include onto.                 | Difficult culture establish ago. Condition recently believe detail send science idea itself.                                                               | Travel
+| Williams-Davis             |        430
+ Under spend black position court include onto.                 | Difficult culture establish ago. Condition recently believe detail send science idea itself.                                                               | Operations       | Williams-Davis             |        430
+ Move accept various green.                                     | Professional consider from certainly quality town single. Close almost anything what. Figure more have pattern beautiful type modern network.              | Entrepreneurship | Baxter Group               |        356
+ Look unit someone.                                             | Kitchen official both history white. Live turn no phone have. Social business southern mean huge describe.                                                 | Law
+| Martin Ltd                 |        251
+ Look unit someone.                                             | Kitchen official both history white. Live turn no phone have. Social business southern mean huge describe.                                                 | Law
+| Martin Ltd                 |        251
+ System movement laugh impact vote focus reveal.                | Leave quality eye really. Know about seat stage name coach growth.                                                                                         | Comics
+| Calderon Ltd               |        175
+ Republican professor any with term single.                     | Cause perform his onto name letter. Focus assume view young. Every consider a human daughter inside resource improve.                                      | Entrepreneurship | Perez LLC                  |        161
+ Republican professor any with term single.                     | Cause perform his onto name letter. Focus assume view young. Every consider a human daughter inside resource improve.                                      | Veterinary       | Perez LLC                  |        161
+ Most find city physical.                                       | Story growth low detail hotel style. Scientist address much fine sort situation check.                                                                     | Science Fiction  | Aguirre-Gray               |        143
+ Approach fight different small soon second tax.                | Course what government best. Production most whether. Maybe he imagine stock yourself likely.                                                              | Finance
+| Mills-Bauer                |        140
+ Television cover hair future brother writer generation change. | Behind no hear worker report woman whom number. If back experience born impact.                                                                            | Non-Fiction      | Edwards, Fox and Rocha     |        111
+ Provide send expert read baby consumer kid finish.             | Air party wide mention dinner floor sit tax. Final test us research education finally.                                                                     | Pharmacy
+| Thomas-Durham              |         27
+(25 rows)
+
+
+Time: 13.392 ms
+
+-- INSERT 
+Explanation: trying to add a new book to the view (view was using several tables via joins which is the reason for this)
+
+ERROR:  cannot insert into view "book_detail_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable inserting into the view, provide an INSTEAD OF INSERT trigger or an unconditional ON INSERT DO INSTEAD rule.
+Time: 4.114 ms
+
+-- UPDATE 
+Explanation: trying to update an existing book's details to the view (view was using several tables via joins which is the reason for this)
+
+ERROR:  cannot update view "book_detail_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 3.688 ms
+
+-- DELETE
+Explaination: Trying to delete an existing book from the view table (view was using several tables via joins which is the reason for this)
+ERROR:  cannot delete from view "book_detail_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+Time: 3.763 ms
+
+-- View 2
+-- SELECT 
+Explanation: Find publishers that have 1234 in their phone numbers
+ publisher_id |              name              |      phone_number      |            website
+--------------+--------------------------------+------------------------+-------------------------------
+         1285 | Hoover Ltd                     | 3706561234             | https://www.powell-solis.net/
+         1736 | Christensen, Bartlett and Lara | (654)220-7768x1234     | https://riley.biz/
+         5049 | Hernandez and Sons             | +1-793-876-3961x11234  | http://www.nunez-cannon.com/
+         7179 | Walker-Simpson                 | 001-640-646-2320x12348 | http://www.simpson.com/
+        12122 | Todd, Cisneros and Hill        | (635)599-8934x91234    | https://www.haley.biz/
+        18751 | Stout-Case                     | (465)244-1711x01234    | http://www.saunders.biz/
+        22199 | Byrd-Farrell                   | +1-889-670-1234x9673   | https://martin.info/
+(7 rows)
+
+
+Time: 4.005 ms
+
+-- INSERT 
+Explanation: Adding Koren as a new publisher to the view table
+INSERT 0 1
+Time: 1.658 ms
+
+-- UPDATE 
+Explanation: Changing Koren's phone number and website to the local version
+UPDATE 1
+Time: 1.100 ms
+
+-- DELETE 
+Explanation: Deleting Koren as a publisher from the view table
+DELETE 1
+Time: 4.417 ms
+
+-- View 3
+-- SELECT 
+Explanation: Find authors born in winter 2000 and all the books they wrote
+
+  author_name   |                             title
+----------------+----------------------------------------------------------------
+ Lisa Robertson | Positive turn evidence head high its.
+ Lisa Robertson | It life subject person throw.
+ Lisa Robertson | Resource go relate size.
+ Lisa Robertson | Hour grow organization later lead who.
+ Lisa Robertson | Control recognize without certain visit energy yet.
+ Vanessa West   | Democratic today once company face laugh same.
+ Vanessa West   | Crime science certainly eight spring.
+ Vanessa West   | Seek lay ok.
+ Vanessa West   | Politics professional practice morning worker ago for partner.
+ Vanessa West   | Player per service politics any.
+ Vanessa West   | New near difficult someone find small staff college.
+ Vanessa West   | Fire generation day someone.
+(12 rows)
+
+
+Time: 0.786 ms
+
+
+-- INSERT 
+Explanation: Trying to insert an author into the view, but failed as the view is constructed from several tables
+ERROR:  cannot insert into view "author_books_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable inserting into the view, provide an INSTEAD OF INSERT trigger or an unconditional ON INSERT DO INSTEAD rule.
+Time: 3.688 ms
+
+-- UPDATE 
+Explanation: Trying to change a specific author's name, but failed as view is made from several tables
+ERROR:  cannot update view "author_books_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 3.582 ms
+
+-- DELETE 
+Explanation: Trying to delete a single author but failed for same reasons
+ERROR:  cannot delete from view "author_books_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+Time: 3.724 ms
+
+-- View 4
+-- SELECT 
+Explanation: Find genres of books with less than 800 unique titles 
+    genre_name    | total_copies_available | unique_titles
+------------------+------------------------+---------------
+ Veterinary       |                  57493 |           798
+ Law              |                  57353 |           796
+ Criminal Justice |                  57253 |           794
+ Leadership       |                  57124 |           793
+ Accounting       |                  57026 |           796
+ Art              |                  56560 |           798
+ Psychiatry       |                  56459 |           799
+ Geography        |                  56082 |           786
+ Consulting       |                  55989 |           763
+ Science Fiction  |                  55897 |           783
+ Chemistry        |                  55362 |           782
+ Non-Fiction      |                  55359 |           782
+ Technology       |                  55065 |           763
+ Journalism       |                  54934 |           792
+ Physics          |                  53935 |           790
+ Biography        |                  53854 |           778
+ Young Adult      |                  53476 |           761
+ Television       |                  53233 |           785
+ Strategy         |                  53188 |           789
+ Fiction          |                  53008 |           777
+ Business         |                  52332 |           737
+ Comics           |                  51911 |           787
+(22 rows)
+
+
+Time: 145.982 ms
+
+-- INSERT 
+Explanation: Trying to insert a new genre and it's statistics (failed due to group by, and multiple tables)
+
+ERROR:  cannot insert into view "genre_location_popularity_view"
+DETAIL:  Views containing GROUP BY are not automatically updatable.
+HINT:  To enable inserting into the view, provide an INSTEAD OF INSERT trigger or an unconditional ON INSERT DO INSTEAD rule.
+Time: 3.993 ms
+
+
+-- UPDATE 
+Explanation: Trying to change statistics for an existing genre
+
+ERROR:  cannot update view "genre_location_popularity_view"
+DETAIL:  Views containing GROUP BY are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 3.770 ms
+
+-- DELETE 
+Explanation: Trying to delete an rxisting genre from this view
+
+ERROR:  cannot delete from view "genre_location_popularity_view"
+DETAIL:  Views containing GROUP BY are not automatically updatable.
+HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+Time: 3.495 ms
