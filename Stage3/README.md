@@ -27,24 +27,27 @@
 </details>
 
    
-
-
 ### Queries 
 
 #### [Join Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Queries/JoinQueries.sql)
 
-TODO - Leib
+* (Query 1) This query joins the Book, Written_By, and Author tables to get the first and last name of the author of a book with a specific ID
 
+* (Query 2) This query updates all the books published by Murray-Jenkins to Good Condition
 
-    SELECT: 
-    * (Query 1)
-    * (Query 2)
-    * (Query 3)
+* (Query 3) This query joins the Publisher, Is_In, and Country tables to get the name of the country where a specific publisher is located
+
+* (Query 4) This query selects all books with more than 10 pages and where the book wass released within 10 years of the author being born
 
 
 #### Timings 
 
-TODO - Leib
+| Query Number | Normal Runtime (ms) | Runtime With Indexes (ms) |
+| ------------ | ------------------- | ------------------------- |
+| 1            | 4.033               | 2.521                     |
+| 2            | 29.940              | 6.404                     |
+| 3            | 2.936               | 1.332                     |
+| 4            | 2.416               | 1.083                     |
 
    [Logs with timings](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Queries/JoinQueriesTime.log)
 
@@ -98,7 +101,6 @@ From Genre_Location_Popularity_View
 ORDER BY Unique_Titles;
 ```
 ![unique_titles](https://github.com/user-attachments/assets/2aab045c-c574-4261-853a-26ff3119108a)
-
 
 
 ### Functions

@@ -6,14 +6,20 @@ SELECT Author.First_Name, Author.Last_Name
 FROM Book
 JOIN Written_By ON Book.ID = Written_By.ID
 JOIN Author ON Written_By.Author_ID = Author.Author_ID
-WHERE Book.ID = 1;
+WHERE Book.ID = 2;
 
 -- Query 2
--- This query updates all the books located in a specific shelf to have a new condition
+-- This query updates all the books published by Murray-Jenkins to Good Condition
 UPDATE Location
-SET Condition = 'New Condition'
-FROM Book
-WHERE Book.ID = Location.ID AND Location.Shelf = 1;
+SET Condition = 'Good'
+WHERE ID IN (
+    SELECT B.ID
+    FROM Book B
+    JOIN Written_By WB ON B.ID = WB.ID
+    JOIN Author A ON WB.Author_ID = A.Author_ID
+    JOIN Published_By PB ON B.ID = PB.ID
+    JOIN Publisher P ON PB.Publisher_ID = P.Publisher_ID
+    WHERE P.Name = 'Murray-Jenkins');
 
 
 -- Query 3
@@ -25,10 +31,16 @@ JOIN Country ON Is_In.Country_ID = Country.Country_ID
 WHERE Publisher.Publisher_ID = 1;
 
 -- Query 4
--- This query selects all queries where the release date is before its author's date of birth and updates the release date to be the author's 20th birthday
-SELECT Book.ID, Book.Release_Date, Author.Date_of_Birth
-FROM Book
-JOIN Written_By ON Book.ID = Written_By.ID
-JOIN Author ON Written_By.Author_ID = Author.Author_ID
-WHERE Book.Release_Date < (Author.Date_of_Birth + INTERVAL '20 years');
-
+-- This query selects all books with more than 10 pages and where the book wass released within 10 years of the author being born
+    b.ID AS Book_ID, 
+    b.Release_Date, 
+    a.Date_of_Birth
+FROM 
+    Book b
+JOIN 
+    Written_By wb ON b.ID = wb.ID
+JOIN 
+    Author a ON wb.Author_ID = a.Author_ID
+WHERE 
+    b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') AND b.Page_Count > 10
+LIMIT 5;

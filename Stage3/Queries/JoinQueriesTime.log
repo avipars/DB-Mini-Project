@@ -1,16 +1,40 @@
--- Query 1
-Successfully run. Total query runtime: 357 msec.
-0 rows affected.
+Query 1: 
 
--- Query 2
-UPDATE 654
+ first_name | last_name
+------------+-----------
+ Brittany   | Hardy
+ Allison    | Johnston
+ Joy        | Clay
+(3 rows)
 
-Query returned successfully in 82 msec.
 
--- Query 3
-Successfully run. Total query runtime: 66 msec.
-1 rows affected.
+Time: 4.033 ms
 
--- Query 4
-Successfully run. Total query runtime: 122 msec.
-18228 rows affected.
+Query 2:
+
+UPDATE 4
+Time: 29.940 ms
+
+Query 3:
+
+  name
+--------
+ France
+(1 row)
+
+
+Time: 2.936 ms
+
+Query 4:
+
+ book_id | release_date | date_of_birth
+---------+--------------+---------------
+       8 | 1939-01-15   | 1930-04-30
+      15 | 1922-08-09   | 1913-07-23
+      26 | 1869-09-05   | 1863-05-17
+      31 | 1852-03-13   | 1852-01-21
+      79 | 1884-01-28   | 1883-08-20
+(5 rows)
+
+
+Time: 2.416 ms
