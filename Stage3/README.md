@@ -78,9 +78,26 @@ TODO - Leib
 
     [View Query Logs](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Views/ViewQueries.log)
 
-### Visualizations
+### [Visualizations](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Visualizations)
 
-TODO
+View 1: Average page count of books per each language
+
+```sql
+SELECT Language_Name, ROUND(AVG(Page_Count),2) AS Avg_Page_Count
+FROM Book_Detail_View
+GROUP BY Language_Name
+ORDER BY Avg_Page_Count DESC;
+```
+
+View 4: Total Copies Available per Genre 
+
+```sql
+SELECT Genre_Name, Total_Copies_Available, Unique_Titles 
+From Genre_Location_Popularity_View 
+ORDER BY Unique_Titles;
+```
+
+
 
 ### Functions
 
@@ -88,4 +105,4 @@ TODO - Leib
 
 ### Triggers (Bonus)
 
-TODO
+TODO - Leib and Avi?
