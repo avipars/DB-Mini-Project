@@ -107,6 +107,100 @@ ORDER BY Unique_Titles;
 
 TODO - Leib
 
-### Triggers (Bonus)
 
-TODO - Leib and Avi?
+
+### [Triggers](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.sql)
+
+To enhance logging capability and functionality of the database, we created 2 useful triggers. 
+
+1. Log if a book gets deleted from DB in the Book_Log Table (new table made in the same Trigger.sql file)
+
+    * Functions: log_book_deletion()
+
+    * Trigger Name: book_delete_trigger
+    
+    * Activated: After DELETE on Book Table
+
+2. If a book is classified as an Ebook, automate location changes (set condition, floor, shelf, quantity)
+
+    * Functions: update_condition_for_ebook()
+
+    * Trigger Name: update_condition_on_ebook_format, insert_condition_on_new_ebook
+
+    * Activated: After a Book format changes on UPDATE in Book Table, or After a Book is INSERTED to the Book Table
+
+[Logs for creation](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.log)
+
+#### [Testing Trigger](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/TestTrigger.sql)
+
+Trigger 1: 
+    
+* Insert a sample book and then delete it. Afterwards, it shows up in a Journal Table called Book_Log
+
+    After insertion into Book 
+
+    | Title   | ID      | Release Date | Page Count | Format   | Description | ISBN      |
+    |---------|---------|--------------|------------|----------|-------------|-----------|
+    | Police  | 5000010 | 1884-05-21   | 1          | Magazine | Poster      | 322397558 |
+
+    After deletion from Book
+
+    | title  | id  | release_date | page_count | format | description | isbn |
+    |--------|-----|--------------|------------|--------|-------------|------|
+
+
+    After Insertion to Book_Log (by trigger)
+
+    | log_id | book_id | title  | deleted_at                      |
+    |--------|---------|--------|---------------------------------|
+    | 1      | 5000010 | Police | 2024-12-08 21:45:48.635475     |
+
+Trigger 2:
+
+* Insert sample book in format other than Ebook. Update the format to Ebook, then the trigger will automatically change the Floor to E-Library Section, Condition to New, and Shelf to 1.
+
+    Check Location Table for ID (we expect it to be empty at this stage)
+
+    | quantity | floor | shelf | location_id | condition | id  |
+    |----------|-------|-------|-------------|-----------|-----|
+    |          |       |       |             |           |     |
+
+    Check Book Table for ID 
+
+    | title        | id     | release_date | page_count | format     | description                         | isbn      |
+    |--------------|--------|--------------|------------|------------|-------------------------------------|-----------|
+    | Physical Book | 100004 | 2024-01-02   | 349        | Hardcover  | A physical book with many pages.    | 123944679 |
+
+    Now we insert into a location and then check table again
+
+    | quantity | floor            | shelf | location_id | condition | id     |
+    |----------|------------------|-------|-------------|-----------|--------|
+    | 1        | Reference Section | 2     | 70002       | Used      | 100004 |
+
+    After updating Format to Ebook, we check Location table (was changed by trigger)
+
+    | quantity | floor             | shelf | location_id | condition | id     |
+    |----------|-------------------|-------|-------------|-----------|--------|
+    | 1        | E-Library Section  | 1     | 70002       | New       | 100004 |
+
+    And also check the Book table for good measure
+
+    | title        | id     | release_date | page_count | format | description                         | isbn      |
+    |--------------|--------|--------------|------------|--------|-------------------------------------|-----------|
+    | Physical Book | 100004 | 2024-01-02   | 349        | Ebook  | A physical book with many pages.    | 123944679 |
+
+* Insert sample book in Ebook format. The trigger will automatically add an entry in the Location table coordinating to the E-Library Section, New Condition, Shelf 1, Quantity of 1. 
+
+    After insertion into Book and running a SELECT
+
+    | title     | id      | release_date | page_count | format | description           | isbn      |
+    |-----------|---------|--------------|------------|--------|-----------------------|-----------|
+    | New eBook | 100009  | 2024-12-08   | 200        | Ebook  | An exciting new eBook! | 987684321 |
+
+    After Insertion to Location (by trigger) and running a SELECT
+
+    | quantity | floor             | shelf | location_id | condition | id     |
+    |----------|-------------------|-------|-------------|-----------|--------|
+    | 1        | E-Library Section | 1     | 100009      | New       | 100009 |
+
+[Logs for testing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/TestTrigger.log)

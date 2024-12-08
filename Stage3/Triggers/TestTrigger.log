@@ -1,0 +1,120 @@
+-- Trigger 1
+
+-- insert book
+INSERT 0 1
+Time: 1.822 ms
+
+-- look it up 
+  title  |   id    | release_date | page_count |  format  | description |   isbn
+---------+---------+--------------+------------+----------+-------------+-----------
+ Police  | 5000010 | 1884-05-21   |          1 | Magazine | Poster      | 322397558
+(1 row)
+
+
+Time: 0.265 ms
+
+
+-- delete it 
+DELETE 1
+
+Time: 1.259 ms
+
+
+-- look in log table
+
+ log_id | book_id |  title  |         deleted_at
+--------+---------+---------+----------------------------
+      1 | 5000010 | Police  | 2024-12-08 21:45:48.635475
+(1 row)
+
+
+Time: 1.046 ms
+
+-- Trigger 2
+
+-- UPDATE VERSION 
+
+-- insert as hardcover book
+INSERT 0 1
+Time: 0.663 ms
+
+-- check in location table (we expect it to be empty)
+
+ quantity | floor | shelf | location_id | condition | id
+----------+-------+-------+-------------+-----------+----
+(0 rows)
+
+Time: 0.273 ms
+
+-- check in book table
+
+     title     |   id   | release_date | page_count |  format   |           description            |   isbn
+---------------+--------+--------------+------------+-----------+----------------------------------+-----------
+ Physical Book | 100004 | 2024-01-02   |        349 | Hardcover | A physical book with many pages. | 123944679
+(1 row)
+
+
+Time: 0.257 ms
+
+-- insert to location
+INSERT 0 1
+Time: 1.242 ms
+
+-- view location 
+
+ quantity |       floor       | shelf | location_id | condition |   id
+----------+-------------------+-------+-------------+-----------+--------
+        1 | Reference Section |     2 |       70002 | Used      | 100004
+(1 row)
+
+
+Time: 0.282 ms
+
+-- change it to Ebook
+UPDATE 1
+Time: 2.457 ms
+
+ quantity |       floor       | shelf | location_id | condition |   id
+----------+-------------------+-------+-------------+-----------+--------
+        1 | E-Library Section |     1 |       70002 | New       | 100004
+(1 row)
+
+
+Time: 0.282 ms
+
+-- look in book table to verify it went as planned too
+
+     title     |   id   | release_date | page_count | format |           description            |   isbn
+---------------+--------+--------------+------------+--------+----------------------------------+-----------
+ Physical Book | 100004 | 2024-01-02   |        349 | Ebook  | A physical book with many pages. | 123944679
+(1 row)
+
+
+Time: 0.285 ms
+
+
+-- INSERT VERSION
+
+-- insert as ebook
+INSERT 0 1
+
+Query returned successfully in 36 msec.
+
+-- check book
+   title   |   id   | release_date | page_count | format |      description       |   isbn
+-----------+--------+--------------+------------+--------+------------------------+-----------
+ New eBook | 100009 | 2024-12-08   |        200 | Ebook  | An exciting new eBook! | 987684321
+(1 row)
+
+
+Time: 0.313 ms
+
+-- check location
+
+ quantity |       floor       | shelf | location_id | condition |   id
+----------+-------------------+-------+-------------+-----------+--------
+        1 | E-Library Section |     1 |      100009 | New       | 100009
+(1 row)
+
+
+Time: 0.401 ms

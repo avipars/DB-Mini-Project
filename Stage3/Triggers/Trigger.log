@@ -1,0 +1,11 @@
+-- Trigger 1
+
+CREATE TRIGGER
+
+Query returned successfully in 79 msec.
+
+-- Trigger 2
+
+CREATE TRIGGER
+
+Query returned successfully in 98 msec.

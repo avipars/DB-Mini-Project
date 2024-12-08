@@ -41,4 +41,9 @@ DROP VIEW IF EXISTS Publisher_Detail_View;
 DROP VIEW IF EXISTS Author_Books_View;
 DROP VIEW IF EXISTS Genre_Location_Popularity_View;
 
+-- Trigger Stuff
+DROP TABLE IF EXISTS Book_Log;
+DROP FUNCTION IF EXISTS log_book_deletion;
+
+
 commit;
