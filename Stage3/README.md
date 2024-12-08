@@ -88,6 +88,7 @@ FROM Book_Detail_View
 GROUP BY Language_Name
 ORDER BY Avg_Page_Count DESC;
 ```
+  ![lang](https://github.com/user-attachments/assets/1c84470d-466d-4a4d-b602-efcefdc0c1de)
 
 View 4: Total Copies Available per Genre 
 
@@ -96,6 +97,7 @@ SELECT Genre_Name, Total_Copies_Available, Unique_Titles
 From Genre_Location_Popularity_View 
 ORDER BY Unique_Titles;
 ```
+![unique_titles](https://github.com/user-attachments/assets/2aab045c-c574-4261-853a-26ff3119108a)
 
 
 
