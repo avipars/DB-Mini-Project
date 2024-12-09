@@ -144,8 +144,10 @@ FROM Author_Books_View a
 WHERE a.Date_of_Birth IS NOT NULL
 GROUP BY Birth_Month, Month_Number -- connect the two columns
 ORDER BY Month_Number; -- sort by month number in ascending order
- 
 ```
+
+![graph_visualiser-1733745518073](https://github.com/user-attachments/assets/f0efddb0-30a8-40a1-a4f0-6b5c69c5a515)
+
 
 View 4: Number of distinct books in each genre 
 
