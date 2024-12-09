@@ -122,7 +122,7 @@ LIMIT 5;
 
 * Testing the views via SELECT, INSERT, UPDATE, and DELETE statements: 
 
-    * Any views that were based on several tables will not let you INSERT, UPDATE, or DELETE
+    * Any views that were based on several tables (or views that use GROUP BY) will not let you perform any modifications to the data
 
     * Publisher_Detail_View allows all of these commands, provided that the queries use abide by the existing database system rules
 
@@ -130,33 +130,51 @@ LIMIT 5;
 
 ### [Visualizations](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Visualizations)
 
-View 1: Average page count of books per each language
 
-Pie Chart 
+View 3: Most popular birth month among authors
+
+Pie Chart (Sorted by Month Number)
 
 ```sql
-SELECT Language_Name, ROUND(AVG(Page_Count),2) AS Avg_Page_Count
-FROM Book_Detail_View
-GROUP BY Language_Name
-ORDER BY Avg_Page_Count DESC;
+SELECT 
+    TO_CHAR(a.Date_of_Birth, 'Month') AS Birth_Month,  -- human readable 
+    COUNT(DISTINCT a.Author_ID) AS Author_Count, -- number of unique authors for each month
+	TO_CHAR(a.Date_of_Birth, 'MM') AS Month_Number -- alpha-numerical representation of month ie Jan = '01
+FROM Author_Books_View a
+WHERE a.Date_of_Birth IS NOT NULL
+GROUP BY Birth_Month, Month_Number -- connect the two columns
+ORDER BY Month_Number; -- sort by month number in ascending order
+ 
 ```
-  ![lang](https://github.com/user-attachments/assets/1c84470d-466d-4a4d-b602-efcefdc0c1de)
 
-View 4: Total Copies Available per Genre 
+View 4: Number of distinct books in each genre 
 
-Bar Graph (Sorted by least to most unique titles)
+Bar Graph (Sorted from least to most unique titles)
 
 ```sql
 SELECT Genre_Name, Total_Copies_Available, Unique_Titles 
 From Genre_Location_Popularity_View 
 ORDER BY Unique_Titles;
 ```
+
 ![unique_titles](https://github.com/user-attachments/assets/2aab045c-c574-4261-853a-26ff3119108a)
 
 
 ### [Functions](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Functions.sql)
 
 TODO - Leib
+
+1. 
+
+2.
+
+3. 
+
+4. 
+
+#### Timing Functions
+
+Time queries with and without using the functions to compare 
 
 
 
