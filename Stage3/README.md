@@ -12,6 +12,8 @@
         * enter '\di' without the quotes, to get general info
 
         * enter '\d' without the quotes, to get relation info... can do '\d author' to get specific information about the Author table for example
+
+        * enter VACUUM; to clear up old space in the database (and also works on indexes)
 </details>
 
 <details>
@@ -33,12 +35,57 @@
 
 * (Query 1) This query joins the Book, Written_By, and Author tables to get the first and last name of the author of a book with a specific ID
 
+```sql
+SELECT Author.First_Name, Author.Last_Name
+FROM Book
+JOIN Written_By ON Book.ID = Written_By.ID
+JOIN Author ON Written_By.Author_ID = Author.Author_ID
+WHERE Book.ID = 2;
+```
+
+
 * (Query 2) This query updates all the books published by Murray-Jenkins to Good Condition
+
+```sql
+UPDATE Location
+SET Condition = 'Good'
+WHERE ID IN (
+    SELECT B.ID
+    FROM Book B
+    JOIN Written_By WB ON B.ID = WB.ID
+    JOIN Author A ON WB.Author_ID = A.Author_ID
+    JOIN Published_By PB ON B.ID = PB.ID
+    JOIN Publisher P ON PB.Publisher_ID = P.Publisher_ID
+    WHERE P.Name = 'Murray-Jenkins');
+```
 
 * (Query 3) This query joins the Publisher, Is_In, and Country tables to get the name of the country where a specific publisher is located
 
-* (Query 4) This query selects all books with more than 10 pages and where the book wass released within 10 years of the author being born
+```sql
+SELECT Country.Name
+FROM Publisher
+JOIN Is_In ON Publisher.Publisher_ID = Is_In.Publisher_ID
+JOIN Country ON Is_In.Country_ID = Country.Country_ID
+WHERE Publisher.Publisher_ID = 1;
+```
 
+* (Query 4) This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born
+
+```sql
+SELECT
+    b.ID AS Book_ID, 
+    b.Release_Date, 
+    a.Date_of_Birth
+FROM 
+    Book b
+JOIN 
+    Written_By wb ON b.ID = wb.ID
+JOIN 
+    Author a ON wb.Author_ID = a.Author_ID
+WHERE 
+    b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') AND b.Page_Count > 10
+LIMIT 5;
+```
 
 #### Timings 
 
@@ -85,6 +132,8 @@
 
 View 1: Average page count of books per each language
 
+Pie Chart 
+
 ```sql
 SELECT Language_Name, ROUND(AVG(Page_Count),2) AS Avg_Page_Count
 FROM Book_Detail_View
@@ -95,6 +144,8 @@ ORDER BY Avg_Page_Count DESC;
 
 View 4: Total Copies Available per Genre 
 
+Bar Graph (Sorted by least to most unique titles)
+
 ```sql
 SELECT Genre_Name, Total_Copies_Available, Unique_Titles 
 From Genre_Location_Popularity_View 
@@ -103,7 +154,7 @@ ORDER BY Unique_Titles;
 ![unique_titles](https://github.com/user-attachments/assets/2aab045c-c574-4261-853a-26ff3119108a)
 
 
-### Functions
+### [Functions](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Functions.sql)
 
 TODO - Leib
 
@@ -113,7 +164,7 @@ TODO - Leib
 
 To enhance logging capability and functionality of the database, we created 2 useful triggers. 
 
-1. Log if a book gets deleted from DB in the Book_Log Table (new table made in the same Trigger.sql file)
+1. Log if a book gets deleted from DB in the Book_Log Table (new table created via Trigger.sql)
 
     * Functions: log_book_deletion()
 
@@ -121,13 +172,20 @@ To enhance logging capability and functionality of the database, we created 2 us
     
     * Activated: After DELETE on Book Table
 
-2. If a book is classified as an Ebook, automate location changes (set condition, floor, shelf, quantity)
+    * Tables Affected: Book, Book_Log
+
+2. If a book is classified as an Ebook, automate location changes (Set condition, floor, shelf, quantity)
 
     * Functions: update_condition_for_ebook()
 
     * Trigger Name: update_condition_on_ebook_format, insert_condition_on_new_ebook
 
     * Activated: After a Book format changes on UPDATE in Book Table, or After a Book is INSERTED to the Book Table
+
+    * Tables Affected: Book, Location
+
+    * Note: Location ID for these eBooks is the same as BookID for simplicity (If run via insert_condition_on_new_ebook)
+
 
 [Logs for creation](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.log)
 
@@ -189,7 +247,7 @@ Trigger 2:
     |--------------|--------|--------------|------------|--------|-------------------------------------|-----------|
     | Physical Book | 100004 | 2024-01-02   | 349        | Ebook  | A physical book with many pages.    | 123944679 |
 
-* Insert sample book in Ebook format. The trigger will automatically add an entry in the Location table coordinating to the E-Library Section, New Condition, Shelf 1, Quantity of 1. 
+* Insert sample book in Ebook format. The trigger will automatically add an entry in the Location table coordinating to the E-Library Section, New Condition, Shelf number 1, Quantity of 1. 
 
     After insertion into Book and running a SELECT
 
