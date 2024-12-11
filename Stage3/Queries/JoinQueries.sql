@@ -57,6 +57,14 @@ $$;
 
 CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
 
+-- Litmus test - check if the condition was updated
+-- SELECT DISTINCT b.ID, b.Title, p.Name AS Publisher, l.Condition
+-- FROM Book b
+-- JOIN Published_By pb ON b.ID = pb.ID
+-- JOIN Publisher p ON pb.Publisher_ID = p.Publisher_ID
+-- JOIN Location l ON b.ID = l.ID
+-- WHERE p.Name = 'Murray-Jenkins' AND l.Condition = 'Good';
+
 -- -- Query 3
 -- -- This query joins the Publisher, Is_In, and Country tables to get the name of the country where a specific publisher is located
 -- SELECT Country.Name

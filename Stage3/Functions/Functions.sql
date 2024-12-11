@@ -1,12 +1,6 @@
-"""(a) Prepare four functions that can replace parts (or whole) of queries that were already
-introduced in previous steps.
-(b) Place the queries in file Functions.sql. Add references and comments to these functions in the README. Make sure that flashy tricks in your functions are addressed in the
-supporting documentation.
-(c) Replace the original SQL with the ones that may carry the appropriate functions. Place
-them in the file Queries.sql.
-(d) Time the run of the resulting SQL statements using methods that we covered in class
-"""
--- Query 1 - This function returns the first and last name of the author for a specific book, given the book ID.
+-- four functions that can replace parts (or whole) of queries that were already introduced in previous steps.
+
+-- Query 1 - This function returns the first and last name of the author for a specific book, given the book ID (book_id).
 CREATE OR REPLACE FUNCTION GetAuthorNameByBookID(book_id INT)
 RETURNS TABLE (first_name text, last_name text) AS $$
 BEGIN
@@ -27,7 +21,7 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM GetAuthorNameByBookID(2);
 
--- Query 2 - This function updates the condition of books published by "Murray-Jenkins" to "Good".
+-- Query 2 - This function updates the condition of books published by publisher_name to cond_name.
 
 CREATE OR REPLACE PROCEDURE UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)
 LANGUAGE plpgsql
@@ -47,7 +41,32 @@ END;
 $$;
 
 CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
--- Query 3 - This function returns the name of the country where a specific publisher is located, given the publisher ID.
+
+-- Additional Notes:
+-- Alternatively a function can be used to achieve a similar result with some drawbacks (cannot commit or rollback)
+-- Theoretically takes the same amount of time to run
+-- CREATE OR REPLACE FUNCTION UpdateBooksConditionForPublisherF(
+--     publisher_name VARCHAR,
+--     cond_name VARCHAR
+-- ) RETURNS VOID LANGUAGE plpgsql AS $$
+-- BEGIN
+--     UPDATE Location
+--     SET condition = cond_name
+--     WHERE ID IN (
+--         SELECT B.ID
+--         FROM Book B
+--         JOIN Written_By WB ON B.ID = WB.ID
+--         JOIN Published_By PB ON B.ID = PB.ID
+--         JOIN Publisher P ON PB.Publisher_ID = P.Publisher_ID
+--         WHERE P.Name = publisher_name
+--     );
+-- END;
+-- $$;
+
+-- SELECT UpdateBooksConditionForPublisherF('Murray-Jenkins', 'Good');
+
+
+-- Query 3 - This function returns the name of the country where a specific publisher is located, given the publisher ID (p_id).
 CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
 RETURNS VARCHAR AS $$
 DECLARE
@@ -66,7 +85,7 @@ $$ LANGUAGE plpgsql;
 
 SELECT GetCountryByPublisherID(1);
 
--- Query 4 - This function returns books with more than 10 pages that were released within 10 years of the author's birth.
+-- Query 4 - This function returns books with more than p_count pages that were released within 10 years of the author's birth.
 CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT)
 RETURNS TABLE (
     Book_ID INT,
@@ -93,4 +112,3 @@ END;
 $$ LANGUAGE plpgsql;
 
 SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10);
-

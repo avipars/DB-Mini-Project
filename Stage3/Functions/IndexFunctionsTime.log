@@ -1,0 +1,44 @@
+-- TIMING OF FUNCTIONS WITH INDEXING --
+
+-- Function 1: --
+
+ first_name | last_name
+------------+-----------
+ Brittany   | Hardy
+ Allison    | Johnston
+ Joy        | Clay
+(3 rows)
+
+
+Time: 0.730 ms
+
+-- Function 2: --
+
+CALL
+Time: 5.506 ms
+
+
+-- Function 3: --
+
+ getcountrybypublisherid
+-------------------------
+ France
+(1 row)
+
+
+Time: 0.505 ms
+
+
+-- Function 4: --
+
+ book_id | release_date | date_of_birth
+---------+--------------+---------------
+       8 | 1939-01-15   | 1930-04-30
+      15 | 1922-08-09   | 1913-07-23
+      26 | 1869-09-05   | 1863-05-17
+      31 | 1852-03-13   | 1852-01-21
+      79 | 1884-01-28   | 1883-08-20
+(5 rows)
+
+
+Time: 1.001 ms

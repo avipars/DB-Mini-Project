@@ -1,0 +1,19 @@
+-- Function 1 --
+
+CREATE FUNCTION
+Time: 1373.099 ms (00:01.373)
+
+-- Function 2 --
+
+CREATE PROCEDURE
+Time: 2.050 ms
+
+-- Function 3 --
+
+CREATE FUNCTION
+Time: 1.833 ms
+
+-- Function 4 --
+
+CREATE FUNCTION
+Time: 1.096 ms

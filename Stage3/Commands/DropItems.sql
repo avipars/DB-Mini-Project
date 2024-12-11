@@ -29,11 +29,14 @@ DROP INDEX IF EXISTS idx_type_of_book;
 DROP INDEX IF EXISTS idx_is_in_pub_id;
 DROP INDEX IF EXISTS idx_is_in_country_id;
 
-DEALLOCATE PREPARE ALL; -- drops all prepared statements (these do not get deleted via the other script)
+-- PREPARED STATEMENTS (Parameterized queries)
+DEALLOCATE PREPARE ALL; --(these do not get deleted via the other script, even if all tables are dropped)
 
--- TODO for each function we make
--- DROP FUNCTION name(param)
-
+-- FUNCTIONS 
+DROP FUNCTION IF EXISTS GetAuthorNameByBookID;
+DROP FUNCTION IF EXISTS UpdateBooksConditionForPublisher;
+DROP FUNCTION IF EXISTS GetCountryByPublisherID;
+DROP FUNCTION IF EXISTS GetBooksReleasedWithin10YearsOfBirth;
 
 -- VIEWS
 DROP VIEW IF EXISTS Book_Detail_View;
@@ -41,7 +44,7 @@ DROP VIEW IF EXISTS Publisher_Detail_View;
 DROP VIEW IF EXISTS Author_Books_View;
 DROP VIEW IF EXISTS Genre_Location_Popularity_View;
 
--- Trigger Stuff
+-- TRIGGER
 DROP TABLE IF EXISTS Book_Log;
 DROP FUNCTION IF EXISTS log_book_deletion;
 
