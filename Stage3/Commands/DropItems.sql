@@ -36,7 +36,7 @@ DEALLOCATE PREPARE ALL; --(these do not get deleted via the other script, even i
 DROP FUNCTION IF EXISTS GetAuthorNameByBookID;
 DROP FUNCTION IF EXISTS UpdateBooksConditionForPublisher;
 DROP FUNCTION IF EXISTS GetCountryByPublisherID;
-DROP FUNCTION IF EXISTS GetBooksReleasedWithin10YearsOfBirth;
+DROP FUNCTION IF EXISTS GetBooksReleasedWithin10YearsOfBirth(INT,INT);
 
 -- VIEWS
 DROP VIEW IF EXISTS Book_Detail_View;

@@ -181,33 +181,38 @@ ORDER BY Unique_Titles;
 
 ### [Functions](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Functions.sql)
 
-TODO - Leib
+* To make our queries reusable, less complex, and more efficient, we created 4 functions:
 
-1. 
+1. `GetAuthorNameByBookID(book_id INT)` - Returns the first and last name of the author of a book with a specific ID
 
-2.
+2. `UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)` - Updates all the books published by a specific publisher to a new condition
 
-3. 
+3. `GetCountryByPublisherID(p_id INT)` - Returns the name of the country where a specific publisher is located
 
-4. 
+4. `GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT)` - Returns the first limit_count books with more than a certain number of pages and released within 10 years of the author being born (p_count is the page count, which can be set to 1 for all books)
+
+[Logs for creation](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Creation.log)
 
 #### Timing Functions
 
 * Comparing function runtime with and without indexing
 
-| Query Number | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
+| Function Number | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
 | ------------ | --------------------------- | ---------------------------------------- |
 | 1            | 3.375                       | 0.73                                     |
 | 2            | 27.598                      | 5.506                                    |
 | 3            | 2.28                        | 0.505                                    |
 | 4            | 1.398                       | 1.001                                    |
 
+[Logs for timing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/FunctionsTime.log)
+
+[Indexed logs with timing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/IndexFunctionsTime.log)
 
 ### Overall Timing
 
 * By combining the previous two timing tables, we can get a better understanding of the overall performance of the database system
 
-| Query Number | Query Runtime (ms) | Query Runtime With Indexing (ms) | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
+| Query/Function Number | Query Runtime (ms) | Query Runtime With Indexing (ms) | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
 | ------------ | ------------------ | -------------------------------- | --------------------------- | ---------------------------------------- |
 | 1            | 4.033              | 2.521                            | 3.375                       | 0.73                                     |
 | 2            | 29.940             | 6.404                            | 27.598                      | 5.506                                    |
@@ -316,3 +321,4 @@ Trigger 2:
     | 1        | E-Library Section | 1     | 100009      | New       | 100009 |
 
 [Logs for testing](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/TestTrigger.log)
+

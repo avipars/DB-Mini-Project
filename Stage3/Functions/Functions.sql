@@ -79,8 +79,8 @@ $$ LANGUAGE plpgsql;
 
 SELECT GetCountryByPublisherID(1);
 
--- Function 4 - This function returns books with more than p_count pages that were released within 10 years of the author's birth, returning the first 5 results.
-CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT)
+-- Function 4 - This function returns books with more than p_count pages that were released within 10 years of the author's birth, returning the first limit_count results.
+CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT DEFAULT 5)
 RETURNS TABLE (
     Book_ID INT,
     Release_Date DATE,
@@ -98,8 +98,8 @@ BEGIN
     WHERE 
         b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') 
         AND b.Page_Count > p_count
-    LIMIT 5;
+    LIMIT limit_count;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10);
+SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10,5);

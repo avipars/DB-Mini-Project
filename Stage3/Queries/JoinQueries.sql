@@ -93,7 +93,7 @@ SELECT GetCountryByPublisherID(1);
 -- WHERE 
 --     b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') AND b.Page_Count > 10
 -- LIMIT 5;
-CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT)
+CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT DEFAULT 5)
 RETURNS TABLE (
     Book_ID INT,
     Release_Date DATE,
@@ -111,8 +111,8 @@ BEGIN
     WHERE 
         b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') 
         AND b.Page_Count > p_count
-    LIMIT 5;
+    LIMIT limit_count;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10);
+SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10,5);
