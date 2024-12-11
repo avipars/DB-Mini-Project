@@ -1,18 +1,72 @@
 -- Log for Views.sql (View Creation Script)
 
--- View 1
+postgres=# -- View 1: Book details of available books
+postgres=# CREATE OR REPLACE VIEW Book_Detail_View AS
+postgres-# SELECT
+postgres-#     b.ID,
+postgres-#     b.Title,
+postgres-#     b.Release_Date,
+postgres-#     b.Page_Count,
+postgres-#     b.Format,
+postgres-#     b.Description,
+postgres-#     lo.Floor,
+postgres-#     lo.Shelf,
+postgres-#     g.Name AS Genre_Name,
+postgres-#     l.Name AS Language_Name,
+postgres-#     p.Name AS Publisher_Name
+postgres-# FROM Book b
+postgres-# JOIN Type_of t ON b.ID = t.ID
+postgres-# JOIN Genre g ON t.Genre_ID = g.Genre_ID
+postgres-# JOIN Written_In wi ON b.ID = wi.ID
+postgres-# JOIN Language l ON wi.Language_ID = l.Language_ID
+postgres-# JOIN Published_By pb ON b.ID = pb.ID
+postgres-# JOIN Publisher p ON pb.Publisher_ID = p.Publisher_ID
+postgres-# JOIN Location lo ON b.ID = lo.ID
+postgres-# WHERE lo.Floor NOT IN ('Storage', 'Maintenance', 'Special Collections', 'Archive', 'Returns')
+postgres-#   AND lo.Quantity >= 1;  -- Ensure books are available for loan
 CREATE VIEW
-
-Query returned successfully in 341 msec.
--- View 2
+Time: 158.559 ms
+postgres=#
+postgres=#
+postgres=# -- View 2: Manage all the publishers
+postgres=# CREATE OR REPLACE VIEW Publisher_Detail_View AS
+postgres-# SELECT
+postgres-#      p.Publisher_ID,
+postgres-#     p.Name,
+postgres-#     p.Phone_Number,
+postgres-#     p.Website
+postgres-# FROM Publisher p;
 CREATE VIEW
-
-Query returned successfully in 37 msec.
--- View 3
+Time: 0.635 ms
+postgres=#
+postgres=# -- View 3: Authors and books they wrote
+postgres=# CREATE OR REPLACE VIEW Author_Books_View AS
+postgres-# SELECT
+postgres-#     a.Author_ID,
+postgres-#     a.Date_of_Birth,
+postgres-#     a.Biography,
+postgres-#     b.ID,
+postgres-#     b.Title,
+postgres-#     CONCAT(a.First_Name, ' ', a.Last_Name) AS Author_Name
+postgres-# FROM
+postgres-#     Author a
+postgres-# JOIN Written_By wb ON a.Author_ID = wb.Author_ID
+postgres-# JOIN Book b ON wb.ID = b.ID;
 CREATE VIEW
-
-Query returned successfully in 34 msec.
--- View 4
+Time: 0.802 ms
+postgres=#
+postgres=#
+postgres=# -- View 4: Book quantity per Genre
+postgres=# CREATE OR REPLACE VIEW Genre_Location_Popularity_View AS
+postgres-# SELECT
+postgres-#     g.Name AS Genre_Name,
+postgres-#     SUM(lo.Quantity) AS Total_Copies_Available,
+postgres-#     COUNT(DISTINCT b.ID) AS Unique_Titles
+postgres-# FROM Genre g
+postgres-# JOIN Type_of t ON g.Genre_ID = t.Genre_ID
+postgres-# JOIN Book b ON t.ID = b.ID
+postgres-# JOIN Location lo ON b.ID = lo.ID
+postgres-# GROUP BY g.Genre_ID, g.Name
+postgres-# ORDER BY Total_Copies_Available DESC, Unique_Titles;
 CREATE VIEW
-
-Query returned successfully in 35 msec.
+Time: 1.119 ms

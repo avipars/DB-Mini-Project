@@ -2,7 +2,7 @@
 -- Exercise caution and ensure you know what you are doing before running this, you will lose all the DB data
 BEGIN; 
 
--- dropping all of our own indexes (they do get deleted if you just drop the table via the other script)
+-- Dropping all of our own indexes (they do get deleted if you just drop the table via the other script)
 -- Author age index
 DROP INDEX IF EXISTS idx_author_dob_id;
 -- Book facts index
@@ -47,6 +47,10 @@ DROP VIEW IF EXISTS Genre_Location_Popularity_View;
 -- TRIGGER
 DROP TABLE IF EXISTS Book_Log;
 DROP FUNCTION IF EXISTS log_book_deletion;
+DROP TRIGGER IF EXISTS book_delete_trigger ON Book;
+
+DROP TRIGGER IF EXISTS update_condition_on_ebook_format ON Book;
+DROP TRIGGER IF EXISTS insert_condition_on_new_ebook ON Book;
 
 
-commit;
+COMMIT;
