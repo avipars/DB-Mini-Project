@@ -164,15 +164,16 @@ ORDER BY Unique_Titles;
 
 ### [Functions](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Functions.sql)
 
-TODO - Leib
 
-1. 
+We use the 4 queries from the joinQueries.sql from above and change them into Functions. Functions shows an approvement in time over regular queries. We write in the function CREATE OR REPLACE in order not the get double functions with the same name. Moreover, we define the Language the function is using with LANGUAGE plpgsql.
 
-2.
+1. The first function returns the full name, first and last, of the author for a specific book, given by its book id. When we select the first name and last name attribute, we cast them into text and returning a Query back. We accept an Integer into our parameters and return all full names inside the query.
 
-3. 
+2. The second function is a PROCEDURE, it updates the condition of all books written by an Publisher to a certain condition. The function accepts 2 parameters, publisher name as VARCHAR and condition name as VARCHAR and doesn't output any query in return.
 
-4. 
+3. The third function returns the name of the country where a specific publisher is located. It accepts 1 parameter, publisher id as an Integer and returns a Table of all the names of the countries. To do so it declares country name to be a VARCHAR and puts the result into the Table and returns it out.  
+
+4. The 4th function returns the books with more than an amount of pages given by the person, that were released within the 10 years of the author's birth. It accepts an Integer as its parameter and returns a Table with Book id as Integer, Release Date as a Date and Date of birth of the Author as a Date format. The function limits only to show maximum 5 books as there could be too many to show in the output file (readme). 
 
 #### Timing Functions
 
