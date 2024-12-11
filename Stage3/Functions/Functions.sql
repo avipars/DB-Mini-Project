@@ -29,12 +29,12 @@ SELECT * FROM GetAuthorNameByBookID(2);
 
 -- Query 2 - This function updates the condition of books published by "Murray-Jenkins" to "Good".
 
-CREATE OR REPLACE PROCEDURE UpdateBooksConditionForPublisher(publisher_name VARCHAR)
+CREATE OR REPLACE PROCEDURE UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)
 LANGUAGE plpgsql
 AS $$
 BEGIN
     UPDATE Location
-    SET condition = 'Good'
+    SET condition = cond_name
     WHERE ID IN (
         SELECT B.ID
         FROM Book B
@@ -46,7 +46,7 @@ BEGIN
 END;
 $$;
 
-CALL UpdateBooksConditionForPublisher('Murray-Jenkins');
+CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
 -- Query 3 - This function returns the name of the country where a specific publisher is located, given the publisher ID.
 CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
 RETURNS VARCHAR AS $$
@@ -67,7 +67,7 @@ $$ LANGUAGE plpgsql;
 SELECT GetCountryByPublisherID(1);
 
 -- Query 4 - This function returns books with more than 10 pages that were released within 10 years of the author's birth.
-CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth()
+CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT)
 RETURNS TABLE (
     Book_ID INT,
     Release_Date DATE,
@@ -87,10 +87,10 @@ BEGIN
         Author a ON wb.Author_ID = a.Author_ID
     WHERE 
         b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') 
-        AND b.Page_Count > 10
+        AND b.Page_Count > p_count
     LIMIT 5;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM GetBooksReleasedWithin10YearsOfBirth();
+SELECT * FROM GetBooksReleasedWithin10YearsOfBirth(10);
 
