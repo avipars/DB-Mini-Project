@@ -14,20 +14,17 @@ BEGIN
         SELECT 
             CAST(a.First_Name AS text) AS first_name,
             CAST(a.Last_Name AS text) AS last_name
-        FROM 
-            Book b
-        JOIN 
-            Written_By w ON b.ID = w.ID
-        JOIN 
-            Author a ON w.Author_ID = a.Author_ID
-        WHERE 
-            b.ID = book_id;
+        FROM Book b
+        JOIN Written_By w ON b.ID = w.ID
+        JOIN Author a ON w.Author_ID = a.Author_ID
+        WHERE b.ID = book_id;
 END;
 $$ LANGUAGE plpgsql;
 
 SELECT * FROM GetAuthorNameByBookID(2);
--- -- Query 2
--- -- This query updates all the books published by Murray-Jenkins to Good Condition
+
+-- Query 2
+-- This query updates all the books published by Murray-Jenkins to Good Condition
 -- UPDATE Location
 -- SET Condition = 'Good'
 -- WHERE ID IN (
@@ -57,16 +54,9 @@ $$;
 
 CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
 
--- Litmus test - check if the condition was updated
--- SELECT DISTINCT b.ID, b.Title, p.Name AS Publisher, l.Condition
--- FROM Book b
--- JOIN Published_By pb ON b.ID = pb.ID
--- JOIN Publisher p ON pb.Publisher_ID = p.Publisher_ID
--- JOIN Location l ON b.ID = l.ID
--- WHERE p.Name = 'Murray-Jenkins' AND l.Condition = 'Good';
 
--- -- Query 3
--- -- This query joins the Publisher, Is_In, and Country tables to get the name of the country where a specific publisher is located
+-- Query 3
+-- This query joins the Publisher, Is_In, and Country tables to get the name of the country where a specific publisher is located
 -- SELECT Country.Name
 -- FROM Publisher
 -- JOIN Is_In ON Publisher.Publisher_ID = Is_In.Publisher_ID
@@ -83,14 +73,13 @@ BEGIN
     JOIN Is_In ii ON p.Publisher_ID = ii.Publisher_ID
     JOIN Country c ON ii.Country_ID = c.Country_ID
     WHERE p.Publisher_ID = p_id;
-
     RETURN country_name;
 END;
 $$ LANGUAGE plpgsql;
 
 SELECT GetCountryByPublisherID(1);
--- -- Query 4
--- -- This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born
+-- Query 4
+-- This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born, returning the first 5 results.
 -- SELECT
 --     b.ID AS Book_ID, 
 --     b.Release_Date, 
@@ -116,12 +105,9 @@ BEGIN
         b.ID AS Book_ID, 
         b.Release_Date, 
         a.Date_of_Birth
-    FROM 
-        Book b
-    JOIN 
-        Written_By wb ON b.ID = wb.ID
-    JOIN 
-        Author a ON wb.Author_ID = a.Author_ID
+    FROM Book b
+    JOIN Written_By wb ON b.ID = wb.ID
+    JOIN Author a ON wb.Author_ID = a.Author_ID
     WHERE 
         b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') 
         AND b.Page_Count > p_count

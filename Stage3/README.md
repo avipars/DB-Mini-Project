@@ -33,13 +33,19 @@
 
 #### [Join Queries](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Queries/JoinQueries.sql)
 
+- To avoid confusion with the previous stage's Queries.sql file, we have created a new file specifically for the join queries in this stage.
+
 * (Query 1) This query joins the Book, Written_By, and Author tables to get the first and last name of the author of a book with a specific ID
 
 ```sql
-SELECT Author.First_Name, Author.Last_Name
+SELECT 
+    Author.First_Name, 
+    Author.Last_Name
 FROM Book
-JOIN Written_By ON Book.ID = Written_By.ID
-JOIN Author ON Written_By.Author_ID = Author.Author_ID
+JOIN 
+    Written_By ON Book.ID = Written_By.ID
+JOIN 
+    Author ON Written_By.Author_ID = Author.Author_ID
 WHERE Book.ID = 2;
 ```
 
@@ -52,10 +58,14 @@ SET Condition = 'Good'
 WHERE ID IN (
     SELECT B.ID
     FROM Book B
-    JOIN Written_By WB ON B.ID = WB.ID
-    JOIN Author A ON WB.Author_ID = A.Author_ID
-    JOIN Published_By PB ON B.ID = PB.ID
-    JOIN Publisher P ON PB.Publisher_ID = P.Publisher_ID
+    JOIN 
+        Written_By WB ON B.ID = WB.ID
+    JOIN 
+        Author A ON WB.Author_ID = A.Author_ID
+    JOIN 
+        Published_By PB ON B.ID = PB.ID
+    JOIN 
+        Publisher P ON PB.Publisher_ID = P.Publisher_ID
     WHERE P.Name = 'Murray-Jenkins');
 ```
 
@@ -64,26 +74,28 @@ WHERE ID IN (
 ```sql
 SELECT Country.Name
 FROM Publisher
-JOIN Is_In ON Publisher.Publisher_ID = Is_In.Publisher_ID
-JOIN Country ON Is_In.Country_ID = Country.Country_ID
+JOIN 
+    Is_In ON Publisher.Publisher_ID = Is_In.Publisher_ID
+JOIN 
+    Country ON Is_In.Country_ID = Country.Country_ID
 WHERE Publisher.Publisher_ID = 1;
 ```
 
-* (Query 4) This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born
+* (Query 4) This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born, taking the first 5 results
 
 ```sql
 SELECT
     b.ID AS Book_ID, 
     b.Release_Date, 
     a.Date_of_Birth
-FROM 
-    Book b
+FROM Book b
 JOIN 
     Written_By wb ON b.ID = wb.ID
 JOIN 
     Author a ON wb.Author_ID = a.Author_ID
 WHERE 
-    b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') AND b.Page_Count > 10
+    b.Release_Date < (a.Date_of_Birth + INTERVAL '10 years') 
+    AND b.Page_Count > 10
 LIMIT 5;
 ```
 
@@ -137,16 +149,18 @@ Pie Chart (Sorted by Month Number)
 
 ```sql
 SELECT 
-    TO_CHAR(a.Date_of_Birth, 'Month') AS Birth_Month,  -- human readable 
-    COUNT(DISTINCT a.Author_ID) AS Author_Count, -- number of unique authors for each month
-	TO_CHAR(a.Date_of_Birth, 'MM') AS Month_Number -- alpha-numerical representation of month ie Jan = '01
+    TO_CHAR(a.Date_of_Birth, 'Month') AS Birth_Month, -- month name 
+    COUNT(DISTINCT a.Author_ID) AS Author_Count, -- # of unique authors per month
+	TO_CHAR(a.Date_of_Birth, 'MM') AS Month_Number -- Jan = '01'
 FROM Author_Books_View a
-WHERE a.Date_of_Birth IS NOT NULL
-GROUP BY Birth_Month, Month_Number -- connect the two columns
-ORDER BY Month_Number; -- sort by month number in ascending order
+WHERE 
+    a.Date_of_Birth IS NOT NULL
+GROUP BY 
+    Birth_Month, Month_Number -- connect 2 columns
+ORDER BY Month_Number; -- sort by month #
 ```
 
-![graph_visualiser-1733745518073](https://github.com/user-attachments/assets/f0efddb0-30a8-40a1-a4f0-6b5c69c5a515)
+![months](https://github.com/user-attachments/assets/f0efddb0-30a8-40a1-a4f0-6b5c69c5a515)
 
 
 View 4: Number of distinct books in each genre 
@@ -154,7 +168,10 @@ View 4: Number of distinct books in each genre
 Bar Graph (Sorted from least to most unique titles)
 
 ```sql
-SELECT Genre_Name, Total_Copies_Available, Unique_Titles 
+SELECT 
+    Genre_Name, 
+    Total_Copies_Available, -- total copies of books in genre
+    Unique_Titles  -- distinct titles in genre
 From Genre_Location_Popularity_View 
 ORDER BY Unique_Titles;
 ```
@@ -176,15 +193,32 @@ TODO - Leib
 
 #### Timing Functions
 
-Time queries with and without using the functions to compare 
+* Comparing function runtime with and without indexing
+
+| Query Number | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
+| ------------ | --------------------------- | ---------------------------------------- |
+| 1            | 3.375                       | 0.73                                     |
+| 2            | 27.598                      | 5.506                                    |
+| 3            | 2.28                        | 0.505                                    |
+| 4            | 1.398                       | 1.001                                    |
 
 
+### Overall Timing
+
+* By combining the previous two timing tables, we can get a better understanding of the overall performance of the database system
+
+| Query Number | Query Runtime (ms) | Query Runtime With Indexing (ms) | Runtime With Functions (ms) | Runtime With Functions and Indexing (ms) |
+| ------------ | ------------------ | -------------------------------- | --------------------------- | ---------------------------------------- |
+| 1            | 4.033              | 2.521                            | 3.375                       | 0.73                                     |
+| 2            | 29.940             | 6.404                            | 27.598                      | 5.506                                    |
+| 3            | 2.936              | 1.332                            | 2.28                        | 0.505                                    |
+| 4            | 2.416              | 1.083                            | 1.398                       | 1.001                                    |
 
 ### [Triggers](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.sql)
 
-To enhance logging capability and functionality of the database, we created 2 useful triggers. 
+To enhance logging capability and functionality of the database, we created 2 useful triggers: 
 
-1. Log if a book gets deleted from DB in the Book_Log Table (new table created via Trigger.sql)
+1. If a book gets deleted from the Book table, Log it in the Book_Log Table (new table created via Trigger.sql)
 
     * Functions: log_book_deletion()
 
@@ -192,7 +226,7 @@ To enhance logging capability and functionality of the database, we created 2 us
     
     * Activated: After DELETE on Book Table
 
-    * Tables Affected: Book, Book_Log
+    * Tables Affected: Book_Log
 
 2. If a book is classified as an Ebook, automate location changes (Set condition, floor, shelf, quantity)
 
@@ -204,7 +238,7 @@ To enhance logging capability and functionality of the database, we created 2 us
 
     * Tables Affected: Book, Location
 
-    * Note: Location ID for these eBooks is the same as BookID for simplicity (If run via insert_condition_on_new_ebook)
+    * Note: If run via insert_condition_on_new_ebook, Location ID for these eBooks is the same as BookID for simplicity 
 
 
 [Logs for creation](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.log)
