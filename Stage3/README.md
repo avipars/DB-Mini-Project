@@ -254,9 +254,11 @@ ORDER BY Unique_Titles;
 
 ### [Functions](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Functions/Functions.sql)
 
+* We use the 4 queries from the joinQueries.sql from above and change them into Functions. Functions shows an approvement in time over regular queries. We write in the function CREATE OR REPLACE in order not the get double functions with the same name. Moreover, we define the Language the function is using with LANGUAGE plpgsql.
+
 * To make our queries more reusable and less complex, we created the following 4 functions:
 
-1. `GetAuthorNameByBookID(book_id INT)` - Returns the first and last name of the author of a book with a specific ID
+1. `GetAuthorNameByBookID(book_id INT)` - The first function returns the full name, first and last, of the author for a specific book, given by its book id. When we select the first name and last name attribute, we cast them into text and returning a Query back. We accept an Integer into our parameters and return all full names inside the query.
 
     ```sql
     CREATE OR REPLACE FUNCTION GetAuthorNameByBookID(book_id INT)
@@ -274,8 +276,7 @@ ORDER BY Unique_Titles;
     $$ LANGUAGE plpgsql;
     ```
 
-2. `UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)` - Updates all the books published by a specific publisher to a new condition
-    - We opted for using a PROCEDURE instead of a FUNCTION for this query, as it is more suitable for SQL commands that modify data
+2. `UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)` - The second function is a PROCEDURE, it updates the condition of all books written by an Publisher to a certain condition. The function accepts 2 parameters, publisher name as VARCHAR and condition name as VARCHAR and doesn't output any query in return.
 
     ```sql
     CREATE OR REPLACE PROCEDURE UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)
@@ -296,7 +297,7 @@ ORDER BY Unique_Titles;
     $$;
     ```
 
-3. `GetCountryByPublisherID(p_id INT)` - Returns the name of the country where a specific publisher is located
+3. `GetCountryByPublisherID(p_id INT)` - The third function returns the name of the country where a specific publisher is located. It accepts 1 parameter, publisher id as an Integer and returns a Table of all the names of the countries. To do so it declares country name to be a VARCHAR and puts the result into the Table and returns it out.
 
     ```sql
     CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
@@ -316,7 +317,7 @@ ORDER BY Unique_Titles;
     ```
 
 
-4. `GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT)` - Returns the first limit_count books with more than a certain number of pages and released within 10 years of the author being born (p_count is the page count, which can be set to 1 for all books)
+4. `GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT)` - The fourth function returns the first limit_count books with more than a p_count number of pages and released within 10 years of the author being born. It accepts two Integers as its parameters and returns a Table with Book id as Integer, Release Date as a Date, and Date of Birth of the Author as a DATE.
 
     ```sql
     CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT DEFAULT 5)
