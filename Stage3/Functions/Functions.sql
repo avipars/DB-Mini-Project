@@ -48,23 +48,21 @@ $$;
 
 CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
 -- Query 3 - This function returns the name of the country where a specific publisher is located, given the publisher ID.
-CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
-RETURNS VARCHAR AS $$
-DECLARE
-    country_name VARCHAR;
+CREATE OR REPLACE FUNCTION GetCountriesByPublisherID(p_id INT)
+RETURNS TABLE (country_name VARCHAR) AS $$
 BEGIN
-    SELECT c.Name 
-    INTO country_name
+    RETURN QUERY
+    SELECT c.Name
     FROM Publisher p
     JOIN Is_In ii ON p.Publisher_ID = ii.Publisher_ID
     JOIN Country c ON ii.Country_ID = c.Country_ID
     WHERE p.Publisher_ID = p_id;
-
-    RETURN country_name;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT GetCountryByPublisherID(1);
+
+SELECT * FROM GetCountriesByPublisherID(34);
+
 
 -- Query 4 - This function returns books with more than 10 pages that were released within 10 years of the author's birth.
 CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT)
