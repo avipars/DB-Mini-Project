@@ -62,8 +62,8 @@ CALL UpdateBooksConditionForPublisher('Murray-Jenkins', 'Good');
 -- JOIN Is_In ON Publisher.Publisher_ID = Is_In.Publisher_ID
 -- JOIN Country ON Is_In.Country_ID = Country.Country_ID
 -- WHERE Publisher.Publisher_ID = 1;
-CREATE OR REPLACE FUNCTION GetCountriesByPublisherID(p_id INT)
-RETURNS TABLE (country_name VARCHAR) AS $$
+CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
+RETURNS TABLE (name VARCHAR) AS $$
 BEGIN
     RETURN QUERY
     SELECT c.Name
@@ -71,11 +71,11 @@ BEGIN
     JOIN Is_In ii ON p.Publisher_ID = ii.Publisher_ID
     JOIN Country c ON ii.Country_ID = c.Country_ID
     WHERE p.Publisher_ID = p_id;
-    RETURN country_name;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT GetCountryByPublisherID(1);
+
+SELECT * FROM GetCountryByPublisherID(1);
 -- Query 4
 -- This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born, returning the first 5 results.
 -- SELECT

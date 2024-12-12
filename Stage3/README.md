@@ -301,19 +301,19 @@ ORDER BY Unique_Titles;
 
     ```sql
     CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
-    RETURNS VARCHAR AS $$
-    DECLARE
-        country_name VARCHAR;
+    RETURNS TABLE (name VARCHAR) AS $$
     BEGIN
-        SELECT c.Name 
-        INTO country_name
+        RETURN QUERY
+        SELECT c.Name
         FROM Publisher p
         JOIN Is_In ii ON p.Publisher_ID = ii.Publisher_ID
         JOIN Country c ON ii.Country_ID = c.Country_ID
         WHERE p.Publisher_ID = p_id;
-        RETURN country_name;
     END;
     $$ LANGUAGE plpgsql;
+
+
+    SELECT * FROM GetCountryByPublisherID(1);
     ```
 
 
