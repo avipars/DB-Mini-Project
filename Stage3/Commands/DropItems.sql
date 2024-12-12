@@ -2,7 +2,7 @@
 -- Exercise caution and ensure you know what you are doing before running this, you will lose all the DB data
 BEGIN; 
 
--- dropping all of our own indexes (they do get deleted if you just drop the table via the other script)
+-- Dropping all of our own indexes (they do get deleted if you just drop the table via the other script)
 -- Author age index
 DROP INDEX IF EXISTS idx_author_dob_id;
 -- Book facts index
@@ -29,11 +29,14 @@ DROP INDEX IF EXISTS idx_type_of_book;
 DROP INDEX IF EXISTS idx_is_in_pub_id;
 DROP INDEX IF EXISTS idx_is_in_country_id;
 
-DEALLOCATE PREPARE ALL; -- drops all prepared statements (these do not get deleted via the other script)
+-- PREPARED STATEMENTS (Parameterized queries)
+DEALLOCATE PREPARE ALL; --(these do not get deleted via the other script, even if all tables are dropped)
 
--- TODO for each function we make
--- DROP FUNCTION name(param)
-
+-- FUNCTIONS 
+DROP FUNCTION IF EXISTS GetAuthorNameByBookID;
+DROP FUNCTION IF EXISTS UpdateBooksConditionForPublisher;
+DROP FUNCTION IF EXISTS GetCountryByPublisherID;
+DROP FUNCTION IF EXISTS GetBooksReleasedWithin10YearsOfBirth(INT,INT);
 
 -- VIEWS
 DROP VIEW IF EXISTS Book_Detail_View;
@@ -41,9 +44,13 @@ DROP VIEW IF EXISTS Publisher_Detail_View;
 DROP VIEW IF EXISTS Author_Books_View;
 DROP VIEW IF EXISTS Genre_Location_Popularity_View;
 
--- Trigger Stuff
+-- TRIGGER
 DROP TABLE IF EXISTS Book_Log;
 DROP FUNCTION IF EXISTS log_book_deletion;
+DROP TRIGGER IF EXISTS book_delete_trigger ON Book;
+
+DROP TRIGGER IF EXISTS update_condition_on_ebook_format ON Book;
+DROP TRIGGER IF EXISTS insert_condition_on_new_ebook ON Book;
 
 
-commit;
+COMMIT;
