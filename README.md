@@ -6,7 +6,11 @@
 
 This library book database system was created solely for educational and demonstration purposes. All data contained within is entirely fabricated and does not represent any real-world information. Any resemblance to actual book titles, authors, or other entities is purely coincidental and unintentional. 
 
-README files are included in each stage folder to provide a detailed explanation of the project's progress and the steps taken to achieve the final product:
+### Description
+
+README files are included in each stage folder to provide a detailed explanation of the project's progress and the steps taken to achieve the final product
+
+### Stages 
 
 [Stage 1 + 2](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/README.md)
 
@@ -25,4 +29,3 @@ Also available in the Github Releases section.
 
 PostgreSQL 17
 PGAdmin 4 version 8.11
-
