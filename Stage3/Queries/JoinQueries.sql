@@ -76,6 +76,7 @@ $$ LANGUAGE plpgsql;
 
 
 SELECT * FROM GetCountryByPublisherID(1);
+
 -- Query 4
 -- This query selects all books with more than 10 pages and where the book was released within 10 years of the author being born, returning the first 5 results.
 -- SELECT

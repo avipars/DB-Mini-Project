@@ -45,12 +45,11 @@ DROP VIEW IF EXISTS Author_Books_View;
 DROP VIEW IF EXISTS Genre_Location_Popularity_View;
 
 -- TRIGGER
-DROP TABLE IF EXISTS Book_Log;
-DROP FUNCTION IF EXISTS log_book_deletion;
-DROP TRIGGER IF EXISTS book_delete_trigger ON Book;
-
 DROP TRIGGER IF EXISTS update_condition_on_ebook_format ON Book;
 DROP TRIGGER IF EXISTS insert_condition_on_new_ebook ON Book;
 
+DROP TABLE IF EXISTS Book_Log;
+DROP TRIGGER IF EXISTS book_delete_trigger ON Book;
+DROP FUNCTION IF EXISTS log_book_deletion;
 
 COMMIT;

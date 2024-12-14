@@ -10,7 +10,9 @@
    * In PSQL Shell Enter:
 
         * `\di` to get general info
-        * `\d` to get relation info... can do `\d author` to get specific information about the Author table for example
+        * `\d` to get relation info... can do `\d Author` to get specific information about the Author table for example
+        * `\df` to get user created function info
+        * `\dS Book` to get trigger info for the Book table 
         * `VACUUM;` to clear up old space in the database (and also works on indexes)
 </details>
 <details>
@@ -258,7 +260,7 @@ ORDER BY Unique_Titles;
 
 * To make our queries more reusable and less complex, we created the following 4 functions:
 
-1. `GetAuthorNameByBookID(book_id INT)` - The first function returns the full name, first and last, of the author for a specific book, given by its book id. When we select the first name and last name attribute, we cast them into text and returning a Query back. We accept an Integer into our parameters and return all full names inside the query.
+1. `GetAuthorNameByBookID(book_id INT)` - The first function returns the full name, first and last, of the author for a specific book, given by its book id. When we select the first name and last name attribute, we cast them into text and returning a Query back. We accept an integer into our parameters and return all full names inside the query.
 
     ```sql
     CREATE OR REPLACE FUNCTION GetAuthorNameByBookID(book_id INT)
@@ -276,7 +278,7 @@ ORDER BY Unique_Titles;
     $$ LANGUAGE plpgsql;
     ```
 
-2. `UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)` - The second function is a PROCEDURE, it updates the condition of all books written by an Publisher to a certain condition. The function accepts 2 parameters, publisher name as VARCHAR and condition name as VARCHAR and doesn't output any query in return.
+2. `UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)` - The second function is a PROCEDURE, it updates the condition of all books written by an Publisher to a certain condition. The function accepts 2 parameters, publisher name as VARCHAR and condition name as VARCHAR.
 
     ```sql
     CREATE OR REPLACE PROCEDURE UpdateBooksConditionForPublisher(publisher_name VARCHAR, cond_name VARCHAR)
@@ -297,7 +299,7 @@ ORDER BY Unique_Titles;
     $$;
     ```
 
-3. `GetCountryByPublisherID(p_id INT)` - The third function returns the name of the country where a specific publisher is located. It accepts 1 parameter, publisher id as an Integer and returns a Table of all the names of the countries. To do so it declares country name to be a VARCHAR and puts the result into the Table and returns it out.
+3. `GetCountryByPublisherID(p_id INT)` - The third function returns the name of the country where a specific publisher is located. It accepts 1 parameter, publisher id as an integer and returns a table of all the names of the countries. The result is returned as a table of countries
 
     ```sql
     CREATE OR REPLACE FUNCTION GetCountryByPublisherID(p_id INT)
@@ -317,7 +319,7 @@ ORDER BY Unique_Titles;
     ```
 
 
-4. `GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT)` - The fourth function returns the first limit_count books with more than a p_count number of pages and released within 10 years of the author being born. It accepts two Integers as its parameters and returns a Table with Book id as Integer, Release Date as a Date, and Date of Birth of the Author as a DATE.
+4. `GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT)` - The fourth function returns the first limit_count books with more than a p_count number of pages and released within 10 years of the author being born. It accepts two integers as its parameters and returns a Table with Book id as integer, Release Date, and Date of Birth of the Author.
 
     ```sql
     CREATE OR REPLACE FUNCTION GetBooksReleasedWithin10YearsOfBirth(p_count INT, limit_count INT DEFAULT 5)

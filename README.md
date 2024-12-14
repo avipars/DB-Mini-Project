@@ -15,10 +15,14 @@ README files are included in each stage folder to provide a detailed explanation
 [Stage 4](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/README.md)
 
 
+### Dumps 
 
 [Gitlab for LFS](https://gitlab.com/avipars/db-lfs/-/tree/main?ref_type=heads)
 
-### Versioning
+Also available in the Github Releases section.
+
+### Requirements
 
 PostgreSQL 17
 PGAdmin 4 version 8.11
+
