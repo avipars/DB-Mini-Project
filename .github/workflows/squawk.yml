@@ -1,0 +1,14 @@
+# .github/workflows/lint-migrations.yml
+name: Lint SQL 
+
+on: pull_request
+
+jobs:
+  lint_migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: sbdchd/squawk-action@v2
+        with:
+          pattern: "**/*.sql"
+          version: "latest"
