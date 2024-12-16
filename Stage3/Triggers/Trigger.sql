@@ -38,6 +38,7 @@ BEGIN
     -- Handle when a new eBook is inserted
   IF TG_OP = 'INSERT' AND NEW.Format = 'Ebook' THEN
     -- Automatically add the eBook to the Location table with the 'New' condition and 'E-Library Section' floor
+    -- Location ID for these eBooks is the same as BookID for simplicity
     INSERT INTO Location (Quantity, Floor, Shelf, Condition, ID, Location_ID)
     VALUES (1, 'E-Library Section', 1, 'New', NEW.ID, NEW.ID);
   END IF;
