@@ -1,7 +1,11 @@
 # .github/workflows/lint-migrations.yml
 name: Lint SQL 
 
-on: pull_request
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
 
 jobs:
   lint_migrations:
