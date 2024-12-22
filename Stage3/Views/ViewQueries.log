@@ -202,7 +202,7 @@ HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an u
 Time: 3.770 ms
 
 -- DELETE 
-Explanation: Trying to delete an rxisting genre from this view
+Explanation: Trying to delete an existing genre from this view
 
 ERROR:  cannot delete from view "genre_location_popularity_view"
 DETAIL:  Views containing GROUP BY are not automatically updatable.
