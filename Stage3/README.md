@@ -396,18 +396,25 @@ To enhance logging capability and functionality of the database, we created 2 us
     Log_ID SERIAL PRIMARY KEY,
     Book_ID INT NOT NULL,
     Title VARCHAR(1000) NOT NULL,
-    Deleted_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    Deleted_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- deletion time
     );
 
     CREATE OR REPLACE FUNCTION log_book_deletion()
     RETURNS TRIGGER AS $$
     BEGIN
     INSERT INTO Book_Log (Book_ID, Title, Deleted_At)
-    VALUES (OLD.ID, OLD.Title, CURRENT_TIMESTAMP);
+    VALUES (OLD.ID, OLD.Title, CURRENT_TIMESTAMP); --logs id , title and deletion time 
 
-    RETURN OLD;
+    RETURN OLD; 
     END;
     $$ LANGUAGE plpgsql;
+
+    DROP TRIGGER IF EXISTS book_delete_trigger ON Book; -- remove former trigger
+
+    CREATE TRIGGER book_delete_trigger -- re-create
+    AFTER DELETE ON Book
+    FOR EACH ROW
+    EXECUTE FUNCTION log_book_deletion(); -- run function whenever there is a deletion
     ```
 
 
@@ -428,41 +435,41 @@ To enhance logging capability and functionality of the database, we created 2 us
     CREATE OR REPLACE FUNCTION update_condition_for_ebook()
     RETURNS TRIGGER AS $$
     BEGIN
-    -- Check if the book format is changed to 'eBook'
+    -- check if book format is changed to 'eBook'
     IF TG_OP = 'UPDATE' AND NEW.Format = 'Ebook' AND OLD.Format != 'Ebook' THEN
-        -- Update the Condition to 'NEW' in the Location table for the book
+        -- update condition to 'NEW' in Location table for book
         UPDATE Location
         SET Condition = 'New', Floor = 'E-Library Section', Shelf = 1
         WHERE ID = NEW.ID;
     END IF;
-        -- Handle when a new eBook is inserted
+        -- handle when new eBook is inserted
     IF TG_OP = 'INSERT' AND NEW.Format = 'Ebook' THEN
-        -- Automatically add the eBook to the Location table with the 'New' condition and 'E-Library Section' floor
+        -- automatically add eBook to Location table with 'New' condition and 'E-Library Section' floor
         INSERT INTO Location (Quantity, Floor, Shelf, Condition, ID, Location_ID)
         VALUES (1, 'E-Library Section', 1, 'New', NEW.ID, NEW.ID);
     END IF;
-
 
     RETURN NEW;
     END;
     $$ LANGUAGE plpgsql;
 
-    DROP TRIGGER IF EXISTS update_condition_on_ebook_format ON Book;
+    DROP TRIGGER IF EXISTS update_condition_on_ebook_format ON Book; -- remove former trigger
 
-    CREATE TRIGGER update_condition_on_ebook_format
+    CREATE TRIGGER update_condition_on_ebook_format  -- re-create
     AFTER UPDATE ON Book
     FOR EACH ROW
-    WHEN (OLD.Format != NEW.Format AND NEW.Format = 'Ebook')
+    WHEN (OLD.Format != NEW.Format AND NEW.Format = 'Ebook') -- format changed of existing book
     EXECUTE FUNCTION update_condition_for_ebook();
 
-    DROP TRIGGER IF EXISTS insert_condition_on_new_ebook ON Book;
+    DROP TRIGGER IF EXISTS insert_condition_on_new_ebook ON Book; -- remove former trigger
 
-    CREATE TRIGGER insert_condition_on_new_ebook
+    CREATE TRIGGER insert_condition_on_new_ebook   -- re-create
     AFTER INSERT ON Book
     FOR EACH ROW
-    WHEN (NEW.Format = 'Ebook')
+    WHEN (NEW.Format = 'Ebook') -- inserted ebook
     EXECUTE FUNCTION update_condition_for_ebook();
     ```
+    
 [Logs for Triggers](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Triggers/Trigger.log)
 
 [DB Dump for Triggers](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage3/backupPSQLTriggers.sql)
@@ -543,4 +550,4 @@ Trigger 2:
 
 [DB Dumps for Triggers](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage3/backupPSQLTriggers.sql?ref_type=heads)
 
-[DB Dumps for Stage3](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage3?ref_type=heads)
+[DB Dumps for Stage 3](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage3?ref_type=heads)
