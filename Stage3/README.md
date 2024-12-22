@@ -125,7 +125,7 @@
 * Providing a limited view of our database system:
 
     1. View details of available books to take out matching these conditiions: Books that aren't in Storage, Maintenance, Special Collections, Archive, or Returns with a quantity greater than 0
-    2. 
+
     ```sql
     CREATE OR REPLACE VIEW Book_Detail_View AS
     SELECT 
