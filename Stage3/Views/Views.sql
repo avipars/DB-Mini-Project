@@ -25,7 +25,7 @@ WHERE lo.Floor NOT IN ('Storage', 'Maintenance', 'Special Collections', 'Archive
 
 
 -- View 2: Manage all the publishers 
-CREATE OR REPLACE VIEW Publisher_Detail_View AS 
+CREATE OR REPLACE VIEW Publisher_Detail_View AS
 SELECT
 	p.Publisher_ID,
     p.Name,
