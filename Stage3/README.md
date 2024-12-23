@@ -313,9 +313,6 @@ ORDER BY Unique_Titles;
         WHERE p.Publisher_ID = p_id;
     END;
     $$ LANGUAGE plpgsql;
-
-
-    SELECT * FROM GetCountryByPublisherID(1);
     ```
 
 
