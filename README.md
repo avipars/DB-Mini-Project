@@ -28,4 +28,5 @@ Also available in the Github Releases section.
 ### Requirements
 
 PostgreSQL 17
+
 PGAdmin 4 version 8.11
