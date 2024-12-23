@@ -288,8 +288,8 @@ To test these constraints, we designed and executed invalid scenarios that shoul
 
 - If several copies of the same book are in the same location, they are classified as 1 unit in the Location table. 
 
-- When a copy moves to a different location or gets reclasified with a different condition, it becomes its own entry in the Location table.
+- When a copy moves to a different location or gets reclassified with a different condition, it becomes its own entry in the Location table.
 
    * Quantity of the original unit can be decreased as well
 
-[DB Dumps for Stage2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
+[DB Dumps for Stage 2](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage2?ref_type=heads)
