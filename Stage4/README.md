@@ -34,7 +34,7 @@ TODO: Finish this readme, and then when we are done with stage4, combine with or
 ---- 
 
 
-I ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
+I ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
 
 ![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5)
 
