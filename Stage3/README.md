@@ -29,7 +29,7 @@
 <details>
 <summary>Dropping tables</summary>
 
-* Use [DropTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Commands/DropItems.sql) first to drop the Stage 3 additions. Afterwards, you can run the [DropTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/DropTables.sql) from Stage 1 to remove all tables.
+* Use [DropItems.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3/Commands/DropItems.sql) first to drop the Stage 3 additions. Afterwards, you can run the [DropTables.sql](https://github.com/avipars/DB-Mini-Project/blob/main/Stage1/Commands/DropTables.sql) from Stage 1 to remove all tables.
 
 </details>
 

@@ -22,7 +22,7 @@ README files are included in each stage folder to provide a detailed explanation
 
 [Stage 3](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3)
 
-<!-- [Stage 4](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/README.md) -->
+[Stage 4](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/README.md)
 
 ### Dumps 
 
@@ -873,3 +873,6 @@ Trigger 2:
 [DB Dumps for Triggers](https://gitlab.com/avipars/db-lfs/-/blob/main/Stage3/backupPSQLTriggers.sql?ref_type=heads)
 
 [DB Dumps for Stage 3](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage3?ref_type=heads)
+
+
+# Stage 4 

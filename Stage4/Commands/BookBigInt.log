@@ -1,0 +1,4 @@
+-- log of running the BookBigInt sql file (converts the book id from INT to BIGINT to handle the other groups data)
+COMMIT
+
+Query returned successfully in 6 secs 39 msec.

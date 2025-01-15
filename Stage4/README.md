@@ -15,3 +15,8 @@ Other Group's [github](https://github.com/Ravioli246/Database-Project-2024-Semes
 
 [Original Diagrams](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
 
+---- 
+
+
+We ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
+

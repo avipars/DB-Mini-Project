@@ -1,5 +1,6 @@
 -- Drop script (Deletes everything)
 -- Exercise caution and ensure you know what you are doing before running this, you will lose all the DB data
+BEGIN; 
 
 DROP TABLE IF EXISTS Is_In; -- Publisher is in country
 DROP TABLE IF EXISTS Type_of; -- Book is genre
@@ -14,4 +15,4 @@ DROP TABLE IF EXISTS Author; -- Author
 DROP TABLE IF EXISTS Publisher; -- Publisher
 DROP TABLE IF EXISTS Country; -- Country
 
-commit;
+COMMIT;
