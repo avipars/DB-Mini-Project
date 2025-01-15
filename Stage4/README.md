@@ -18,5 +18,8 @@ Other Group's [github](https://github.com/Ravioli246/Database-Project-2024-Semes
 ---- 
 
 
-We ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
+I ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
 
+![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5)
+
+Afterwards, I created a [new backup](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads) 
