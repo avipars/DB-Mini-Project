@@ -1,3 +1,5 @@
 
 **/*nopush.log 
 # ignore these log files
+
+.DS_Store
