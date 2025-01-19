@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Language
   Name VARCHAR(1000) NOT NULL,
   PRIMARY KEY (Language_ID)
 );
+
 -- Creating publisher (of book) table
 CREATE TABLE IF NOT EXISTS Publisher
 (
@@ -142,7 +143,7 @@ CREATE TABLE Employee
 CREATE TABLE Archive
 (
   Archive_Number INT NOT NULL,
-  Book_Type VARCHAR(20) NOT NULL, -- govermental, public, private
+  Book_Type VARCHAR(20) NOT NULL, -- govermental, scroll, etc.
   PRIMARY KEY (Archive_Number)
 );
 

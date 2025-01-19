@@ -1,3 +1,4 @@
+-- OLD VERSION
 -- Creating book table
 CREATE TABLE IF NOT EXISTS Book
 (
