@@ -21,8 +21,6 @@ Other Group's Github
 https://github.com/Ravioli246/Database-Project-2024-Semester-Spring
 </details>
 
-TODO: Finish this readme, and then when we are done with stage4, combine with original readme
-
 ## Integration
 
 ### Design
@@ -47,24 +45,22 @@ Their original DSD:
 
 ![image](https://github.com/user-attachments/assets/be66427b-4e88-4bd5-a015-ef85d212ddd8)
 
-
 Combined DSD:
 
 ![image](https://github.com/user-attachments/assets/760c6cc3-e318-4115-aa56-8b9d10382977)
 
 
-[New Diagrams](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Diagrams)
+[Their Original Diagrams](https://github.com/Ravioli246/Database-Project-2024-Semester-Spring/tree/main/media)
 
-[Original Diagrams](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
+[Our Combined Diagrams and JSON](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Diagrams)
+
+[Our Original Diagrams and JSON](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
 
 ---- 
 
+#### Design Hurdles
 
-I ran [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Commands/BookBigInt.sql) to be compatible with the other group's IDs
-
-![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5)
-
-Afterwards, I created a [new backup](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads) 
+Our Book IDs were using the INT data type, while the other group is using BIGINT. We were required to alter the original schema as well as address any views that relied upon our Book IDs in order to execute the change. Running [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Commands/BookBigInt.sql) allows our database be compatible with the other group's. ![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5). Afterwards, I created a [new dump](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads) reflecting those changes.
 
 
 ### Views
