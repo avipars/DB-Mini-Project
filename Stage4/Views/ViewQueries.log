@@ -1,0 +1,80 @@
+-- Log pertaining to queries executed in the view
+
+-- View 1 -- 
+
+-- Query 1 --
+MergedDB=# SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '2000-01-01' AND '2020-12-31' AND rarity = 'Legendary' AND book_type = 'Academic' AND floor = 'Study Area';
+                             title                             | release_date |  rarity   | book_type |   floor    | shelf | condition  | archive_number
+---------------------------------------------------------------+--------------+-----------+-----------+------------+-------+------------+----------------
+ Section sure rule read during bring effort card.              | 2002-12-30   | Legendary | Academic  | Study Area |     6 | Stained    |              9
+ Detail whether federal.                                       | 2013-04-26   | Legendary | Academic  | Study Area |    64 | Defective  |             40
+ Prove interest professor style such eye.                      | 2001-11-15   | Legendary | Academic  | Study Area |    42 | Bought     |             28
+ Agency lead step not imagine they star.                       | 2016-04-05   | Legendary | Academic  | Study Area |    34 | Damaged    |             28
+ Officer brother inside.                                       | 2001-08-24   | Legendary | Academic  | Study Area |    35 | Faulty     |             33
+ Discuss experience born low near sense.                       | 2007-07-01   | Legendary | Academic  | Study Area |    16 | Found      |              9
+ Attack whole number back else impact moment after.            | 2013-03-08   | Legendary | Academic  | Study Area |    80 | Dirty      |             12
+ Democratic lawyer these range thing control.                  | 2014-04-09   | Legendary | Academic  | Study Area |    91 | Chipped    |             30
+ Listen as thousand oil per store.                             | 2002-02-07   | Legendary | Academic  | Study Area |    26 | Missing    |             28
+ Hope including back score our.                                | 2015-08-01   | Legendary | Academic  | Study Area |    27 | Outdated   |             33
+ Any institution quickly film.                                 | 2008-09-23   | Legendary | Academic  | Study Area |    35 | Scratched  |             12
+ Fall visit economic last.                                     | 2011-01-07   | Legendary | Academic  | Study Area |    69 | Expired    |             25
+ Population after try PM hard.                                 | 2002-01-04   | Legendary | Academic  | Study Area |    31 | Expired    |             25
+ Win else of east rock no.                                     | 2020-10-16   | Legendary | Academic  | Study Area |    99 | Cracked    |             40
+ Can bill maybe this benefit.                                  | 2007-10-11   | Legendary | Academic  | Study Area |   100 | Cracked    |              4
+ Voice give north necessary teacher benefit option season.     | 2001-08-24   | Legendary | Academic  | Study Area |    82 | Stained    |             30
+ You through amount dog run realize.                           | 2009-11-29   | Legendary | Academic  | Study Area |    31 | Dirty      |             33
+ Wonder parent generation necessary source.                    | 2017-01-11   | Legendary | Academic  | Study Area |    38 | Damaged    |             40
+ Help yard police security support.                            | 2006-08-13   | Legendary | Academic  | Study Area |    23 | Defective  |             12
+ Bill political film everything house though success radio.    | 2015-03-01   | Legendary | Academic  | Study Area |    84 | Dirty      |              4
+ Administration tell protect stand.                            | 2002-05-22   | Legendary | Academic  | Study Area |    17 | Broken     |             12
+ Their clearly television hour fight available.                | 2017-12-04   | Legendary | Academic  | Study Area |    55 | Rare       |             33
+ Pay whole sea feel record country concern bad.                | 2012-04-08   | Legendary | Academic  | Study Area |     2 | Faulty     |             30
+ Allow get major former country image white.                   | 2013-06-02   | Legendary | Academic  | Study Area |    90 | Acceptable |             42
+ Them on town word rock.                                       | 2018-02-06   | Legendary | Academic  | Study Area |    11 | Yellowed   |              9
+ Both seem can summer change.                                  | 2008-09-24   | Legendary | Academic  | Study Area |    70 | Torn       |             30
+ Final book sport career.                                      | 2016-04-26   | Legendary | Academic  | Study Area |    17 | Like New   |              4
+ Officer current edge thousand mention agree reflect.          | 2013-09-28   | Legendary | Academic  | Study Area |    99 | Acceptable |             33
+ Player back especially TV practice painting ever interesting. | 2014-11-06   | Legendary | Academic  | Study Area |    66 | Broken     |             30
+(29 rows)
+
+
+Time: 13.682 ms
+
+-- View 2 --
+
+-- Query 1 --
+
+MergedDB=# SELECT name, role, disposal_date, book_title, age FROM Disposed_Books_Employees WHERE method = 'Burial' AND material_of_book = 'Synthetic' AND role = 'Disposal Worker' AND age > 60;
+         name         |      role       | disposal_date |                   book_title                    | age
+----------------------+-----------------+---------------+-------------------------------------------------+-----
+ Kayla Carlson        | Disposal Worker | 1899-04-08    | Before suffer then involve value might quite.   |  62
+ Andrea Peters        | Disposal Worker | 1949-09-10    | Hold as positive believe true street.           |  68
+ Melissa Anderson     | Disposal Worker | 1931-08-17    | Pm draw account approach kind.                  |  65
+ Shannon Wheeler      | Disposal Worker | 1963-11-07    | Rate a pick plant full.                         |  64
+ Donna Bailey         | Disposal Worker | 1905-02-21    | Natural color decision can.                     |  61
+ Wesley Wilson        | Disposal Worker | 1939-03-01    | And theory suffer feeling.                      |  65
+ Allison Baker        | Disposal Worker | 1952-03-03    | Mean trade commercial doctor apply.             |  61
+ Danielle Gray        | Disposal Worker | 1827-10-15    | Turn center think high close.                   |  65
+ Michelle Andrews     | Disposal Worker | 1902-07-02    | Election talk they finish staff.                |  69
+ John Murphy          | Disposal Worker | 1878-01-05    | Century with language sea catch eat.            |  61
+ Ethan Moore          | Disposal Worker | 1806-04-19    | Nation animal six.                              |  67
+ Mark Grimes          | Disposal Worker | 1887-12-25    | Performance major land perhaps probably.        |  62
+ Brian Hawkins        | Disposal Worker | 1869-03-25    | Tell land charge.                               |  70
+ Richard Powers       | Disposal Worker | 1833-10-29    | Will interest because rise.                     |  68
+ Amanda Martinez      | Disposal Worker | 1997-11-03    | Suffer camera effort.                           |  68
+ Jordan Phillips IV   | Disposal Worker | 1958-06-13    | Organization experience good official.          |  62
+ Brian Hawkins        | Disposal Worker | 1935-06-14    | Memory play animal allow position sign whether. |  70
+ Shane Hall           | Disposal Worker | 1915-05-21    | Once nor word wear shoulder culture.            |  66
+ Melissa Anderson     | Disposal Worker | 1918-11-11    | Hair heart very couple one responsibility.      |  65
+ Brian Hawkins        | Disposal Worker | 1911-03-08    | Win parent everything feeling teach view.       |  70
+ John Berry           | Disposal Worker | 1909-01-07    | At indeed year bad never get health.            |  70
+ Anthony Callahan     | Disposal Worker | 1869-01-31    | Popular room feeling soon face could.           |  61
+ Danielle Gray        | Disposal Worker | 1941-04-18    | But teacher evidence security.                  |  65
+ Katherine Barker     | Disposal Worker | 1980-05-01    | Fast peace include wrong executive.             |  68
+ Brittany Ballard DDS | Disposal Worker | 1969-05-13    | Long across seek husband place even TV.         |  66
+ Ronald Bond          | Disposal Worker | 1932-08-30    | Near senior player pretty want do.              |  62
+ Brittany Ballard DDS | Disposal Worker | 1964-06-28    | By model memory foreign activity.               |  66
+(27 rows)
+
+
+Time: 1.598 ms

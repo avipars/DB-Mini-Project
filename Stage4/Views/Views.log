@@ -1,0 +1,14 @@
+-- Logs for view creations
+
+-- Find_Archived_Books_View
+
+CREATE VIEW
+
+Query returned successfully in 154 msec.
+
+
+-- Disposed_Books_Employees
+
+CREATE VIEW
+
+Query returned successfully in 100 msec.

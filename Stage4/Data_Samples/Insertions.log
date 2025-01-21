@@ -1,0 +1,86 @@
+-- Logs for inserting all data samples into MergedDB database
+
+-- Country
+INSERT 0 24
+
+Query returned successfully in 69 msec.
+
+-- Publisher
+INSERT 0 30000
+
+Query returned successfully in 829 msec.
+
+-- Archive
+INSERT 0 50
+
+Query returned successfully in 62 msec.
+
+-- Author
+INSERT 0 5000
+
+Query returned successfully in 140 msec.
+
+-- Language
+INSERT 0 63
+
+Query returned successfully in 92 msec.
+
+-- Genre
+INSERT 0 77
+
+Query returned successfully in 65 msec.
+
+-- Book
+INSERT 0 100000
+
+Query returned successfully in 4 secs 451 msec.
+
+-- Location
+INSERT 0 70000
+
+Query returned successfully in 2 secs 165 msec.
+
+-- Written_By
+INSERT 0 132272
+
+Query returned successfully in 3 secs 459 msec.
+
+-- Published_By
+INSERT 0 125050
+
+Query returned successfully in 3 secs 81 msec.
+
+-- Written_In
+INSERT 0 125208
+
+Query returned successfully in 4 secs 58 msec.
+
+-- Type_Of
+INSERT 0 124539
+
+Query returned successfully in 4 secs 97 msec.
+
+-- Is_In
+INSERT 0 37185
+
+Query returned successfully in 822 msec.
+
+-- Employee
+INSERT 0 1000
+
+Query returned successfully in 71 msec.
+
+-- Disposal
+INSERT 0 10000
+
+Query returned successfully in 658 msec.
+
+-- Upkeep
+INSERT 0 10000
+
+Query returned successfully in 375 msec.
+
+-- Archive Assignment
+INSERT 0 10000
+
+Query returned successfully in 554 msec.

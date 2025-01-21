@@ -16,8 +16,8 @@ JOIN
 JOIN 
     Archive A ON L.Archive_Number = A.Archive_Number;
 
--- Find all the employees that buried a book
-CREATE VIEW Buried_Books_Employees AS
+-- Connects employees with books that they have disposed
+CREATE VIEW Disposed_Books_Employees AS
 SELECT 
     E.Employee_ID, 
     E.Name, 
@@ -35,5 +35,3 @@ JOIN
     Disposal D ON E.Employee_ID = D.Employee_ID
 JOIN 
     Book B ON D.ID = B.ID
-WHERE 
-    D.Method = 'Buried';
