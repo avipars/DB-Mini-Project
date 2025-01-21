@@ -1,0 +1,39 @@
+-- Query 1:
+
+MergedDB=# SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '2000-01-01' AND '2020-12-31' AND rarity = 'Legendary' AND book_type = 'Academic' AND floor
+ = 'Study Area';
+                             title                             | release_date |  rarity   | book_type |   floor    | shelf | condition  | archive_number
+---------------------------------------------------------------+--------------+-----------+-----------+------------+-------+------------+----------------
+ Section sure rule read during bring effort card.              | 2002-12-30   | Legendary | Academic  | Study Area |     6 | Stained    |              9
+ Detail whether federal.                                       | 2013-04-26   | Legendary | Academic  | Study Area |    64 | Defective  |             40
+ Prove interest professor style such eye.                      | 2001-11-15   | Legendary | Academic  | Study Area |    42 | Bought     |             28
+ Agency lead step not imagine they star.                       | 2016-04-05   | Legendary | Academic  | Study Area |    34 | Damaged    |             28
+ Officer brother inside.                                       | 2001-08-24   | Legendary | Academic  | Study Area |    35 | Faulty     |             33
+ Discuss experience born low near sense.                       | 2007-07-01   | Legendary | Academic  | Study Area |    16 | Found      |              9
+ Attack whole number back else impact moment after.            | 2013-03-08   | Legendary | Academic  | Study Area |    80 | Dirty      |             12
+ Democratic lawyer these range thing control.                  | 2014-04-09   | Legendary | Academic  | Study Area |    91 | Chipped    |             30
+ Listen as thousand oil per store.                             | 2002-02-07   | Legendary | Academic  | Study Area |    26 | Missing    |             28
+ Hope including back score our.                                | 2015-08-01   | Legendary | Academic  | Study Area |    27 | Outdated   |             33
+ Any institution quickly film.                                 | 2008-09-23   | Legendary | Academic  | Study Area |    35 | Scratched  |             12
+ Fall visit economic last.                                     | 2011-01-07   | Legendary | Academic  | Study Area |    69 | Expired    |             25
+ Population after try PM hard.                                 | 2002-01-04   | Legendary | Academic  | Study Area |    31 | Expired    |             25
+ Win else of east rock no.                                     | 2020-10-16   | Legendary | Academic  | Study Area |    99 | Cracked    |             40
+ Can bill maybe this benefit.                                  | 2007-10-11   | Legendary | Academic  | Study Area |   100 | Cracked    |              4
+ Voice give north necessary teacher benefit option season.     | 2001-08-24   | Legendary | Academic  | Study Area |    82 | Stained    |             30
+ You through amount dog run realize.                           | 2009-11-29   | Legendary | Academic  | Study Area |    31 | Dirty      |             33
+ Wonder parent generation necessary source.                    | 2017-01-11   | Legendary | Academic  | Study Area |    38 | Damaged    |             40
+ Help yard police security support.                            | 2006-08-13   | Legendary | Academic  | Study Area |    23 | Defective  |             12
+ Bill political film everything house though success radio.    | 2015-03-01   | Legendary | Academic  | Study Area |    84 | Dirty      |              4
+ Administration tell protect stand.                            | 2002-05-22   | Legendary | Academic  | Study Area |    17 | Broken     |             12
+ Their clearly television hour fight available.                | 2017-12-04   | Legendary | Academic  | Study Area |    55 | Rare       |             33
+ Pay whole sea feel record country concern bad.                | 2012-04-08   | Legendary | Academic  | Study Area |     2 | Faulty     |             30
+ Allow get major former country image white.                   | 2013-06-02   | Legendary | Academic  | Study Area |    90 | Acceptable |             42
+ Them on town word rock.                                       | 2018-02-06   | Legendary | Academic  | Study Area |    11 | Yellowed   |              9
+ Both seem can summer change.                                  | 2008-09-24   | Legendary | Academic  | Study Area |    70 | Torn       |             30
+ Final book sport career.                                      | 2016-04-26   | Legendary | Academic  | Study Area |    17 | Like New   |              4
+ Officer current edge thousand mention agree reflect.          | 2013-09-28   | Legendary | Academic  | Study Area |    99 | Acceptable |             33
+ Player back especially TV practice painting ever interesting. | 2014-11-06   | Legendary | Academic  | Study Area |    66 | Broken     |             30
+(29 Zeilen)
+
+
+Zeit: 19,703 ms
