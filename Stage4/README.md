@@ -36,7 +36,7 @@ Their original ERD
 
 Combined ERD
 
-![image](https://github.com/user-attachments/assets/8487af23-1814-41f1-823b-0b7969bdd024)
+![image](https://github.com/user-attachments/assets/b997bdcc-ba72-4b49-85ca-cba9d5518c99)
 
 Our original DSD
 
@@ -48,7 +48,7 @@ Their original DSD
 
 Combined DSD
 
-![image](https://github.com/user-attachments/assets/760c6cc3-e318-4115-aa56-8b9d10382977)
+![image](https://github.com/user-attachments/assets/b4a52716-f43c-4b36-a474-e83360fdcd6f)
 
 
 #### Links: 
