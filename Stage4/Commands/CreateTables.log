@@ -1,3 +1,8 @@
+-- Create new DB
+postgres=# CREATE DATABASE MergedDB;
+CREATE DATABASE
+
+-- After creating the database, connect to it and run CreateTables.log
 CREATE TABLE
 
 Query returned successfully in 185 msec.
