@@ -87,3 +87,10 @@ MergedDB=# SELECT name, role, disposal_date, book_title, age FROM Disposed_Books
 
 
 Time: 1.598 ms
+
+-- Query 2 -- 
+
+ERROR:  cannot update view "disposed_books_employees"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 39.122 ms
