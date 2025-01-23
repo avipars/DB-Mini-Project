@@ -11,3 +11,23 @@ DELETE FROM Find_Archived_Books_View WHERE archive_number = 9;
 -- VIEW 2 --
 -- Get all disposed books that were buried and made of synthetic material, and were disposed by disposal workers over 60 years old
 SELECT name, role, disposal_date, book_title, age FROM Disposed_Books_Employees WHERE method = 'Burial' AND material_of_book = 'Synthetic' AND role = 'Disposal Worker' AND age > 60;
+
+-- Update the salary of the employee who has disposed of the most books by 10%
+UPDATE 
+    Disposed_Books_Employees
+SET 
+    Salary = Salary * 1.10 
+WHERE 
+    Employee_ID = (
+        SELECT 
+            E.Employee_ID
+        FROM 
+            Employee E
+        JOIN 
+            Disposal D ON E.Employee_ID = D.Employee_ID
+        GROUP BY 
+            E.Employee_ID, E.Name
+        ORDER BY 
+            COUNT(*) DESC
+        LIMIT 1
+    );
