@@ -40,6 +40,15 @@ MergedDB=# SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '20
 
 Time: 13.682 ms
 
+-- Query 2 --
+
+ERROR:  Views that do not select from a single table or view are not automatically updatable.cannot delete from view "find_archived_books_view" 
+
+ERROR:  cannot delete from view "find_archived_books_view"
+SQL state: 55000
+Detail: Views that do not select from a single table or view are not automatically updatable.
+Hint: To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+
 -- View 2 --
 
 -- Query 1 --
