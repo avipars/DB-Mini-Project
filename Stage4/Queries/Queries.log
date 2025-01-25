@@ -1,4 +1,21 @@
 -- VIEW 1 --
+INSERT 0 1
 
+Query returned successfully in 197 msec.
+
+ERROR:  Sichten, die nicht aus einer einzigen Tabelle oder Sicht lesen, sind nicht automatisch aktualisierbar.kann nicht aus Sicht »find_archived_books_view« löschen 
+
+FEHLER:  kann nicht aus Sicht »find_archived_books_view« löschen
+SQL state: 55000
+Detail: Sichten, die nicht aus einer einzigen Tabelle oder Sicht lesen, sind nicht automatisch aktualisierbar.
+Hint: Um Löschen aus der Sicht zu ermöglichen, richten Sie einen INSTEAD OF DELETE Trigger oder eine ON DELETE DO INSTEAD Regel ohne Bedingung ein.
 
 -- VIEW 2 --
+
+INSERT 0 1
+
+Query returned successfully in 97 msec.
+
+UPDATE 0
+
+Query returned successfully in 97 msec.
