@@ -89,6 +89,35 @@ Insertion Order:
 16. Upkeep  
 17. Archive Assignment  
 
+![image](https://github.com/user-attachments/assets/40506187-a9d9-4671-910c-c46d02400e78)
+
+After completing the data insertion stage, our database looks like this:
+
+![image](https://github.com/user-attachments/assets/bd1d8d26-c31f-4637-92f5-b3277550af63)
+
+We also ran a sample query to ensure that the new datbase is working as expected
+
+![image](https://github.com/user-attachments/assets/93a4f74b-bfcc-4450-8a1c-e25f0aaa402d)
+
+```sql
+SELECT 
+    B.Title, 
+    B.Release_Date, 
+    B.Rarity, 
+    A.Book_Type, 
+    L.Floor, 
+    L.Shelf, 
+    L.Condition,
+	A.Archive_Number
+FROM 
+    Book B
+JOIN 
+    Location L ON B.ID = L.ID
+JOIN 
+    Archive A ON L.Archive_Number = A.Archive_Number
+LIMIT 5;
+```
+
 [Insertion Scripts](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Data_Samples/data)
 
 [Insertion Logs](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Data_Samples/Insertions.log)
