@@ -1,10 +1,6 @@
 # BookDB Stage 4
 
-### Authors: Avi Parshan and Leib Blam
-
-Final stage of project involving an integration with another team's project.
-
-[DB Dumps for Stage 4](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads)
+This is the final stage of project involving an integration with another team's project.
 
 ##### Things worth knowing
 <details>
@@ -63,7 +59,13 @@ Combined DSD
 
 To ensure compatibility with the other group’s database schema, we updated our Book IDs from the ```INT``` data type to ```BIGINT```, aligning with their schema. This required modifying our original database schema and addressing all dependent views that relied on the Book IDs. Running the script [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Commands/BookBigInt.sql) applies these changes, enabling seamless integration between the two systems. ![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5). Following this update, we created a [new database dump](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads) reflecting the altered schema.
 
-Additionally, we connected their ```Archive``` relationship with our ```Location``` ones in an efficient manner. Next, we added the Rarity attribute to our ```Book``` table to accommodate the other group's schema and data. 
+Additionally, we connected their ```Archive``` relationship with our ```Location``` ones in an efficient manner. Next, we added the Rarity attribute to our ```Book``` table to accommodate the other group's schema and data. We modified the [data generation script](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/Data_Samples/sampleDateCreationCombined.py) to include the new attributes (such as book rarity) and tables (such as archive and disposal).
+
+Next, we created a new merged database called ```MergedDB``` via this command: 
+
+```sql
+CREATE DATABASE MergedDB;
+```
 
 ### Data Integration
 
@@ -95,7 +97,7 @@ After completing the data insertion stage, our database looks like this:
 
 ![image](https://github.com/user-attachments/assets/bd1d8d26-c31f-4637-92f5-b3277550af63)
 
-We also ran a sample query to ensure that the new datbase is working as expected
+We also ran a sample query to ensure that the new database is working as expected
 
 ![image](https://github.com/user-attachments/assets/93a4f74b-bfcc-4450-8a1c-e25f0aaa402d)
 
@@ -187,20 +189,24 @@ Query 1: Get all archived books that are legendary, academic, and in the study a
 SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '2000-01-01' AND '2020-12-31' AND rarity = 'Legendary' AND book_type = 'Academic' AND floor = 'Study Area';
 ```
 
-Query 2: Delete all archived books with archive number 9
+Query 2: Delete archived legendary academic books that were stolen but were last in the returns section (fails due to table joins)
+
 ```sql
-DELETE FROM Find_Archived_Books_View WHERE archive_number = 9;
+DELETE FROM Find_Archived_Books_View WHERE  book_type = 'Academic' AND rarity = 'Legendary' AND floor = 'Returns' and condition = 'Stolen';
 ```
+
 This fails as the view is based upon several tables (using joins) and is not updatable
 
 #### View 2 ```Disposed_Books_Employees``` 
 
 Query 3: Get all disposed books that were buried and made of synthetic material, and were disposed by disposal workers over 60 years old
+
 ```sql
 SELECT name, role, disposal_date, book_title, age FROM Disposed_Books_Employees WHERE method = 'Burial' AND material_of_book = 'Synthetic' AND role = 'Disposal Worker' AND age > 60;
 ```
 
-Query 4: Raise the salary of the employee who has disposed of the most books by 10% 
+Query 4: Give the employee who disposed of the most books a salary increase of 10%
+
 ```sql
 UPDATE 
     Disposed_Books_Employees
@@ -221,6 +227,7 @@ WHERE
         LIMIT 1
     );
 ```
+
 This fails as the view is based upon several tables (using joins) and is not updatable
 
 [Logs for View Queries](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Views/ViewQueries.log)
@@ -262,7 +269,6 @@ INSERT INTO Disposed_Books_Employees (employee_id, name, role, age, salary, disp
 VALUES (97, 'Sonya West', 'Archivist', 20, 67252, '2025-01-26', 'Burial', 'Paper', 'Federal hundred sure country.', 99999);
 ```
 
-
 Query 8: Update the disposal method of the book with the title contains the words 'floor plan' to 'Recycling' in the Disposal table (query fails due to view using joins)
 
 ```sql
@@ -284,10 +290,9 @@ Using the timings, via the ```\timing``` command in the PSQL shell, we were able
 | View Number | Query Number | Query Runtime (ms) |
 | ----------- | ------------ | ------------------ |
 | 1           | 1            | 138.118            |
-| 1           | 2            | 5.09               |
+| 1           | 2            | 4.434              |
 | 2           | 3            | 196.596            |
 | 2           | 4            | 109.425            |
-|             |              |                    |
 | 1           | 5            | 3.771              |
 | 1           | 6            | 92.362             |
 | 2           | 7            | 7.094              |

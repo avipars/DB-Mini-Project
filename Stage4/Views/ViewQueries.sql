@@ -7,8 +7,8 @@
 SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '2000-01-01' AND '2020-12-31' AND rarity = 'Legendary' AND book_type = 'Academic' AND floor = 'Study Area';
 
 -- QUERY 2 --
--- Delete all archived books with archive number 9 (fails due to table joins)
-DELETE FROM Find_Archived_Books_View WHERE archive_number = 9;
+-- Delete archived legendary academic books that were stolen but were last in the returns section (fails due to table joins)
+DELETE FROM Find_Archived_Books_View WHERE  book_type = 'Academic' AND rarity = 'Legendary' AND floor = 'Returns' and condition = 'Stolen';
 
 -- VIEW 2 --
 -- QUERY 3 --

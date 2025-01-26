@@ -1,7 +1,5 @@
 # BookDB Stage 1 and Stage 2
 
-### Authors: Leib Blam and Avi Parshan
-
 ## Stage 1 
 ### Project Proposal
 

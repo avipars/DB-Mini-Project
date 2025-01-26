@@ -44,7 +44,7 @@ Time: 138.118 ms
 ERROR:  cannot delete from view "find_archived_books_view"
 DETAIL:  Views that do not select from a single table or view are not automatically updatable.
 HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
-Time: 5.090 ms
+Time: 4.434 ms
 
 -- View 2 --
 

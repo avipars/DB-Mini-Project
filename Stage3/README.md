@@ -1,7 +1,5 @@
 # BookDB Stage 3
 
-### Authors: Avi Parshan and Leib Blam
-
 ##### Things worth knowing
 
 <details>
