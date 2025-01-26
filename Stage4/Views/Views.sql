@@ -8,7 +8,7 @@ SELECT
     L.Floor, 
     L.Shelf, 
     L.Condition,
-	A.Archive_Number
+    A.Archive_Number
 FROM 
     Book B
 JOIN 
