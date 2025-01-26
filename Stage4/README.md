@@ -16,7 +16,7 @@ https://github.com/Ravioli246/Database-Project-2024-Semester-Spring
 
 ## Integration
 
-As a part of stage 4, we merged our Book Database System with the Archive and Operations Database System. 
+As a part of stage 4, we merged our Book Database System with the Store Database System. The store is responsible for managing shelving codes, rare books, archive, disposal, rehabilitation and preservation of books. 
 
 ### [Design](https://github.com/avipars/DB-Mini-Project/tree/main/Stage1/Diagrams)
 
@@ -59,7 +59,6 @@ Combined DSD
 
 To ensure compatibility with the other group’s database schema, we updated our Book IDs from the ```INT``` data type to ```BIGINT```, aligning with their schema. This required modifying our original database schema and addressing all dependent views that relied on the Book IDs. Running the script [BookBigInt.sql](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Commands/BookBigInt.sql) applies these changes, enabling seamless integration between the two systems. ![image](https://github.com/user-attachments/assets/304f3285-14ff-437d-9a1d-d0c515d6dcc5). Following this update, we created a [new database dump](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads) reflecting the altered schema.
 
-Additionally, we connected their ```Archive``` relationship with our ```Location``` ones in an efficient manner. Next, we added the Rarity attribute to our ```Book``` table to accommodate the other group's schema and data. We modified the [data generation script](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/Data_Samples/sampleDateCreationCombined.py) to include the new attributes (such as book rarity) and tables (such as archive and disposal).
 
 Next, we created a new merged database called ```MergedDB``` via this command: 
 
@@ -67,7 +66,19 @@ Next, we created a new merged database called ```MergedDB``` via this command:
 CREATE DATABASE MergedDB;
 ```
 
-### Data Integration
+We then connected to the new database and ran [CreateTables](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/Commands/CreateTables.sql) to create the tables from both systems. The order of table creation is crucial to avoid foreign key constraint violations. 
+
+#### [Data Generation](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/Data_Samples/sampleDateCreationCombined.py)
+
+We improved the data generation script as part of the integration process. By doing so, we ensured that the data was consistent with the updated schema in a way that would facilitate the integration of the two systems.
+
+- Adding the new attribute (Rarity) to the Book table
+
+- Adding the new tables (Archive, Employee, Disposal, Upkeep, Archive Assignment) to the data generation script
+
+- Connecting the relevant tables (from the other group) via foreign keys 
+
+### [Data Integration](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/Data_Samples/data/)
 
 To successfully integrate the two systems, we ordered the table data insertion commands. This ensured that foreign key constraints were respected and no violations occurred during the data integration process. 
 
@@ -195,7 +206,7 @@ Query 2: Delete archived legendary academic books that were stolen but were last
 DELETE FROM Find_Archived_Books_View WHERE  book_type = 'Academic' AND rarity = 'Legendary' AND floor = 'Returns' and condition = 'Stolen';
 ```
 
-This fails as the view is based upon several tables (using joins) and is not updatable
+This fails as the view is based upon several tables (using joins).
 
 #### View 2 ```Disposed_Books_Employees``` 
 
@@ -228,7 +239,7 @@ WHERE
     );
 ```
 
-This fails as the view is based upon several tables (using joins) and is not updatable
+This fails as the view is based upon several tables (using joins).
 
 [Logs for View Queries](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Views/ViewQueries.log)
 
@@ -256,8 +267,7 @@ AND title = 'Yard job stop court computer beautiful enough such.';
 Query 6: Delete all books from the archive with the title that contains the words 'car TV' from the view
 
 ```sql
-DELETE FROM Find_Archived_Books_View
-WHERE Title LIKE '%car TV%' AND Archive_Number = 46;
+DELETE FROM Find_Archived_Books_View WHERE Title LIKE '%car TV%' AND Archive_Number = 46;
 ```
 
 #### View 2 ```Disposed_Books_Employees``` 
@@ -269,7 +279,7 @@ INSERT INTO Disposed_Books_Employees (employee_id, name, role, age, salary, disp
 VALUES (97, 'Sonya West', 'Archivist', 20, 67252, '2025-01-26', 'Burial', 'Paper', 'Federal hundred sure country.', 99999);
 ```
 
-Query 8: Update the disposal method of the book with the title contains the words 'floor plan' to 'Recycling' in the Disposal table (query fails due to view using joins)
+Query 8: Update the disposal method of the book with the title contains the words 'floor plan' to 'Recycling' (from 'Burial') in the Disposal table (query fails due to view using joins)
 
 ```sql
 UPDATE Disposed_Books_Employees
@@ -287,16 +297,21 @@ These queries fail to execute as both views are based upon several tables (using
 Using the timings, via the ```\timing``` command in the PSQL shell, we were able to determine the time. The timing logs are also found in [this file](https://github.com/avipars/DB-Mini-Project/tree/main/Stage4/Queries/Queries.log)
 
 
-| View Number | Query Number | Query Runtime (ms) |
-| ----------- | ------------ | ------------------ |
-| 1           | 1            | 138.118            |
-| 1           | 2            | 4.434              |
-| 2           | 3            | 196.596            |
-| 2           | 4            | 109.425            |
-| 1           | 5            | 3.771              |
-| 1           | 6            | 92.362             |
-| 2           | 7            | 7.094              |
-| 2           | 8            | 3.805              |
+| View Number | Query Number | Query Runtime (ms) | Note        |
+| ----------- | ------------ | ------------------ | ----------- |
+| 1           | 1            | 138.118            |             |
+| 1           | 2            | 4.434              | Query Fails |
+| 2           | 3            | 196.596            |             |
+| 2           | 4            | 109.425            | Query Fails |
+|             |              |                    |             |
+| 1           | 5            | 3.771              | Query Fails |
+| 1           | 6            | 92.362             | Query Fails |
+| 2           | 7            | 7.094              | Query Fails |
+| 2           | 8            | 3.805              | Query Fails |
+
+Query Fails - Indicates that the query failed to execute due to this ```ERROR:  cannot update view "disposed_books_employees"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.```
 
 
 [DB Dumps for Stage 4](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads)

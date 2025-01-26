@@ -1,6 +1,5 @@
 -- We combined the schema of both groups
-
-CREATE TABLE Book
+CREATE TABLE IF NOT EXISTS Book
 (
   Title VARCHAR(1000) NOT NULL,
   ID BIGINT NOT NULL,
@@ -23,13 +22,13 @@ CREATE TABLE IF NOT EXISTS Language
 );
 
 -- Creating archive table
-CREATE TABLE Archive
+-- Book_Type: govermental, scroll, etc.
+CREATE TABLE IF NOT EXISTS Archive
 (
-  Archive_Number INT NOT NULL,
-  Book_Type VARCHAR(20) NOT NULL, -- govermental, scroll, etc.
+  Archive_Number INT NOT NULL, 
+  Book_Type VARCHAR(20) NOT NULL,  
   PRIMARY KEY (Archive_Number)
 );
-
 
 -- Creating location (in library) table
 CREATE TABLE IF NOT EXISTS Location
@@ -45,6 +44,7 @@ CREATE TABLE IF NOT EXISTS Location
   FOREIGN KEY (ID) REFERENCES Book(ID) ON DELETE RESTRICT,
   FOREIGN KEY (Archive_Number) REFERENCES Archive(Archive_Number)
 );
+
 -- Creating publisher (of book) table
 CREATE TABLE IF NOT EXISTS Publisher
 (
@@ -83,7 +83,6 @@ CREATE TABLE IF NOT EXISTS Country
   Country_ID INT NOT NULL,
   PRIMARY KEY (Country_ID)
 );
-
 
 -- Creating written by table (author writes book)
 CREATE TABLE IF NOT EXISTS Written_By
@@ -135,11 +134,8 @@ CREATE TABLE IF NOT EXISTS Is_In
   FOREIGN KEY (Country_ID) REFERENCES Country(Country_ID) ON DELETE RESTRICT
 );
 
-
-
-
 -- Creating employee table
-CREATE TABLE Employee
+CREATE TABLE IF NOT EXISTS Employee
 (
   Role VARCHAR(20) NOT NULL,
   Age INT NOT NULL,
@@ -149,8 +145,8 @@ CREATE TABLE Employee
   PRIMARY KEY (Employee_ID)
 );
 
-
-CREATE TABLE Disposal
+-- Employee disposes of a book
+CREATE TABLE IF NOT EXISTS Disposal
 (
   Date DATE NOT NULL,
   Disposal_ID INT NOT NULL,
@@ -163,7 +159,8 @@ CREATE TABLE Disposal
   FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
 );
 
-CREATE TABLE Upkeep
+-- Employee performs upkeep on a book
+CREATE TABLE IF NOT EXISTS Upkeep
 (
   Upkeep_ID INT NOT NULL,
   Tools_used VARCHAR(300) NOT NULL,
@@ -176,7 +173,8 @@ CREATE TABLE Upkeep
   FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
 );
 
-CREATE TABLE Archival_Assignment
+-- Employee archives a book
+CREATE TABLE IF NOT EXISTS Archival_Assignment
 (
   Assignment_ID INT NOT NULL,
   Date DATE NOT NULL,
