@@ -1,4 +1,4 @@
--- Create a view that shows all the archived books with their location and archive number
+-- VIEW 1: Create a view that shows all the archived books with their location and archive number
 CREATE OR REPLACE VIEW Find_Archived_Books_View AS
 SELECT 
     B.Title, 
@@ -16,8 +16,8 @@ JOIN
 JOIN 
     Archive A ON L.Archive_Number = A.Archive_Number;
 
--- Connects employees with books that they have disposed
-CREATE VIEW Disposed_Books_Employees AS
+-- VIEW 2: Connects employees with books that they have disposed
+CREATE OR REPLACE VIEW Disposed_Books_Employees AS
 SELECT 
     E.Employee_ID, 
     E.Name, 
@@ -34,4 +34,4 @@ FROM
 JOIN 
     Disposal D ON E.Employee_ID = D.Employee_ID
 JOIN 
-    Book B ON D.ID = B.ID
+    Book B ON D.ID = B.ID;

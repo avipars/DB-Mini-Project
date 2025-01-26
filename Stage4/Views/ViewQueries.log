@@ -3,8 +3,7 @@
 -- View 1 -- 
 
 -- Query 1 --
-MergedDB=# SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '2000-01-01' AND '2020-12-31' AND rarity = 'Legendary' AND book_type = 'Academic' AND floor = 'Study Area';
-                             title                             | release_date |  rarity   | book_type |   floor    | shelf | condition  | archive_number
+lf | condition  | archive_number
 ---------------------------------------------------------------+--------------+-----------+-----------+------------+-------+------------+----------------
  Section sure rule read during bring effort card.              | 2002-12-30   | Legendary | Academic  | Study Area |     6 | Stained    |              9
  Detail whether federal.                                       | 2013-04-26   | Legendary | Academic  | Study Area |    64 | Defective  |             40
@@ -38,22 +37,19 @@ MergedDB=# SELECT * FROM Find_Archived_Books_View WHERE release_date BETWEEN '20
 (29 rows)
 
 
-Time: 13.682 ms
+Time: 138.118 ms
 
 -- Query 2 --
 
-ERROR:  Views that do not select from a single table or view are not automatically updatable.cannot delete from view "find_archived_books_view" 
-
 ERROR:  cannot delete from view "find_archived_books_view"
-SQL state: 55000
-Detail: Views that do not select from a single table or view are not automatically updatable.
-Hint: To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+Time: 5.090 ms
 
 -- View 2 --
 
--- Query 1 --
+-- Query 3 --
 
-MergedDB=# SELECT name, role, disposal_date, book_title, age FROM Disposed_Books_Employees WHERE method = 'Burial' AND material_of_book = 'Synthetic' AND role = 'Disposal Worker' AND age > 60;
          name         |      role       | disposal_date |                   book_title                    | age
 ----------------------+-----------------+---------------+-------------------------------------------------+-----
  Kayla Carlson        | Disposal Worker | 1899-04-08    | Before suffer then involve value might quite.   |  62
@@ -86,11 +82,11 @@ MergedDB=# SELECT name, role, disposal_date, book_title, age FROM Disposed_Books
 (27 rows)
 
 
-Time: 1.598 ms
+Time: 196.596 ms
 
--- Query 2 -- 
+-- Query 4 -- 
 
 ERROR:  cannot update view "disposed_books_employees"
 DETAIL:  Views that do not select from a single table or view are not automatically updatable.
 HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
-Time: 39.122 ms
+Time: 109.425 ms

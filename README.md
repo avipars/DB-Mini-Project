@@ -1,6 +1,6 @@
 # BookDB 5785
 
-## Authors: Leib Blam and Avi Parshan
+### Authors: Avi Parshan and Leib Blam
 
 ### Requirements
 
@@ -22,13 +22,13 @@ README files are included in each stage folder to provide a detailed explanation
 
 [Stage 3](https://github.com/avipars/DB-Mini-Project/blob/main/Stage3)
 
-[Stage 4](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/README.md)
+[Stage 4](https://github.com/avipars/DB-Mini-Project/blob/main/Stage4/)
 
 ### Dumps 
 
 [Gitlab for LFS](https://gitlab.com/avipars/db-lfs/-/tree/main?ref_type=heads)
 
-Also available in the Github Releases section.
+Dumps are also available in the Github Releases section.
 
 
 #  Stage 1 and Stage 2
@@ -876,3 +876,5 @@ Trigger 2:
 
 
 # Stage 4 
+
+[DB Dumps for Stage 4](https://gitlab.com/avipars/db-lfs/-/tree/main/Stage4?ref_type=heads)

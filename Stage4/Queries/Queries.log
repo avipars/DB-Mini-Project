@@ -1,21 +1,31 @@
 -- VIEW 1 --
-INSERT 0 1
 
-Query returned successfully in 197 msec.
+-- QUERY 5 --
 
-ERROR:  Sichten, die nicht aus einer einzigen Tabelle oder Sicht lesen, sind nicht automatisch aktualisierbar.kann nicht aus Sicht »find_archived_books_view« löschen 
+ERROR:  cannot update view "find_archived_books_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 3.771 ms
 
-FEHLER:  kann nicht aus Sicht »find_archived_books_view« löschen
-SQL state: 55000
-Detail: Sichten, die nicht aus einer einzigen Tabelle oder Sicht lesen, sind nicht automatisch aktualisierbar.
-Hint: Um Löschen aus der Sicht zu ermöglichen, richten Sie einen INSTEAD OF DELETE Trigger oder eine ON DELETE DO INSTEAD Regel ohne Bedingung ein.
+-- QUERY 6 --
+
+ERROR:  cannot delete from view "find_archived_books_view"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable deleting from the view, provide an INSTEAD OF DELETE trigger or an unconditional ON DELETE DO INSTEAD rule.
+Time: 92.362 ms
 
 -- VIEW 2 --
 
-INSERT 0 1
+-- QUERY 7 --
 
-Query returned successfully in 97 msec.
+ERROR:  cannot insert into view "disposed_books_employees"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable inserting into the view, provide an INSTEAD OF INSERT trigger or an unconditional ON INSERT DO INSTEAD rule.
+Time: 7.094 ms
 
-UPDATE 0
+-- QUERY 8 --
 
-Query returned successfully in 97 msec.
+ERROR:  cannot update view "disposed_books_employees"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
+Time: 3.805 ms
